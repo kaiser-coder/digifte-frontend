@@ -1,29 +1,31 @@
-# README #
+# DigiFTE (frontend)
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Portail de gestion scolaire
 
-### What is this repository for? ###
+## Install the dependencies
+```bash
+yarn
+```
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Start the app in development mode (hot-code reloading, error reporting, etc.)
+```bash
+quasar dev
+```
 
-### How do I get set up? ###
+### Lint the files
+```bash
+yarn run lint
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+### Build the app for production
+```bash
+quasar build
+```
 
-### Contribution guidelines ###
+### Serve the builded app on port 8080
+```bash
+quasar serve dist/spa --history -p 8080
+```
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+### Customize the configuration
+See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
