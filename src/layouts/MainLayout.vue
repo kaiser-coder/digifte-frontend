@@ -12,10 +12,11 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          DigiFTE
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <mail-icon /> &nbsp; &nbsp;
+        <forum-icon /> &nbsp; &nbsp;
+        <account-icon class="account" />
       </q-toolbar>
     </q-header>
 
@@ -31,11 +32,11 @@
           Essential Links
         </q-item-label>
 
-        <EssentialLink
+        <!-- <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
           v-bind="link"
-        />
+        /> -->
       </q-list>
     </q-drawer>
 
@@ -46,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink.vue'
+// import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
@@ -93,13 +94,18 @@ const linksList = [
   }
 ];
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue';
+import AccountIcon from 'vue-material-design-icons/Account.vue';
+import ForumIcon from 'vue-material-design-icons/Forum.vue';
+import MailIcon from 'vue-material-design-icons/Mail.vue';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    AccountIcon,
+    ForumIcon,
+    MailIcon
   },
 
   setup () {
@@ -115,3 +121,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+  .account {
+    cursor: pointer;
+  }
+</style>
