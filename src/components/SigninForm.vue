@@ -5,14 +5,30 @@
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input label="Email" id="email" v-model="form.email" required />
+                            <q-input 
+                                label="Email" 
+                                id="email" 
+                                v-model="form.email"
+                                lazy-rules
+                                :rules="[ val => validateEmail(val) || 'Invalid email address']"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input label="Mot de passe" type="password" id="password" v-model="form.password" required />
+                            <q-input 
+                                label="Mot de passe" 
+                                type="password" 
+                                id="password" 
+                                v-model="form.password"
+                                lazy-rules
+                                :rules="[ 
+                                    val => val !== '' || 'Password can\'t be empty',
+                                    val => val.length > 8 || 'Password must have 8 characters at least',
+                                ]"
+                            />
                         </div>
                     </div>
                 </div> <br>
@@ -30,6 +46,7 @@
 
 <script>
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default {
     data() {
@@ -40,11 +57,32 @@ export default {
             }
         }
     },
+
+    beforeMount() {
+         /*eslint-disable*/
+        if(this.$q.sessionStorage.getItem('current_user')) {
+            this.$router.push('/home')
+        }
+    },
+
     methods: {
+        validateEmail(email) {
+            let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+            return regex.test(email)
+        },
         async submitFormSignin() {
-            await axios.post('http://localhost:4000/auth/signin',this.form)
+            await axios.post('/api/auth',this.form)
             .then((response) => {
-                console.log(response);
+                if(response.status === 200) {
+                    /*eslint-disable*/
+                    const { token, message } = response.data;
+                    const infos = jwt_decode(token)
+
+                    this.$q.sessionStorage.set('message', message)
+                    this.$q.sessionStorage.set('current_user', infos)
+
+                    this.$router.push('/home')
+                }
             })
             .catch((error)=> {
                 console.log(error);
@@ -52,6 +90,7 @@ export default {
             
         }
     }
+    
 }
 </script>
 

@@ -82,6 +82,12 @@ module.exports = configure(function (ctx) {
       },
       port: 8080,
       open: false, // opens browser window automatically
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3000',
+          changeOrigin: true,
+        },
+      },
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -99,7 +105,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['LocalStorage', 'SessionStorage', 'Notify'],
     },
 
     // animations: 'all', // --- includes all animations

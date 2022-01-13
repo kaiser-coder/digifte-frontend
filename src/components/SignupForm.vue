@@ -5,42 +5,77 @@
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input label="Nom" id="firstname" v-model="form.firstname" required />
+                            <q-input 
+                                label="Nom" 
+                                id="firstname" 
+                                v-model="form.firstname"
+                                lazy-rules
+                                :rules="[ val => val !== '' || 'Input your first name']"
+                                
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input label="Prénom" id="lastname" v-model="form.lastname" required />
+                            <q-input 
+                                label="Prénom" 
+                                id="lastname" 
+                                v-model="form.lastname"
+                                lazy-rules
+                                :rules="[ val => val !== '' || 'Input your last name']"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input label="Email" id="email" v-model="form.email" required />
+                            <q-input 
+                                label="Email" 
+                                id="email" 
+                                v-model="form.email"
+                                lazy-rules
+                                :rules="[ val => validateEmail(val) || 'Invalid email address']"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input type="password" id="password" v-model="form.password" label="Mot de passe" required />
+                            <q-input 
+                                type="password" 
+                                id="password" 
+                                v-model="form.password" 
+                                label="Mot de passe"
+                                :rules="[ 
+                                    val => val !== '' || 'Password can\'t be empty',
+                                    val => val.length > 8 || 'Password must have 8 characters at least',
+                                ]"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input type="password" id="password" v-model="form.password" label="Re-taper le mot de passe" required />
+                            <q-input 
+                                type="password" 
+                                id="password"
+                                label="Re-taper le mot de passe"
+                                :rules="[ 
+                                    val => val !== '' || 'Confirmation password  must be equal to password'
+                                ]"
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-sm">
-                            <q-checkbox v-model="val"/> J'accepte les <a style="text-decoration:none" href="">conditions d'utilisations</a> 
+                            <q-checkbox v-model="isAccepted"/> J'accepte les <a style="text-decoration:none" href="">conditions d'utilisations</a> 
                         </div>
                         <div class="q-px-sm">
                         </div>
@@ -68,7 +103,7 @@
     export default {
         setup () {
             return {
-            val: ref(false)
+                isAccepted: ref(false)
             }
         },
 
@@ -82,15 +117,33 @@
                 }
             }
         },
+        beforeMount() {
+            /*eslint-disable*/
+            if(this.$q.sessionStorage.getItem('current_user')) {
+                this.$router.push('/home')
+            }
+        },
         methods: {
+            validateEmail(email) {
+                let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+                return regex.test(email)
+            },
             async submitForm() {
-                await axios.post('http://localhost:4000/register',this.form)
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((error)=> {
-                    console.log(error);
-                })
+                if(this.isAccepted) {
+                    await axios.post('/api/register',this.form)
+                    .then((response) => {
+                        console.log(response);
+                        this.$router.push('/')
+                    })
+                    .catch((error)=> {
+                        console.log(error);
+                        this.$q.notify({
+                            type: 'negative',
+                            message: 'All fields are required',
+                            position: 'top-right'
+                        })
+                    })
+                }
             }
         }
     }
