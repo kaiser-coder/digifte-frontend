@@ -86,6 +86,11 @@ export default {
             })
             .catch((error)=> {
                 console.log(error);
+                this.$q.notify({
+                    type: 'negative',
+                    message: 'Error connection',
+                    position: 'top-right'
+                })
             })
             
         }
