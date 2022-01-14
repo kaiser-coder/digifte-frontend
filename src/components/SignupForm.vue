@@ -50,6 +50,7 @@
                                 id="password" 
                                 v-model="form.password" 
                                 label="Mot de passe"
+                                lazy-rules
                                 :rules="[ 
                                     val => val !== '' || 'Password can\'t be empty',
                                     val => val.length > 8 || 'Password must have 8 characters at least',
@@ -64,9 +65,11 @@
                             <q-input 
                                 type="password" 
                                 id="password"
+                                v-model="confPassword"
                                 label="Re-taper le mot de passe"
-                                :rules="[ 
-                                    val => val !== '' || 'Confirmation password  must be equal to password'
+                                lazy-rules
+                                :rules="[   
+                                    val => val === form.password  || 'Confirmation password  must be equal to password'
                                 ]"
                             />
                         </div>
@@ -114,7 +117,8 @@
                     lastname: '',
                     email: '',
                     password: '',
-                }
+                },
+                confPassword: ''
             }
         },
         beforeMount() {
