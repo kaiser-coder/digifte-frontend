@@ -76,7 +76,7 @@ export default {
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
-                    const { app_token, message, fullname, roles, zoom_token, zoom_id } = response.data;
+                    const { app_token, message, fullname, roles, zoom_token } = response.data;
                     const infos = jwt_decode(app_token);
 
                     console.log(infos);
@@ -90,6 +90,7 @@ export default {
                     this.$q.sessionStorage.set('roles', roles)
                     this.$q.sessionStorage.set('zoom_token', zoom_token)
                     this.$q.sessionStorage.set('zoom_id', infos.zoom_id)
+                    this.$q.sessionStorage.set('app_token',app_token)
 
                     const userRole = this.$q.sessionStorage.getItem("roles")
                     
@@ -111,10 +112,8 @@ export default {
                     position: 'top-right'
                 })
             })
-            
         }
     }
-    
 }
 </script>
 
@@ -136,7 +135,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(7, 20, 122, 0.781)
+        background-color: #ABB2B9
     }
 
     form {

@@ -4,6 +4,7 @@
         <h3 class="titleOne">EB 7283 - Les psaumes</h3> 
         <h4 class="titleTwo">Session hiver 2020</h4> 
         <h4 class="titleThree">Nouvelle leçon</h4> <br>
+
         <form class="form-meeting" @submit.prevent="submitFormMeeting">
             <div class="form-inner"> 
                 <div class="form-group-meet">
@@ -11,12 +12,39 @@
                         <q-input 
                             outlined  
                             type="date" 
-                            label="Start time" 
+                            label="Date du cours" 
                             id="start_time"
                             v-model="start_time"
                             stack-label 
                             :dense="dense" 
-                        />
+                        /> 
+
+                        <!-- <q-input outlined v-model="date" >
+                            <template v-slot:prepend>
+                                <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                    <q-date v-model="date" mask="YYYY-MM-DD HH:mm">
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                    </q-date>
+                                </q-popup-proxy>
+                                </q-icon>
+                            </template>
+
+                            <template v-slot:append>
+                                <q-icon name="access_time" class="cursor-pointer">
+                                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                                    <q-time v-model="date" mask="YYYY-MM-DD HH:mm" format24h>
+                                    <div class="row items-center justify-end">
+                                        <q-btn v-close-popup label="Close" color="primary" flat />
+                                    </div>
+                                    </q-time>
+                                </q-popup-proxy>
+                                </q-icon>
+                            </template>
+                        </q-input>  -->
+
                         <q-input 
                             outlined  
                             label="Topic" 
@@ -39,11 +67,11 @@
                             type="password" 
                             label="Mot de passe" 
                             id="password"
-                            v-model="pasword"
+                            v-model="password"
                             stack-label 
                             :dense="dense" 
                         />
-        
+
                         <q-btn 
                             size="18px" 
                             type="submit"
@@ -60,16 +88,16 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
+
 export default {
     setup () {
         return {
+            date: ref('2022-01-21 16:15'),
             text: ref(''),
             ph: ref(''),
             dense: ref(false),
             model: ref(null),
-            options: [
-                1, 2, 3
-            ]
+            options: [1, 2, 3],
         }
     },
     data() {
@@ -81,8 +109,7 @@ export default {
             start_time: '',
             topic: '',
             duration: '',
-            pasword: '',
-
+            password: '',
         }
     },
     beforeMount() {
@@ -102,22 +129,32 @@ export default {
     methods: {
         
         submitFormMeeting () {
+
             const zoomToken = this.$q.sessionStorage.getItem("zoom_token")
             const zoomUserId = this.$q.sessionStorage.getItem("zoom_id")
+            const appToken = this.$q.sessionStorage.getItem("app_token")
+
             console.log("VOICI LE ZOOM TOKEN " + zoomToken);
             console.log("VOICI LE ZOOM ID " + zoomUserId);
+
             const formMeeting = {
                 start_time: this.start_time,
                 topic: this.topic,
                 duration: this.duration,
-                pasword: this.pasword,
+                password: this.password,
                 zoom_token: zoomToken,
-                zoom_userId: zoomUserId
+                zoom_id: zoomUserId
             }
-            axios.post('http://localhost:4000/api/meetings',formMeeting)
+
+            console.log(formMeeting);
+            
+
+            axios.post('http://localhost:4000/api/meetings',formMeeting, { headers: {
+                'x-access-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI3NzM1ODEsImV4cCI6MTY0Mjg1OTk4MSwiaXNzIjoieGdtY3dkc0lUS0MySlBVM1B4WUwtdyJ9.iVF47SrM2PCM27E-u14ETaEe0zYpcEjoYTPnkZl19EM'
+            }})
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.data);
+                    console.log(response);
 
                 }
             })
@@ -128,7 +165,7 @@ export default {
             this.start_time = '';
             this.topic = '';
             this.duration = '';
-            this.pasword = ''
+            this.password = ''
         }
     },
 }

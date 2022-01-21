@@ -1,6 +1,10 @@
 <template>
     <div>
         <p>Bienvenue {{ fullName }}</p>
+        <div class="q-pa-md q-gutter-sm">
+            <q-btn color="secondary" label="Participer à la réunion" />
+        </div>
+
     </div>
 </template>
 
