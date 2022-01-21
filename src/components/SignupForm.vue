@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="form-signup" @submit.prevent="submitForm">
-           <div class="form-inner"> 
+            <div class="form-inner"> 
                 <div class="form-group">
                     <div class="q-pa-md">
                         <div class="q-gutter-md" style="max-width: 300px">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="form-group">
                     <div class="q-pa-md q-gutter-sm">
-                        <q-btn color="secondary" type="submit" style="width:300px" label="Créer" /> 
+                        <q-btn :disabled="!isAccepted" color="secondary" type="submit" style="width:300px" label="Créer" /> 
                     </div>
                 </div> 
                 <div class="form-group">
@@ -134,10 +134,9 @@
             },
             async submitForm() {
                 if(this.isAccepted) {
-                    await axios.post('/api/register',this.form)
+                    await axios.post('http://localhost:4000/register',this.form)
                     .then((response) => {
                         console.log(response);
-                        this.$router.push('/')
                     })
                     .catch((error)=> {
                         console.log(error);

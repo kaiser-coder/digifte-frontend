@@ -38,7 +38,7 @@
                     </div>
                 </div> <br>
                 <a style="text-decoration:none" href="">Mot de passe oublié ?</a> 
-                <a style="text-decoration:none" href="/signup">Nouveau compte</a>
+                <a style="text-decoration:none" href="/signup">Créer compte</a>
            </div>
        </form>
     </div>
@@ -53,7 +53,8 @@ export default {
         return {
             form: {
                 email: '',
-                password: ''
+                password: '',
+                roles: ''
             }
         }
     },
@@ -70,22 +71,40 @@ export default {
             let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
             return regex.test(email)
         },
-        async submitFormSignin() {
-            await axios.post('/api/auth',this.form)
+        submitFormSignin() {
+            axios.post('http://localhost:4000/api/auth',this.form)
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
-                    const { token, message } = response.data;
-                    const infos = jwt_decode(token)
+                    const { app_token, message, fullname, roles, zoom_token, zoom_id } = response.data;
+                    const infos = jwt_decode(app_token);
 
+                    console.log(infos);
+                    console.log("app token " + app_token);
+                    console.log("zoom token " + zoom_token);
+                    console.log("zoom id " + infos.zoom_id);
+                    
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
+                    this.$q.sessionStorage.set('fullname', fullname)
+                    this.$q.sessionStorage.set('roles', roles)
+                    this.$q.sessionStorage.set('zoom_token', zoom_token)
+                    this.$q.sessionStorage.set('zoom_id', infos.zoom_id)
 
-                    this.$router.push('/home')
+                    const userRole = this.$q.sessionStorage.getItem("roles")
+                    
+                    if (userRole !== null && userRole.includes("student")) {
+                        this.$router.push('/home')
+                    } else if (userRole !== null && userRole.includes("professor")) {
+                        this.$router.push('/home/professor')
+                    } 
+                     else {
+                        //console.log('roles not exists');
+                    }
                 }
             })
             .catch((error)=> {
-                console.log(error);
+                //console.log(error);
                 this.$q.notify({
                     type: 'negative',
                     message: 'Error connection',

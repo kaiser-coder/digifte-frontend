@@ -1,12 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/home',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Home.vue') }],
-  },
-
   // Always leave this as last one,
   // but you can also remove it
   // {
@@ -20,7 +14,18 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/signup',
     component: () => import('components/SignupForm.vue'),
-  }
+  },
+  {
+    path: '/home',
+    component: () => import('src/layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('src/pages/Student/Home.vue') }],
+  },
+  {
+    path: '/home/professor',
+    component: () => import('src/layouts/MainLayoutProfessor.vue'),
+    children: [{ path: '', component: () => import('pages/Professor/Home.vue') }],
+  },
+  
 ];
 
 export default routes;

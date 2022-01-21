@@ -1,17 +1,15 @@
 <template>
     <div>
-        <h2>Bienvenue {{ currentUser.fullname }}</h2>
-        <span>{{ message }}</span><br/>
-        <q-btn color="secondary" style="width:200px" label="Déconnexion" @click="logout"/>
+        <p>Bienvenue {{ fullName }}</p>
     </div>
 </template>
-
 
 <script>
 export default {
     data() {
         return {
             message: '',
+            fullName: '',
             currentUser: {}
         }
     },
@@ -25,13 +23,7 @@ export default {
         /*eslint-disable*/
         if (!this.$q.sessionStorage.isEmpty()) {
             this.message = this.$q.sessionStorage.getItem('message');
-            this.currentUser = this.$q.sessionStorage.getItem('current_user')
-        }
-    },
-    methods: {
-        logout() {
-            this.$q.sessionStorage.clear();
-            this.$router.push('/')
+            this.fullName = this.$q.sessionStorage.getItem('fullname')
         }
     }
 }
