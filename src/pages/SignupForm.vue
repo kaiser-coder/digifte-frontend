@@ -134,7 +134,7 @@
             },
             async submitForm() {
                 if(this.isAccepted) {
-                    await axios.post('http://localhost:4000/register',this.form)
+                    await axios.post('/api/register',this.form)
                     .then((response) => {
                         console.log(response);
                     })

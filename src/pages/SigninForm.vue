@@ -72,7 +72,7 @@ export default {
             return regex.test(email)
         },
         submitFormSignin() {
-            axios.post('http://localhost:4000/api/auth',this.form)
+            axios.post('/api/auth',this.form)
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
@@ -80,28 +80,11 @@ export default {
                     const infos = jwt_decode(app_token);
 
                     console.log(infos);
-                    console.log("app token " + app_token);
-                    console.log("zoom token " + zoom_token);
-                    console.log("zoom id " + infos.zoom_id);
                     
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
-                    this.$q.sessionStorage.set('fullname', fullname)
-                    this.$q.sessionStorage.set('roles', roles)
-                    this.$q.sessionStorage.set('zoom_token', zoom_token)
-                    this.$q.sessionStorage.set('zoom_id', infos.zoom_id)
-                    this.$q.sessionStorage.set('app_token',app_token)
 
-                    const userRole = this.$q.sessionStorage.getItem("roles")
-                    
-                    if (userRole !== null && userRole.includes("student")) {
-                        this.$router.push('/home')
-                    } else if (userRole !== null && userRole.includes("professor")) {
-                        this.$router.push('/home/professor')
-                    } 
-                     else {
-                        //console.log('roles not exists');
-                    }
+                    this.$router.push('/dashboard/home')
                 }
             })
             .catch((error)=> {

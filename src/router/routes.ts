@@ -9,23 +9,19 @@ const routes: RouteRecordRaw[] = [
   // },
   {
     path: '/',
-    component: () => import('src/components/SigninForm.vue'),
+    component: () => import('layouts/BlankLayout.vue'),
+    children: [
+      { path: 'signin', component: () => import('pages/SigninForm.vue') },
+      { path: 'signup', component: () => import('pages/SignupForm.vue') },
+    ]
   },
   {
-    path: '/signup',
-    component: () => import('components/SignupForm.vue'),
-  },
-  {
-    path: '/home',
+    path: '/dashboard',
     component: () => import('src/layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('src/pages/Student/Home.vue') }],
+    children: [
+      { path: 'home', component: () => import('pages/Home.vue') },
+    ]
   },
-  {
-    path: '/home/professor',
-    component: () => import('src/layouts/MainLayoutProfessor.vue'),
-    children: [{ path: '', component: () => import('pages/Professor/Home.vue') }],
-  },
-  
 ];
 
 export default routes;

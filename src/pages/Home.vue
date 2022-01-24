@@ -123,6 +123,7 @@ export default {
         if (!this.$q.sessionStorage.isEmpty()) {
             this.message = this.$q.sessionStorage.getItem('message');
             this.fullName = this.$q.sessionStorage.getItem('fullname');
+            this.currentUser = this.$q.sessionStorage.getItem('current_user');
         }
     },
 
@@ -149,13 +150,12 @@ export default {
             console.log(formMeeting);
             
 
-            axios.post('http://localhost:4000/api/meetings',formMeeting, { headers: {
-                'x-access-token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NDI3NzM1ODEsImV4cCI6MTY0Mjg1OTk4MSwiaXNzIjoieGdtY3dkc0lUS0MySlBVM1B4WUwtdyJ9.iVF47SrM2PCM27E-u14ETaEe0zYpcEjoYTPnkZl19EM'
+            axios.post('/api/meetings',formMeeting, { headers: {
+                'x-access-token' : appToken
             }})
             .then((response) => {
                 if (response.status === 200) {
                     console.log(response);
-
                 }
             })
             .catch((error) => {
