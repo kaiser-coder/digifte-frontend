@@ -5,7 +5,7 @@
         <h4 class="titleTwo">Session hiver 2020</h4> 
         <h4 class="titleThree">Nouvelle leçon</h4> <br>
 
-        <form class="form-meeting" @submit.prevent="submitFormMeeting">
+        <form class="form-meeting" @submit.prevent="submitFormMeeting" v-if="isShown">
             <div class="form-inner"> 
                 <div class="form-group-meet">
                     <div class="q-pa-md">
@@ -110,6 +110,7 @@ export default {
             topic: '',
             duration: '',
             password: '',
+            isShown: false,
         }
     },
     beforeMount() {
@@ -124,6 +125,10 @@ export default {
             this.message = this.$q.sessionStorage.getItem('message');
             this.fullName = this.$q.sessionStorage.getItem('fullname');
             this.currentUser = this.$q.sessionStorage.getItem('current_user');
+        }
+
+        if(this.currentUser.roles.includes('professor')) {
+            this.isShown = true
         }
     },
 
