@@ -76,13 +76,15 @@ export default {
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
-                    const { app_token, message, fullname, roles, zoom_token } = response.data;
+                    const { app_token, message, zoom_token } = response.data;
                     const infos = jwt_decode(app_token);
 
                     console.log(infos);
                     
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
+                    this.$q.sessionStorage.set('zoom_token', zoom_token)
+                    this.$q.sessionStorage.set('app_token', app_token)
 
                     this.$router.push('/dashboard/home')
                 }

@@ -128,8 +128,9 @@ export default defineComponent({
   },
   methods: {
     logout() {
+      /*eslint-disable*/
       this.$q.sessionStorage.clear();
-      window.location.assign('/');
+      this.$router.push('/signin');
     },
   },
 });

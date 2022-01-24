@@ -132,19 +132,18 @@ export default {
         submitFormMeeting () {
 
             const zoomToken = this.$q.sessionStorage.getItem("zoom_token")
-            const zoomUserId = this.$q.sessionStorage.getItem("zoom_id")
             const appToken = this.$q.sessionStorage.getItem("app_token")
 
             console.log("VOICI LE ZOOM TOKEN " + zoomToken);
-            console.log("VOICI LE ZOOM ID " + zoomUserId);
+            console.log("VOICI LE ZOOM ID " + this.currentUser.zoom_id);
 
             const formMeeting = {
                 start_time: this.start_time,
                 topic: this.topic,
                 duration: this.duration,
-                password: this.password,
+                passcode: this.password,
                 zoom_token: zoomToken,
-                zoom_id: zoomUserId
+                zoom_userId: this.currentUser.zoom_id
             }
 
             console.log(formMeeting);
