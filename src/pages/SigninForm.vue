@@ -79,8 +79,6 @@ export default {
                     const { app_token, message, zoom_token } = response.data;
                     const infos = jwt_decode(app_token);
 
-                    console.log(infos);
-                    
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
                     this.$q.sessionStorage.set('zoom_token', zoom_token)
