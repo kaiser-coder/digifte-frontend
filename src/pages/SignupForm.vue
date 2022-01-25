@@ -91,7 +91,7 @@
                 </div> 
                 <div class="form-group">
                     <div class="q-pa-md q-gutter-sm">
-                        <a style="text-decoration:none" href="/"> <q-btn class="buttonCancel" style="width:300px" label="Annuler" /> </a>
+                        <a style="text-decoration:none" href="/signin"> <q-btn class="buttonCancel" style="width:300px" label="Annuler" /> </a>
                     </div>
                 </div> <br>
                 
@@ -136,16 +136,27 @@
                 if(this.isAccepted) {
                     await axios.post('/api/register',this.form)
                     .then((response) => {
-                        console.log(response);
+                        this.$q.notify({
+                            type: 'positive',
+                            message: 'Informations créés avec success',
+                            position: 'top-right'
+                        })
+
                     })
                     .catch((error)=> {
-                        console.log(error);
+                        //console.log(error);
                         this.$q.notify({
                             type: 'negative',
                             message: 'All fields are required',
                             position: 'top-right'
                         })
                     })
+
+                    this.firstname = ''
+                    this.lastname = ''
+                    this.email = ''
+                    this.password = ''
+                    this.confPassword = ''
                 }
             }
         }
@@ -165,7 +176,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: rgba(7, 20, 122, 0.781)
+        background-color: #ABB2B9
     }
 
     form {
