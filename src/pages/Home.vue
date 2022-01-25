@@ -9,21 +9,12 @@
             <div class="form-inner"> 
                 <div class="form-group-meet">
                     <div class="q-pa-md">
-                        <q-input 
-                            outlined  
-                            type="date" 
-                            label="Date du cours" 
-                            id="start_time"
-                            v-model="start_time"
-                            stack-label 
-                            :dense="dense" 
-                        /> 
-
-                        <!-- <q-input outlined v-model="date" >
+                        
+                        <q-input outlined v-model="start_date">
                             <template v-slot:prepend>
                                 <q-icon name="event" class="cursor-pointer">
                                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                    <q-date v-model="date" mask="YYYY-MM-DD HH:mm">
+                                    <q-date v-model="start_date" mask="YYYY-MM-DD">
                                     <div class="row items-center justify-end">
                                         <q-btn v-close-popup label="Close" color="primary" flat />
                                     </div>
@@ -31,19 +22,19 @@
                                 </q-popup-proxy>
                                 </q-icon>
                             </template>
+                        </q-input>
 
-                            <template v-slot:append>
-                                <q-icon name="access_time" class="cursor-pointer">
-                                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                                    <q-time v-model="date" mask="YYYY-MM-DD HH:mm" format24h>
-                                    <div class="row items-center justify-end">
-                                        <q-btn v-close-popup label="Close" color="primary" flat />
-                                    </div>
-                                    </q-time>
-                                </q-popup-proxy>
-                                </q-icon>
-                            </template>
-                        </q-input>  -->
+                        <q-input 
+                            outlined  
+                            type="time" 
+                            mask="HH:mm:ss"
+                            label="Heure" 
+                            id="start_time"
+                            v-model="start_time"
+                            stack-label 
+                            :dense="dense" 
+                            required
+                        /> 
 
                         <q-input 
                             outlined  
@@ -52,6 +43,7 @@
                             v-model="topic"
                             stack-label 
                             :dense="dense" 
+                            required
                         />
                         <q-select 
                             outlined 
@@ -70,6 +62,7 @@
                             v-model="password"
                             stack-label 
                             :dense="dense" 
+                            required
                         />
 
                         <q-btn 
@@ -92,7 +85,6 @@ import axios from 'axios';
 export default {
     setup () {
         return {
-            date: ref('2022-01-21 16:15'),
             text: ref(''),
             ph: ref(''),
             dense: ref(false),
@@ -101,11 +93,13 @@ export default {
         }
     },
     data() {
+        
         return {
             message: '',
             fullName: '',
             currentUser: {},
 
+            start_date: '',
             start_time: '',
             topic: '',
             duration: '',
@@ -135,43 +129,48 @@ export default {
     methods: {
         
         submitFormMeeting () {
-
+            
             const zoomToken = this.$q.sessionStorage.getItem("zoom_token")
             const appToken = this.$q.sessionStorage.getItem("app_token")
-
-            console.log("VOICI LE ZOOM TOKEN " + zoomToken);
-            console.log("VOICI LE ZOOM ID " + this.currentUser.zoom_id);
-
+            //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
+            var date_zoom = this.start_date + 'T' +this.start_time + ':00Z';
+            
             const formMeeting = {
-                start_time: this.start_time,
+                start_time: date_zoom,
                 topic: this.topic,
                 duration: this.duration,
                 passcode: this.password,
                 zoom_token: zoomToken,
                 zoom_userId: this.currentUser.zoom_id
             }
-
-            console.log(formMeeting);
             
-
             axios.post('/api/meetings',formMeeting, { headers: {
                 'x-access-token' : appToken
             }})
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response);
+                    this.$q.notify({
+                        type: 'positive',
+                        message: 'Meeting créé',
+                        position: 'top',
+                    })
                 }
             })
             .catch((error) => {
                 console.log(error.message);
-            })
+                this.$q.notify({
+                    type: 'negative',
+                    message: 'Erreur de saisi',
+                    position: 'top',
+                })
+            }),
 
             this.start_time = '';
             this.topic = '';
             this.duration = '';
-            this.password = ''
+            this.password = '';
         }
-    },
+    }
 }
 </script>
 
