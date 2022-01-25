@@ -84,56 +84,56 @@
 
 <script lang="ts">
 
-const menuList = [
-  {
-    icon: 'today',
-    label: 'Mon calendrier'
-  },
-  {
-    icon: 'book',
-    label: 'Mes cours'
-  },
-  {
-    icon: 'school',
-    label: 'Mes élèves'
-  },
-  {
-    icon: 'resources',
-    label: 'Mes ressources'
-  }
-]
-
-import { defineComponent, ref } from 'vue';
-
-import ForumIcon from 'vue-material-design-icons/Forum.vue';
-import MailIcon from 'vue-material-design-icons/Mail.vue';
-import LogoutIcon from 'vue-material-design-icons/Logout.vue';
-import AccountIcon from 'vue-material-design-icons/Account.vue';
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    ForumIcon,
-    MailIcon,
-    LogoutIcon,
-    AccountIcon,
-  },
-  setup() {
-    return {
-      dialog: ref(false),
-      drawer: ref(false),
-      menuList,
-    };
-  },
-  methods: {
-    logout() {
-      /*eslint-disable*/
-      this.$q.sessionStorage.clear();
-      this.$router.push('/signin');
+  const menuList = [
+    {
+      icon: 'book',
+      label: 'Mes cours'
     },
-  },
-});
+    {
+      icon: 'today',
+      label: 'Mon calendrier'
+    },
+    {
+      icon: 'school',
+      label: 'Mes élèves'
+    },
+    {
+      icon: 'resources',
+      label: 'Mes ressources'
+    }
+  ]
+
+  import { defineComponent, ref } from 'vue';
+
+  import ForumIcon from 'vue-material-design-icons/Forum.vue';
+  import MailIcon from 'vue-material-design-icons/Mail.vue';
+  import LogoutIcon from 'vue-material-design-icons/Logout.vue';
+  import AccountIcon from 'vue-material-design-icons/Account.vue';
+
+  export default defineComponent({
+    name: 'MainLayout',
+
+    components: {
+      ForumIcon,
+      MailIcon,
+      LogoutIcon,
+      AccountIcon,
+    },
+    setup() {
+      return {
+        dialog: ref(false),
+        drawer: ref(false),
+        menuList,
+      };
+    },
+    methods: {
+      logout() {
+        /*eslint-disable*/
+        this.$q.sessionStorage.clear();
+        this.$router.push('/signin');
+      },
+    },
+  });
 </script>
 
 <style scoped>
