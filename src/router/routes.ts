@@ -7,6 +7,7 @@ const routes: RouteRecordRaw[] = [
   //   path: '/:catchAll(.*)*',
   //   component: () => import('pages/Error404.vue'),
   // },
+
   {
     path: '/',
     component: () => import('layouts/BlankLayout.vue'),
