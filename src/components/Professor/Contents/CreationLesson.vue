@@ -1,11 +1,11 @@
 <template>
     <div>
         <h4 class="titleContent" >Création d'une leçon</h4>
+
         <form class="form-meeting" @submit.prevent="submitFormLesson">
             <div class="form-inner">
                 <div class="form-group-meet">
                 <div class="q-pa-md">
-
                     <q-input
                         outlined
                         label="Nom du leçon"
@@ -66,17 +66,20 @@
                 </div>
             </div>
         </form>
+
     </div>
 </template>
 
 
 <script>
 import axios from 'axios';
-
+import { ref } from 'vue';
 export default {
     setup() {
         return {
             options: [1, 2, 3],
+            small:ref(false),
+           
         };
     },
 
@@ -86,7 +89,8 @@ export default {
             zoom_url: '',
             date: '',
             duration: '',
-            course_Id:''
+            course_Id:'',
+            lessons: '',
         }
     },
 

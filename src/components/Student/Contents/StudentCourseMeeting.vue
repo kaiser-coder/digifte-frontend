@@ -2,23 +2,23 @@
     <div>
         <div id="buttonGroup" class="q-pa-md q-gutter-sm">
             <q-btn-group>
-                <!-- <q-btn 
+                <q-btn 
                     color="secondary" 
                     glossy 
                     label="Participer à la réunion" 
-                /> &nbsp; -->
+                /> &nbsp;
                 <q-btn 
                     color="secondary" 
                     glossy 
                     label="S'inscrire à un cours" 
                     @click="fixed = true"
                 /> &nbsp;
-                <q-btn 
+                <!-- <q-btn 
                     color="secondary" 
                     glossy 
                     label="Cours de leçon" 
                     @click="alert = true"
-                />
+                /> -->
             </q-btn-group>
 
             <q-dialog v-model="fixed">
@@ -86,7 +86,7 @@ export default {
     methods: {
         subscribeStudent() {
             const appToken = this.$q.sessionStorage.getItem("app_token");
-            const courseId =  '61f76a1a7184e0bac89ef5f9' //créer dans le homePageProfessor
+            const courseId =  '61f7b3527184e0bac89ef661' //créer dans le homePageProfessor
             const student = '61f5efe5d82ded71bdd7ae69'
 
             const formSubscribe = {
@@ -131,7 +131,7 @@ export default {
 
         addCourse () {
             const appToken = this.$q.sessionStorage.getItem("app_token");
-            // const courseId = this.$$q.sessionStorage.getItem('_id')  //créer dans le homePageProfessor par le professor
+            // const courseId = this.$q.sessionStorage.getItem('_id')  //créer dans le homePageProfessor par le professor
 
             const courseId =  '61f76a1a7184e0bac89ef5f9' 
             const lessonId = '61f7733e7184e0bac89ef612' 
