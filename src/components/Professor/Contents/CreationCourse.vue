@@ -1,24 +1,24 @@
 <template>
     <div>
-        <h4 class="titleThree">Création d'un cours</h4> <br>
+        <h4 class="titleThree">Listes cours</h4> <br>
         <q-btn color="primary" @click="small=true" label="Nouveau cours" /> <br> <br>
         <div>
             <q-markup-table>
                 <thead>
                     <tr>
+                    
                     <th class="text-center">Titre</th>
                     <th class="text-center">Description</th>
-                    <th class="text-center">Action</th>
+                    <!-- <th class="text-center">Action</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center"></td>
-                        <td class="text-center"></td>
-                        <td class="text-center">
-                            <q-btn flat icon="edit" color="secondary"/>
-                            <q-btn flat icon="delete" color="negative"/>
-                        </td>
+                    <tr v-for="(course, index) in coursesDetails" :key="index" >
+                        <td class="text-center" v-text="course.title" ></td>
+                        <td class="text-center" v-text="course.description" ></td>
+                        <!-- <td class="text-center">
+                            <q-btn label="Détails"  color="secondary"/>
+                        </td> -->
                     </tr>
                 </tbody>
             </q-markup-table>
@@ -102,9 +102,11 @@ export default {
         return {
             title: '',
             description: '',
-            professor_id: ''
+            professor_id: '',
+            coursesDetails: []
         }
     },
+
 
      beforeMount() {
     /*eslint-disable*/
@@ -113,25 +115,30 @@ export default {
         }
     },
 
-    // mounted() {
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // const appToken = this.$q.sessionStorage.getItem('app_token')
-    
-    // axios.get('http://localhost:3000/api/courses', { headers: {'x-access-token' : appToken }})
-    //   .then(response => {
-    //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    //     this.courses = response.data;
-    //     console.log('COURSES ' ,courses)
-    //   })
-    //   .catch(error => {
-    //     alert(error)
-    //   })
-    // },
+     mounted() {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        this.getCoursesDetails();
+    },
 
     methods: {
+        
+        getCoursesDetails () {
+            const appToken = this.$q.sessionStorage.getItem('app_token');
+
+            axios.get('http://localhost:3000/api/courses', {headers: { 'x-access-token': appToken }})
+            .then((response) => {
+                this.coursesDetails = response.data.data
+                console.log(this.coursesDetails);
+            })
+        },
+
+        formatCoursesDetails(courses) {
+            for (let key in courses) {
+                this.coursesDetails.push({ ...courses[key], id:key})
+            }
+        },
+
         submitFormCreationCourse () {
-            // const appToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjFlZTY5YmMwOGE2ODQwOTRhYzdjYjEyIiwiZW1haWwiOiJzaXRyYWthaGFyaW5qYWthQGdtYWlsLmNvbSIsImZ1bGxuYW1lIjoiU2l0cmFrYSBIYXJpbmpha2EiLCJyb2xlcyI6WyJwcm9mZXNzb3IiXSwib3JnIjoiZnRlIiwiem9vbV91c2VySWQiOiJHOVpRajZ4eFNCMkVXTHU5b0czVlNnIiwiaWF0IjoxNjQzNjA4MjY2LCJleHAiOjE2NDM2MTU0NjZ9.-J69HvaOfiRXpCcfN6X5IY2RrYoWSvxBrI688dSo-X8';
-            // const professorId = '61ee69bc08a684094ac7cb12';
             const $q = useQuasar()
 
             const appToken = this.$q.sessionStorage.getItem('app_token')
@@ -186,6 +193,7 @@ export default {
         },
     }
 }
+
 </script>
 
 
