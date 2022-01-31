@@ -72,7 +72,7 @@ export default {
             return regex.test(email)
         },
         submitFormSignin() {
-            axios.post('http://localhost:3000/api/auth',this.form)
+            axios.post('/api/auth',this.form)
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
