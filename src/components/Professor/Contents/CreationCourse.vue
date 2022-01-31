@@ -35,7 +35,7 @@
                     <form  @submit.prevent="submitFormCreationCourse">
                         <q-input 
                             outlined  
-                            label="Title" 
+                            label="Titre" 
                             id="title"
                             v-model="title"
                             stack-label 

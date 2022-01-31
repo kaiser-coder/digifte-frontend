@@ -52,15 +52,15 @@
                     />
 
                     <q-btn
-                    size="18px"
-                    type="submit"
-                    style="
-                        background: #7e807c;
-                        color: white;
-                        width: 330px;
-                        margin-left: 0.5rem;
-                    "
-                    label="Créer"
+                        size="18px"
+                        type="submit"
+                        style="
+                            background: #7e807c;
+                            color: white;
+                            width: 330px;
+                            margin-left: 0.5rem;
+                        "
+                        label="Créer"
                     />
                 </div>
                 </div>
@@ -115,14 +115,14 @@ export default {
     var obj_zoomUrl = JSON.parse(zoom_url); 
     var obj_courseId = JSON.parse(course_Id);
 
-    var getJoinUrl = obj_zoomUrl.data.join_url
+    //var getJoinUrl = obj_zoomUrl.data.join_url
     var getCourseId = obj_courseId.data._id
 
     var date = this.date + 'T00:00:00Z';
 
     const formLesson = {
         name: this.name,
-        zoom_url: getJoinUrl,
+        zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
         start_date: date,
         duration: this.duration,
         courseId: getCourseId
