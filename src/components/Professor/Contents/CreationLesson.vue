@@ -100,21 +100,8 @@ export default {
    methods: {
     submitFormLesson() {
       
-      const appToken = this.$q.sessionStorage.getItem('app_token');
-    //   const zoom_url = JSON.parse(sessionStorage.getItem('join_url'));
-    //   const courseId = JSON.parse(sessionStorage.getItem('_id'));
-
-    //   var json = this.$q.sessionStorage.getItem('join_url');
-    //     if (json) {
-    //         var data = JSON.parse(json);
-    //         if (data) {
-    //             var zoom_url = $(data['join_url'])
-    //             var courseId = $(data['_id'])
-    //             console.log(zoom_url);
-    //             console.log(courseId);
-    //         }
-    //    }
-
+    const appToken = this.$q.sessionStorage.getItem('app_token');
+    
     var zoom_url = this.$q.sessionStorage.getItem('join_url'); 
     var course_Id = this.$q.sessionStorage.getItem('_id'); 
 
@@ -127,15 +114,6 @@ export default {
     var getJoinUrl = obj_zoomUrl.data.join_url
     var getCourseId = obj_courseId.data._id
 
-    // console.log(getJoinUrl); 
-    // console.log(getCourseId);
-
-
-    // Retrieving data:
-    // let text = localStorage.getItem("testJSON");
-    // let obj = JSON.parse(text);
-    // document.getElementById("demo").innerHTML = obj.name;
-      
     var date = this.date + 'T00:00:00Z';
 
     const formLesson = {

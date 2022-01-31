@@ -145,10 +145,10 @@ export default {
 
         addCourse () {
             const appToken = this.$q.sessionStorage.getItem("app_token");
-            // const courseId = this.$$q.sessionStorage.getItem('_id')  //créer dans le homePageProfessor
+            // const courseId = this.$$q.sessionStorage.getItem('_id')  //créer dans le homePageProfessor par le professor
 
             const courseId =  '61f76a1a7184e0bac89ef5f9' 
-            const lessonId = '61f76a8c7184e0bac89ef5fe'
+            const lessonId = '61f7733e7184e0bac89ef612' 
 
             const formCoursesLesson = {
                 courseId: courseId,
