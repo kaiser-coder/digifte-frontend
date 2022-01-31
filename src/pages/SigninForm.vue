@@ -72,17 +72,22 @@ export default {
             return regex.test(email)
         },
         submitFormSignin() {
-            axios.post('/api/auth',this.form)
+            axios.post('http://localhost:3000/api/auth',this.form)
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
-                    const { app_token, message, zoom_token } = response.data;
+                    const { app_token, message, zoom_token, zoom_userId, user_id } = response.data;
                     const infos = jwt_decode(app_token);
 
+                    console.log(infos);
+                
+                    this.$q.sessionStorage.set('app_token', app_token)
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
                     this.$q.sessionStorage.set('zoom_token', zoom_token)
-                    this.$q.sessionStorage.set('app_token', app_token)
+                    this.$q.sessionStorage.set('zoom_userId', zoom_userId)
+                    this.$q.sessionStorage.set('user_id', user_id)
+                   
 
                     this.$router.push('/dashboard/home')
                 }

@@ -58,12 +58,30 @@
       class="bg-grey-10"
     >
       <q-list>
-        <q-item-label header class="titleLabel">ESPACE  &nbsp; ETUDIANT</q-item-label>
-      </q-list>
-    </q-drawer>
+          <q-item-label header class="titleLabel"> ESPACE &nbsp; PROFESSEUR </q-item-label>
+            <div class="menu">
+              <q-item to="/home-student/student-subscribe" active-class="q-item-no-link-highlighting">
+                <q-item-section avatar>
+                  <q-icon name="book"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Mon cours</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item to="/home-student/student-agenda" active-class="q-item-no-link-highlighting">
+                <q-item-section avatar>
+                  <q-icon name="today"/>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Mon agenda</q-item-label>
+                </q-item-section>
+              </q-item>
+            </div>
+        </q-list>
+      </q-drawer>
 
     <q-page-container>
-      <CourseMeeting />
+      <router-view/>
     </q-page-container>
 
   </q-layout>
@@ -72,8 +90,6 @@
 <script lang="ts">
 
 import { defineComponent, ref } from 'vue';
-
-import CourseMeeting from 'components/Student/Content/CourseMeeting.vue'
 
 import ForumIcon from 'vue-material-design-icons/Forum.vue';
 import MailIcon from 'vue-material-design-icons/Mail.vue';
@@ -88,8 +104,7 @@ export default defineComponent({
     ForumIcon,
     MailIcon,
     LogoutIcon,
-    AccountIcon,
-    CourseMeeting
+    AccountIcon
   },
 
   setup () {
@@ -100,7 +115,7 @@ export default defineComponent({
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
     }
   },
   methods: {
@@ -124,5 +139,10 @@ export default defineComponent({
 
   .titleLabel {
     font-weight: bold;
+  }
+
+  .menu {
+    color: rgb(255, 255, 255);
+    margin-top: 10em;
   }
 </style>

@@ -60,59 +60,88 @@
       >
         <q-list>
           <q-item-label header class="titleLabel"> ESPACE &nbsp; PROFESSEUR </q-item-label>
-            <div>
-              <template v-for="(menuItem, index) in menuList" :key="index">
-                <q-item class="menu" clickable :active="menuItem.label === 'Outbox'" v-ripple>
+          <div class="menu">
+            <q-item  active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="home"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Accueil</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-expansion-item
+              icon="book"
+              label="Mes cours"
+            >
+              <q-list class="q-pl-lg">
+                <q-item to ="/home-professor/create-course" active-class="q-item-no-link-highlighting">
                   <q-item-section avatar>
-                    <q-icon :name="menuItem.icon" />
+                    <q-icon name="lesson"/>
                   </q-item-section>
                   <q-item-section>
-                    {{ menuItem.label }}
+                    <q-item-label>Créer un cours</q-item-label>
                   </q-item-section>
                 </q-item>
-              </template>
-            </div>
+                <q-item to ="/home-professor/create-meeting" active-class="q-item-no-link-highlighting">
+                  <q-item-section avatar>
+                    <q-icon name="video"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Créer un meeting</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item to ="/home-professor/create-lesson" active-class="q-item-no-link-highlighting">
+                  <q-item-section avatar>
+                    <q-icon name="video"/>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>Créer une leçon</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-expansion-item>
+
+            <q-item active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="school"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Mes élèves</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="book"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Mes ressources</q-item-label>
+              </q-item-section>
+            </q-item>
+
+          </div>
         </q-list>
       </q-drawer>
 
       <!-- Content -->
       <q-page-container>
-        <Cours/>
+        <router-view/>
       </q-page-container>
 
     </q-layout>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 
-  const menuList = [
-    {
-      icon: 'book',
-      label: 'Mes cours'
-    },
-    {
-      icon: 'today',
-      label: 'Mon calendrier'
-    },
-    {
-      icon: 'school',
-      label: 'Mes élèves'
-    },
-    {
-      icon: 'resources',
-      label: 'Mes ressources'
-    }
-  ]
-
-  import Cours from 'components/Professor/Content/Cours.vue'
-  
   import { defineComponent, ref } from 'vue';
 
   import ForumIcon from 'vue-material-design-icons/Forum.vue';
   import MailIcon from 'vue-material-design-icons/Mail.vue';
   import LogoutIcon from 'vue-material-design-icons/Logout.vue';
   import AccountIcon from 'vue-material-design-icons/Account.vue';
+
 
   export default defineComponent({
     name: 'MainLayout',
@@ -121,14 +150,12 @@
       ForumIcon,
       MailIcon,
       LogoutIcon,
-      AccountIcon,
-      Cours
+      AccountIcon
     },
     setup() {
       return {
         dialog: ref(false),
         drawer: ref(false),
-        menuList,
       };
     },
     methods: {
@@ -164,6 +191,7 @@
 
 .menu {
   color: rgb(255, 255, 255);
-  top: 150px;
+  margin-top: 10em;
 }
+
 </style>

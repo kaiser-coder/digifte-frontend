@@ -1,15 +1,16 @@
 <template>
-    <div v-if="isShownProfessor" >
-      <HomePageProfessor />
-    </div>
+    
+  <div v-if="isShownProfessor" >
+    <HomePageProfessor />
+  </div>
 
-    <div v-if="isShownStudent" >
-      <HomePageStudent />
-    </div>
+  <div v-if="isShownStudent" >
+    <HomePageStudent />
+  </div>
 
-    <div v-if="isShownAdmnistrator" >
-      <HomePageAdmnistrator />
-    </div>
+  <div v-if="isShownAdmnistrator" >
+    <HomePageAdmnistrator />
+  </div>
 
 </template>
 
@@ -38,9 +39,7 @@ export default {
   mounted() {
     /*eslint-disable*/
     if (!this.$q.sessionStorage.isEmpty()) {
-        this.message = this.$q.sessionStorage.getItem('message');
-        this.fullName = this.$q.sessionStorage.getItem('fullname');
-        this.currentUser = this.$q.sessionStorage.getItem('current_user');
+      this.currentUser = this.$q.sessionStorage.getItem('current_user');
     }
 
     if(this.currentUser.roles.includes('professor')) {

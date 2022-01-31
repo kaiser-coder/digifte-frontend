@@ -20,7 +20,7 @@ import HomePageAdmnistrator from 'components/Admnistrator/HomePageAdmnistrator.v
 
 export default {
 
-  name: 'Home',
+  name: 'MainLayout',
   components: {
     HomePageProfessor,
     HomePageStudent,
@@ -28,18 +28,16 @@ export default {
 	},
 
   data() {
-      return {
-        isShownProfessor: false,
-        isShownStudent: false,
-        isShownAdmnistrator: false
-      }
+    return {
+      isShownProfessor: false,
+      isShownStudent: false,
+      isShownAdmnistrator: false
+    }
   },
 
   mounted() {
     /*eslint-disable*/
     if (!this.$q.sessionStorage.isEmpty()) {
-      this.message = this.$q.sessionStorage.getItem('message');
-      this.fullName = this.$q.sessionStorage.getItem('fullname');
       this.currentUser = this.$q.sessionStorage.getItem('current_user');
     }
 

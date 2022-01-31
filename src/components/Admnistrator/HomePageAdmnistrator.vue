@@ -58,12 +58,68 @@
       class="bg-grey-10"
     >
       <q-list>
-        <q-item-label header class="titleLabel">ADMINISTRATEUR</q-item-label>
+        <q-item-label header class="titleUserRole">ADMINISTRATEUR</q-item-label>
+      
+        <div class="menu">
+          <q-item to="/home-admnistrator/student-follow" active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="lesson"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Suivi des élèves</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item to="/home-admnistrator/registration-management" active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="video"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Suivi des inscriptions</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item  active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="video"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Ajout des docs</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item  active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="video"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Les cours</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item  active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="video"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Gestion des professeurs et assistants</q-item-label>
+            </q-item-section>
+          </q-item>
+        
+          <q-item  active-class="q-item-no-link-highlighting">
+            <q-item-section avatar>
+              <q-icon name="video"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Gestion des plannings académique</q-item-label>
+            </q-item-section>
+          </q-item>
+        </div>
       </q-list>
     </q-drawer>
 
     <q-page-container>
-      
+      <router-view/>
     </q-page-container>
 
   </q-layout>
@@ -120,7 +176,17 @@ export default defineComponent({
     margin-left: 5.5rem;
   }
 
-  .titleLabel {
+  .titleUserRole {
     font-weight: bold;
+  }
+
+  /* .titleContent {
+    margin-right: 10em;
+  } */
+
+  .menu {
+    color: rgb(255, 255, 255);
+    margin-top: 10em;
+    margin-left: -3em;
   }
 </style>
