@@ -2,11 +2,11 @@
     <div>
         <div id="buttonGroup" class="q-pa-md q-gutter-sm">
             <q-btn-group>
-                <q-btn 
+                <!-- <q-btn 
                     color="secondary" 
                     glossy 
                     label="Participer à la réunion" 
-                /> &nbsp;
+                /> &nbsp; -->
                 <q-btn 
                     color="secondary" 
                     glossy 
@@ -29,6 +29,7 @@
                     <q-separator />
                     <q-card-section style="max-height: 20vh" class="scroll">
                         <form @submit.prevent="subscribeStudent">
+
                             <div class="q-gutter-md" style="max-width: 300px">
                                 <div class="buttonConfirmSubscribe" >
                                     <q-btn @click="subscribeStudent" size="15px" color="secondary" label="Valider" v-close-popup /> &nbsp; 
@@ -75,28 +76,13 @@ export default {
             text: ref('')
         }
     },
-    data() {
-        return {
-            message: '',
-            fullName: '',
-            currentUser: {} 
-        }
-    },
     beforeMount() {
         /*eslint-disable*/
         if (!this.$q.sessionStorage.getItem('current_user')) {
             this.$router.push('/')
         }
     },
-    mounted() {
-        /*eslint-disable*/
-        if (!this.$q.sessionStorage.isEmpty()) {
-            this.message = this.$q.sessionStorage.getItem('message');
-            this.fullName = this.$q.sessionStorage.getItem('fullname');
-            this.currentUser = this.$q.sessionStorage.getItem('current_user');
-        }
-    },
-
+    
     methods: {
         subscribeStudent() {
             const appToken = this.$q.sessionStorage.getItem("app_token");
