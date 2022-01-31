@@ -58,7 +58,7 @@
       class="bg-grey-10"
     >
       <q-list>
-          <q-item-label header class="titleLabel"> ESPACE &nbsp; PROFESSEUR </q-item-label>
+          <q-item-label header class="titleLabel"> ESPACE &nbsp; ETUDIANT </q-item-label>
             <div class="menu">
               <q-item to="/home-student/student-subscribe" active-class="q-item-no-link-highlighting">
                 <q-item-section avatar>
