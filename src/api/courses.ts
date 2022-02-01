@@ -11,6 +11,17 @@ const fetchCourses = (appToken: string) => {
         });
 };
 
+// Fetch courses details
+const getCourseDetails = (appToken: string, courseId: string) => {
+    return axios.get(`/api/courses/${courseId}`, {
+            headers: { 'x-access-token': appToken }
+        })
+        /*eslint-disable*/
+        .then((response: any) => {
+            return response.data;
+        });
+}
+
 /* const subscribeStudent = (data: any) => {
     return axios.post('/api/courses/subscribe', data, { headers: { 'x-access-token': appToken } })
         .then((response: any) => {
@@ -18,4 +29,4 @@ const fetchCourses = (appToken: string) => {
         });
 }; */
 
-export { fetchCourses };
+export { fetchCourses, getCourseDetails };

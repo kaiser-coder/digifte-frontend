@@ -4,7 +4,7 @@
       <q-item v-for="course, key in courses" :key="key">
         <q-item-section>
             <q-item-label>
-              <a href="/home-student/course-details/1" id="custom_link">{{ course.title }}</a>
+              <a :href="`/home-student/course-details/${course._id}`" id="custom_link">{{ course.title }}</a>
             </q-item-label>
             <q-item-label caption lines="2">
               <p>{{ course.description }}</p>

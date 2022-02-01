@@ -1,14 +1,19 @@
 import { defineStore } from 'pinia';
-import { fetchCourses } from 'src/api/courses';
+import { fetchCourses, getCourseDetails } from 'src/api/courses';
 
 export const useCourseStore = defineStore('course', {
     state: () => ({
-        courses: []
+        courses: [],
+        activeCourse: {}
     }),
     actions: {
         getCourses(appToken: string) {
             /*eslint-disable*/
             return fetchCourses(appToken);
+        },
+
+        getDetails(appToken: string, courseId: string) {
+            return getCourseDetails(appToken, courseId);
         }
     },
 });
