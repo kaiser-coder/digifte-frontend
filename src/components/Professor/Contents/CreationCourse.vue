@@ -13,7 +13,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(course, index) in coursesDetails" :key="index" >
+                    <tr class="cursor-pointer" v-for="(course, index) in coursesDetails" :key="index" @click="$router.push({ path: '/home-professor/details-course'})" >
                         <td class="text-center" v-text="course.title" ></td>
                         <td class="text-center" v-text="course.description" ></td>
                         <!-- <td class="text-center">
@@ -70,7 +70,7 @@
     
 import { ref } from 'vue';
 import axios from 'axios';
-import { useQuasar } from 'quasar'
+import { useQuasar } from 'quasar';
 
 const data = [
   {
@@ -86,6 +86,17 @@ const columns = [
 ];
 
 export default {
+    name: 'CreationCourse',
+
+    data() {
+        return {
+            title: '',
+            description: '',
+            professor_id: '',
+            coursesDetails: []
+        }
+    },
+
     setup () {
         return {
             text: ref(''),
@@ -98,15 +109,6 @@ export default {
             columns
         }
     },
-    data() {
-        return {
-            title: '',
-            description: '',
-            professor_id: '',
-            coursesDetails: []
-        }
-    },
-
 
      beforeMount() {
     /*eslint-disable*/
@@ -115,13 +117,13 @@ export default {
         }
     },
 
-     mounted() {
+    mounted() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.getCoursesDetails();
     },
 
     methods: {
-        
+
         getCoursesDetails () {
             const appToken = this.$q.sessionStorage.getItem('app_token');
 
@@ -129,6 +131,7 @@ export default {
             .then((response) => {
                 this.coursesDetails = response.data.data
                 console.log(this.coursesDetails);
+                //console.log(response.data.data);
             })
         },
 
@@ -156,9 +159,16 @@ export default {
             axios.post('http://localhost:3000/api/courses/create',formCreateCourse, { headers: {'x-access-token' : appToken }})
             .then((response) => {
                 if (response.status === 200) {
+
                     console.log(response.data);
-                   
-                    this.$q.sessionStorage.set('_id', JSON.stringify(response.data))
+
+                    const _id = response.data.data._id
+                    const title = response.data.data.title
+                    const description = response.data.data.description
+
+                    this.$q.sessionStorage.set('_id', _id)
+                    this.$q.sessionStorage.set('title', title)
+                    this.$q.sessionStorage.set('description', description)
                     
                     this.$q.notify({
                         type: 'positive',
