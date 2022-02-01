@@ -3,8 +3,8 @@
         <div class="featuredItem">
             <span class="featuredTitle">DETAILS COURS</span>
             <div class="featuredContainer">
-                <h5>Titre : {{ title }}</h5> 
-                <h5>Description : {{ description }}</h5> <br>
+                <h5>Titre : Galate</h5> 
+                <h5>Description : Livre de Galate</h5> <br>
                 <q-btn color="secondary" @click="fixed = true" label="Créer leçon" /> <br> <br>
                 <q-markup-table>
                     <thead>
@@ -12,8 +12,7 @@
                         <th class="text-center">Date</th>
                         <th class="text-center">Nom du leçon</th>
                         <th class="text-center">Duration</th>
-                         <th class="text-center">Action</th>
-                        <!-- <th class="text-center">Action</th> -->
+                        <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -341,7 +340,7 @@
 
                 
                 //var getJoinUrl = obj_zoomUrl.data.join_url
-                var date = this.date + 'T00:00:00Z';
+                var date = this.date;
 
                 const formLesson = {
                     name: this.name,
@@ -356,7 +355,7 @@
                     if (response.status === 200) {
                         console.log(response.data);
 
-                        $q.notify({
+                        this.$q.notify({
                             type: 'positive',
                             message: 'Lesson created',
                             position: 'top',
@@ -364,7 +363,7 @@
                     }
 
                     if (response.data === 400) {
-                        $q.notify({
+                        this.$q.notify({
                             type: 'negative',
                             message: 'Lesson not stored',
                             position: 'top',
