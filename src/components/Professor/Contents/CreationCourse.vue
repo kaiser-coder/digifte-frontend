@@ -6,10 +6,8 @@
             <q-markup-table>
                 <thead>
                     <tr>
-                    
-                    <th class="text-center">Titre</th>
-                    <th class="text-center">Description</th>
-                    <!-- <th class="text-center">Action</th> -->
+                        <th class="text-center">Titre</th>
+                        <th class="text-center">Description</th>
                     </tr>
                 </thead>
                 <tbody>
