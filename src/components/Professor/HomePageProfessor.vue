@@ -70,37 +70,14 @@
               </q-item-section>
             </q-item>
 
-            <q-expansion-item
-              icon="book"
-              label="Mes cours"
-            >
-              <q-list class="q-pl-lg">
-                <q-item to ="/home-professor/create-course" active-class="q-item-no-link-highlighting">
-                  <q-item-section avatar>
-                    <q-icon name="lesson"/>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Créer un cours</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item to ="/home-professor/create-lesson" active-class="q-item-no-link-highlighting">
-                  <q-item-section avatar>
-                    <q-icon name="video"/>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Créer une leçon</q-item-label>
-                  </q-item-section>
-                </q-item>
-                <q-item to ="/home-professor/create-meeting" active-class="q-item-no-link-highlighting">
-                  <q-item-section avatar>
-                    <q-icon name="video"/>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>Créer un meeting</q-item-label>
-                  </q-item-section>
-                </q-item>
-              </q-list>
-            </q-expansion-item>
+            <q-item to ="/home-professor/create-course" active-class="q-item-no-link-highlighting">
+              <q-item-section avatar>
+                <q-icon name="book"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Mes cours</q-item-label>
+              </q-item-section>
+            </q-item>
 
             <q-item active-class="q-item-no-link-highlighting">
               <q-item-section avatar>
@@ -126,7 +103,7 @@
 
       <!-- Content -->
       <q-page-container>
-        <router-view/>
+        <router-view/> 
       </q-page-container>
 
     </q-layout>
@@ -166,6 +143,7 @@
       },
     },
   });
+
 </script>
 
 <style scoped>
