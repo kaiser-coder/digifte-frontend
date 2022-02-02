@@ -18,6 +18,7 @@ import { useRoute } from 'vue-router';
 export default {
   name: 'CourseDetails',
   setup() {
+    // Plugins import
     const $q = useQuasar();
     const router = useRoute();
     /*eslint-disable*/
@@ -29,13 +30,14 @@ export default {
     let activeCourse = ref(courseStore.activeCourse);
     let lessons = ref(lessonStore.lessons);
 
+    // Lifecycles
     onMounted(() => {
       const token = $q.sessionStorage.getItem('app_token');
       const courseId = router.params.courseId;
 
       courseStore.getCourseDetails(token, courseId).then((result) => {
         // console.log(result.data)
-        courseStore.activeCourse = result.data;
+        courseStore.activeCourse = Object.assign(courseStore.activeCourse, result.data)
       });
 
       lessonStore.getAllByCourseId(token, courseId).then((result) => {
