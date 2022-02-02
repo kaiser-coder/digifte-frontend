@@ -40,7 +40,7 @@
                 </q-card>
             </q-dialog>
 
-            <custom-list :courses="courses"/>
+            <courses-list :courses="courses"/>
         </div>
     </div>
 </template>
@@ -52,12 +52,12 @@ import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
 // Components
-import CustomList from 'src/components/lib/CustomList';
+import CoursesList from './CoursesList';
 
 export default {
     components: {
         /*eslint-disable*/
-        CustomList
+        CoursesList
     },
     setup () {
         /* Plugins import */
