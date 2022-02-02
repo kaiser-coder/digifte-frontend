@@ -58,15 +58,15 @@ export default {
         student: studentId
       }).then((result) => {
         $q.notify({
-            type: 'positive',
-            message: result.message,
-            position: 'top',
+          type: 'positive',
+          message: result.message,
+          position: 'top',
         });
-      }).catch((error) => {
+      }).catch(() => {
         $q.notify({
-            type: 'negative',
-            message: result.message,
-            position: 'top',
+          type: 'negative',
+          message: 'Already subscribed',
+          position: 'top',
         });
       })
     }
