@@ -82,7 +82,7 @@ export default {
 
         onMounted(() => {
             const token = $q.sessionStorage.getItem('app_token');
-            coursesStore.getCourses(token).then((result) => result.data.map((d) => coursesStore.courses.push(d)))
+            coursesStore.getAll(token).then((result) => result.data.map((d) => coursesStore.courses.push(d)))
         })
 
         return {

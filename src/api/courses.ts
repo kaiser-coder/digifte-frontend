@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Fetch all courses
-const fetchCourses = (appToken: string) => {
+const fetchAll = (appToken: string) => {
     return axios.get('/api/courses', {
             headers: { 'x-access-token': appToken}
         })
@@ -12,7 +12,7 @@ const fetchCourses = (appToken: string) => {
 };
 
 // Fetch courses details
-const getCourseDetails = (appToken: string, courseId: string) => {
+const fetchDetails = (appToken: string, courseId: string) => {
     return axios.get(`/api/courses/${courseId}`, {
             headers: { 'x-access-token': appToken }
         })
@@ -29,4 +29,4 @@ const getCourseDetails = (appToken: string, courseId: string) => {
         });
 }; */
 
-export { fetchCourses, getCourseDetails };
+export { fetchAll, fetchDetails };

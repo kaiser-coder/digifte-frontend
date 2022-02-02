@@ -1,11 +1,11 @@
 <template>
-    <div>
-        Current course
-        {{activeCourse}}
+  <div>
+    Current course
+    {{ activeCourse }}
 
-        All lessons
-        {{lessons}}
-    </div>
+    All lessons
+    {{ lessons }}
+  </div>
 </template>
 
 <script>
@@ -16,41 +16,38 @@ import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
 export default {
-    name: 'CourseDetails',
-    setup() {
-        const $q = useQuasar();
-        const router = useRoute();
-        /*eslint-disable*/
-        // Stores
-        const courseStore = useCourseStore();
-        const lessonStore = useLessonStore();
-        
-        // States
-        let activeCourse = ref(courseStore.activeCourse);
-        let lessons = ref(lessonStore.lessons);
+  name: 'CourseDetails',
+  setup() {
+    const $q = useQuasar();
+    const router = useRoute();
+    /*eslint-disable*/
+    // Stores
+    const courseStore = useCourseStore();
+    const lessonStore = useLessonStore();
 
-        onMounted(() => {
-            const token = $q.sessionStorage.getItem('app_token');
-            const courseId = router.params.courseId;
+    // States
+    let activeCourse = ref(courseStore.activeCourse);
+    let lessons = ref(lessonStore.lessons);
 
-            courseStore.getDetails(token, courseId)
-                .then((result) => {
-                    // console.log(result.data)
-                    courseStore.activeCourse = result.data
-                })
+    onMounted(() => {
+      const token = $q.sessionStorage.getItem('app_token');
+      const courseId = router.params.courseId;
 
-            lessonStore.getLesson(token, courseId)
-                .then((result) => {
-                    // console.log(result.data)
-                    result.data.map((d) => lessonStore.lessons.push(d))
-                })
-        })
+      courseStore.getCourseDetails(token, courseId).then((result) => {
+        // console.log(result.data)
+        courseStore.activeCourse = result.data;
+      });
 
+      lessonStore.getAllByCourseId(token, courseId).then((result) => {
+        // console.log(result.data)
+        result.data.map((d) => lessonStore.lessons.push(d));
+      });
+    });
 
-        return {
-            activeCourse,
-            lessons
-        }
-    }
-}
+    return {
+      activeCourse,
+      lessons,
+    };
+  },
+};
 </script>

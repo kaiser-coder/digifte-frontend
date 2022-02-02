@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const fetchLesson = (appToken: string, courseId: string) => {
+const fetchAllByCourseId = (appToken: string, courseId: string) => {
     return axios.get(`/api/lessons/courses/${courseId}`, {
             headers: { 'x-access-token': appToken }
         })
@@ -10,4 +10,4 @@ const fetchLesson = (appToken: string, courseId: string) => {
         });
 }
 
-export { fetchLesson }
+export { fetchAllByCourseId }
