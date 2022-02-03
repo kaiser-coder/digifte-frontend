@@ -3,8 +3,8 @@
         <div class="featuredItem">
             <span class="featuredTitle">DETAILS COURS</span>
             <div class="featuredContainer">
-                <h5>Titre : Galate</h5> 
-                <h5>Description : Livre de Galate</h5> <br>
+                <h5>Titre :{{course.title}}</h5> 
+                <h5>Description : {{course.description}}</h5> <br>
                 <q-btn color="secondary" @click="fixed = true" label="Créer leçon" /> <br> <br>
                 <q-markup-table>
                     <thead>
@@ -21,8 +21,8 @@
                             <td class="text-center">{{ lesson.name}}</td>
                             <td class="text-center">{{lesson.duration}}</td>
                             <td class="text-center">
-                                <q-btn color="brown-5" @click="dialog = true" label="Voir meeting" /> &nbsp;
-                                <q-btn color="amber" @click="inception = true"  label="Créer meeting" /> 
+                                <q-btn color="brown-5" v-show="lesson.zoom_url !== ''" @click="handleLaunchMeeting(lesson.zoom_url)" label="Lancer meeting" /> &nbsp;
+                                <q-btn color="amber" v-show="lesson.zoom_url === ''" @click="inception = true"  label="Créer meeting" /> 
                             </td>
                         </tr>
                     </tbody>
@@ -183,7 +183,7 @@
                                     :dense="dense"
                                 /> <br>
                                 <q-input
-                                    outlined
+                                    outlinedzoom_url
                                     label="Mot de passe réunion"
                                     id="passcode"
                                     v-model="passcode"
@@ -266,22 +266,14 @@
 </template>
 
 <script>
+
     import { ref } from 'vue'
     import { useQuasar } from 'quasar'
     import axios from 'axios';
+    import { useCourseStore } from 'src/stores/course';
+    import { useRoute } from 'vue-router';
 
     export default {
-       
-        setup () {
-            return {
-                options: [1, 2, 3],
-                fixed: ref(false),
-                inception: ref(false),
-                dense: ref(false),
-                dialog: ref(false),
-                maximizedToggle: ref(true)
-            }
-        },
 
         data() {
             return {
@@ -296,6 +288,14 @@
                 topic: '',
                 duration: '',
                 passcode: '',
+                course: {},
+
+                options: [1, 2, 3],
+                fixed: ref(false),
+                inception: ref(false),
+                dense: ref(false),
+                dialog: ref(false),
+                maximizedToggle: ref(true)
             }
         },
 
@@ -306,21 +306,34 @@
 
         mounted() {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            const course_id = this.$route.params.id
+            const course_id = this.$route.params._id
             this.getLessonsDetails(course_id);
+            this.getAllCourses();
         },
 
         methods: {
 
+            getAllCourses() {
+                const courseStore = useCourseStore();
+                const route = useRoute();
+                const courseId = route.params._id;
+
+                const appToken = this.$q.sessionStorage.getItem('app_token');
+                courseStore.getCourseDetails(appToken, courseId).then((result) => {
+                    console.log(result);
+                    this.course = Object.assign(this.course, result.data);
+                })
+            },
+
             getLessonsDetails(course_id) {
-                console.log('COURSE_IDID' + course_id);
+                console.log('COURSE_ID' + course_id);
                 const appToken = this.$q.sessionStorage.getItem('app_token')
                 //const courseId = this.$q.sessionStorage.getItem('_id')
                
                 axios.get(`http://localhost:3000/api/lessons/courses/${course_id}`, {headers: { 'x-access-token': appToken }})
                 .then((response) => {
+                    console.log(response);
                     this.lessonsDetails = response.data.data
-                    console.log(this.lessonsDetails);
                 })
             },
             
@@ -335,7 +348,11 @@
                 const appToken = this.$q.sessionStorage.getItem('app_token');
 
                 var zoom_url = this.$q.sessionStorage.getItem('join_url'); 
-                var course_Id = this.$q.sessionStorage.getItem('_id'); 
+                // var course_Id = this.$q.sessionStorage.getItem('_id'); 
+                const route = this.$router;
+               
+                const courseId = route.currentRoute.value.params._id
+
 
                 
                 //var getJoinUrl = obj_zoomUrl.data.join_url
@@ -346,7 +363,7 @@
                     zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
                     start_date: date,
                     duration: this.duration,
-                    courseId: course_Id
+                    courseId: courseId
                 }
 
                 axios.post('http://localhost:3000/api/lessons', formLesson, { headers: {'x-access-token' : appToken }} )
@@ -368,14 +385,6 @@
                             position: 'top',
                         });
                     }
-
-                    //if (response.data === 401) {
-                        // this.$q.notify({
-                        //     type: 'negative',
-                        //     message: 'Duplicated data',
-                        //     position: 'top',
-                        // });
-                    //}
                 })
                 .catch((error) => {
                     console.log(error);
@@ -435,6 +444,10 @@
                     this.topic = '';
                     this.duration = '';
                     this.passcode = '';
+            },
+
+            handleLaunchMeeting(url) {
+                window.open(url, '_blank');
             }
         }
     }
