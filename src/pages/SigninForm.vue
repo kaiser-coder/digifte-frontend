@@ -76,11 +76,10 @@ export default {
             .then((response) => {
                 if(response.status === 200) {
                     /*eslint-disable*/
-                    const { app_token, message, zoom_token, zoom_userId, user_id } = response.data;
+                    const { app_token, message, zoom_token } = response.data;
                     const infos = jwt_decode(app_token);
+                    const { user_id, zoom_userId } = infos
 
-                    console.log(infos);
-                
                     this.$q.sessionStorage.set('app_token', app_token)
                     this.$q.sessionStorage.set('message', message)
                     this.$q.sessionStorage.set('current_user', infos)
@@ -88,7 +87,6 @@ export default {
                     this.$q.sessionStorage.set('zoom_userId', zoom_userId)
                     this.$q.sessionStorage.set('user_id', user_id)
                    
-
                     this.$router.push('/dashboard/home')
                 }
             })
