@@ -31,7 +31,7 @@ const subscribeStudent = (appToken: string, data: any) => {
 };
 
 const createCourse = (appToken: string, data: any) => {
-    return axios.post('/api/courses/create', data, { headers: { 'x-access-token': appToken }})
+    return axios.post('http://localhost:3000/api/courses/create', data, { headers: { 'x-access-token': appToken }})
         .then((response: any) => {
             return response.data;
         });
