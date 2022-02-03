@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { fetchAll, fetchDetails, subscribeStudent } from 'src/api/courses';
+import { fetchAll, fetchDetails, subscribeStudent, createCourse } from 'src/api/courses';
 
 export const useCourseStore = defineStore('course', {
     state: () => ({
@@ -18,6 +18,10 @@ export const useCourseStore = defineStore('course', {
 
         subscribeToCourse(appToken: string, data: any) {
             return subscribeStudent(appToken, data);
+        },
+
+        submitCourse(appToken: string, data: any) {
+            return createCourse(appToken, data)
         }
     },
 });
