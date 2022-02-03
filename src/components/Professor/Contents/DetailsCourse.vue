@@ -406,8 +406,8 @@
                 
                 const formMeeting = {
                     start_time: date_zoom,
-                    topic: this.topic,
-                    duration: this.duration,
+                    //topic: this.topic,
+                    //duration: this.duration,
                     passcode: this.passcode,
                     zoom_token: zoomToken,
                     zoom_userId: zoomUserId,

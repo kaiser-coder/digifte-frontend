@@ -58,8 +58,6 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
-
-        <!-- {{courses}} -->
     </div>
 </template>
 
@@ -114,8 +112,6 @@ export default {
             data,
             columns,
             courses
-           
-
         }
     },
 
@@ -160,7 +156,7 @@ export default {
 
             courseStore.submitCourse(appToken, formCreateCourse).then((result) => {
                 console.log(result)
-                 $q.notify({
+                this.$q.notify({
                     type: 'positive',
                     message: 'Course Created',
                     position: 'top',
@@ -168,7 +164,7 @@ export default {
             })
             .catch((error) => {
                 console.log(error)
-                 $q.notify({
+                this.$q.notify({
                     type: 'negative',
                     message: 'Duplicated data',
                     position: 'top',
