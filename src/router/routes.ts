@@ -31,7 +31,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('src/components/Professor/HomePageProfessor.vue'),
     children: [
       { path: 'create-course', component: () => import('src/components/Professor/Contents/CreationCourse.vue')},
-      { path: 'details-course', props: true, component: () => import('src/components/Professor/Contents/DetailsCourse.vue')},
+      { path: 'details-course/:_id', props: true, component: () => import('src/components/Professor/Contents/DetailsCourse.vue')},
     ]
   },
 
