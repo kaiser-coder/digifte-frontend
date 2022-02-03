@@ -16,7 +16,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(lesson, index) in lessonsDetails" :key="index" @click="getLessonsDetails()" >
+                        <tr v-for="(lesson, index) in lessonsDetails" :key="index" @click="getLessonsDetails(course_id)" >
                             <td class="text-center">{{ lesson.start_date}}</td>
                             <td class="text-center">{{ lesson.name}}</td>
                             <td class="text-center">{{lesson.duration}}</td>
@@ -270,12 +270,8 @@
     import { useQuasar } from 'quasar'
     import axios from 'axios';
 
-
     export default {
-        props: {
-            title: String,
-            description: String
-        },
+       
         setup () {
             return {
                 options: [1, 2, 3],
@@ -303,28 +299,31 @@
             }
         },
 
-         beforeMount() {
+        beforeMount() {
         /*eslint-disable*/
             if (!this.$q.sessionStorage.getItem('current_user')) {}
         },
 
         mounted() {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            this.getLessonsDetails(this.$route.params.id);
+            const course_id = this.$route.params.id
+            this.getLessonsDetails(course_id);
         },
 
         methods: {
 
-            getLessonsDetails () {
+            getLessonsDetails(course_id) {
+                console.log('COURSE_IDID' + course_id);
                 const appToken = this.$q.sessionStorage.getItem('app_token')
-                const courseId = this.$q.sessionStorage.getItem('_id')
+                //const courseId = this.$q.sessionStorage.getItem('_id')
                
-                axios.get(`http://localhost:3000/api/lessons/courses/${courseId}`, {headers: { 'x-access-token': appToken }})
+                axios.get(`http://localhost:3000/api/lessons/courses/${course_id}`, {headers: { 'x-access-token': appToken }})
                 .then((response) => {
                     this.lessonsDetails = response.data.data
                     console.log(this.lessonsDetails);
                 })
             },
+            
             formatLessonsDetails(lessons) {
                 for (let key in lessons) {
                     this.lessonsDetails.push({ ...lessons[key], id:key})

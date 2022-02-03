@@ -11,12 +11,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="cursor-pointer" v-for="(course, index) in coursesDetails" :key="index" @click="$router.push({ path: '/home-professor/details-course'})" >
+                    <tr class="cursor-pointer" v-for="(course, index) in courses" :key="index" @click="this.selectCourse(course)">
                         <td class="text-center" v-text="course.title" ></td>
                         <td class="text-center" v-text="course.description" ></td>
-                        <!-- <td class="text-center">
-                            <q-btn label="Détails"  color="secondary"/>
-                        </td> -->
                     </tr>
                 </tbody>
             </q-markup-table>
@@ -30,7 +27,7 @@
                 <q-separator/> <br>
                 
                 <q-card-section class="q-pt-none">
-                    <form  @submit.prevent="submitFormCreationCourse">
+                    <form @submit.prevent="submitFormCreationCourse">
                         <q-input 
                             outlined  
                             label="Titre" 
@@ -61,14 +58,16 @@
                 </q-card-section>
             </q-card>
         </q-dialog>
+
+        <!-- {{courses}} -->
     </div>
 </template>
 
 <script>
     
 import { ref } from 'vue';
-import axios from 'axios';
 import { useQuasar } from 'quasar';
+import { useCourseStore } from 'src/stores/course';
 
 const data = [
   {
@@ -91,11 +90,20 @@ export default {
             title: '',
             description: '',
             professor_id: '',
-            coursesDetails: []
+            coursesDetails: [],
+        }
+    },
+
+    beforeMount() {
+    /*eslint-disable*/
+        if (!this.$q.sessionStorage.getItem('current_user')) {
+        this.$router.push('/');
         }
     },
 
     setup () {
+        const courseStore = useCourseStore()
+        let courses = ref(courseStore.courses)
         return {
             text: ref(''),
             small: ref(false),
@@ -104,14 +112,10 @@ export default {
             model: ref(null),
             options: [1, 2, 3],
             data,
-            columns
-        }
-    },
+            columns,
+            courses
+           
 
-     beforeMount() {
-    /*eslint-disable*/
-        if (!this.$q.sessionStorage.getItem('current_user')) {
-        this.$router.push('/');
         }
     },
 
@@ -121,15 +125,16 @@ export default {
     },
 
     methods: {
+        selectCourse (course) {
+            const { _id } = course
+            this.$router.push({ path: `/home-professor/details-course/${_id}`})
+        },
 
-        getCoursesDetails () {
+        getCoursesDetails() {
+            const courseStore = useCourseStore()
             const appToken = this.$q.sessionStorage.getItem('app_token');
-
-            axios.get('http://localhost:3000/api/courses', {headers: { 'x-access-token': appToken }})
-            .then((response) => {
-                this.coursesDetails = response.data.data
-                console.log(this.coursesDetails);
-                //console.log(response.data.data);
+            courseStore.getAll(appToken).then((result) => {
+                result.data.map((d) => courseStore.stores.push(d))
             })
         },
 
@@ -140,61 +145,35 @@ export default {
         },
 
         submitFormCreationCourse () {
-            const $q = useQuasar()
 
+            const $q = useQuasar()
             const appToken = this.$q.sessionStorage.getItem('app_token')
-            const professorId = this.$q.sessionStorage.getItem('user_id')
-            
-            console.log('APPTOKEN ' + appToken);
-            console.log('PROF_ID ' + professorId);
+            const professorId = this.$q.sessionStorage.getItem('current_user').user_id
             
             const formCreateCourse = {
                 title: this.title,
                 description: this.description,
                 professor_id: professorId
             }
-            
-            axios.post('http://localhost:3000/api/courses/create',formCreateCourse, { headers: {'x-access-token' : appToken }})
-            .then((response) => {
-                if (response.status === 200) {
 
-                    console.log(response.data);
+            const courseStore = useCourseStore();
 
-                    const _id = response.data.data._id
-                    const title = response.data.data.title
-                    const description = response.data.data.description
-
-                    this.$q.sessionStorage.set('_id', _id)
-                    this.$q.sessionStorage.set('title', title)
-                    this.$q.sessionStorage.set('description', description)
-                    
-                    this.$q.notify({
-                        type: 'positive',
-                        message: 'Course Created',
-                        position: 'top',
-                    });
-                }
-
-                 if (response.status === 400) {
-                    this.$q.notify({
-                        type: 'negative',
-                        message: 'Course not registered',
-                        position: 'top',
-                    });
-                } 
-
-                if (response.status === 401) {
-                     this.$q.notify({
-                        type: 'negative',
-                        message: 'Duplicated data',
-                        position: 'top',
-                    });
-                }
-
+            courseStore.submitCourse(appToken, formCreateCourse).then((result) => {
+                console.log(result)
+                 $q.notify({
+                    type: 'positive',
+                    message: 'Course Created',
+                    position: 'top',
+                });
             })
             .catch((error) => {
-                console.log(error);
-            }),
+                console.log(error)
+                 $q.notify({
+                    type: 'negative',
+                    message: 'Duplicated data',
+                    position: 'top',
+                });
+            })
 
             this.title = '';
             this.description = '';
