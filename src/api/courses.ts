@@ -13,7 +13,7 @@ const fetchAll = (appToken: string) => {
 
 // Fetch courses details
 const fetchDetails = (appToken: string, courseId: string) => {
-    return axios.get(`/api/courses/${courseId}`, {
+    return axios.get(`http://localhost:3000/api/courses/${courseId}`, {
             headers: { 'x-access-token': appToken }
         })
         /*eslint-disable*/
