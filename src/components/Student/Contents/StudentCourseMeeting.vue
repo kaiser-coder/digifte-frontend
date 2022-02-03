@@ -28,10 +28,10 @@
                     </q-card-section>
                     <q-separator />
                     <q-card-section style="max-height: 20vh" class="scroll">
-                        <form @submit.prevent="addCourse">
+                        <form >
                             <div class="q-gutter-md" style="max-width: 300px">
                                 <div class="buttonConfirmCours" >
-                                    <q-btn @click="addCourse" size="15px" color="secondary" label="Valider" v-close-popup /> &nbsp; 
+                                    <q-btn  size="15px" color="secondary" label="Valider" v-close-popup /> &nbsp; 
                                     <q-btn size="15px" style="background: #212121;color:white" label="Annuler" color="#9C9998" v-close-popup /> <br> <br>
                                 </div>
                             </div>
@@ -52,12 +52,12 @@ import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
 // Components
-import CoursesList from './CoursesList';
+import CoursesLists from './CoursesLists';
 
 export default {
     components: {
         /*eslint-disable*/
-        CoursesList
+        CoursesLists
     },
     setup () {
         /* Plugins import */
@@ -82,7 +82,10 @@ export default {
 
         onMounted(() => {
             const token = $q.sessionStorage.getItem('app_token');
-            coursesStore.getAll(token).then((result) => result.data.map((d) => coursesStore.courses.push(d)))
+            /* 
+                Récupère la liste des courses (API) et affecte le state "courses" avec les valeurs
+            */
+            coursesStore.getAll(token).then((result) => result.data.map((d) => coursesStore.courses.push(d))) 
         })
 
         return {
