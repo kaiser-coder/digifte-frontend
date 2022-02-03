@@ -134,7 +134,7 @@ export default {
             const courseStore = useCourseStore()
             const appToken = this.$q.sessionStorage.getItem('app_token');
             courseStore.getAll(appToken).then((result) => {
-                result.data.map((d) => courseStore.stores.push(d))
+                result.data.map((d) => courseStore.courses.push(d))
             })
         },
 
