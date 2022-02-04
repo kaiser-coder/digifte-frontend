@@ -85,6 +85,7 @@ export default {
             /* 
                 Récupère la liste des courses (API) et affecte le state "courses" avec les valeurs
             */
+            coursesStore.courses = []
             coursesStore.getAll(token).then((result) => result.data.map((d) => coursesStore.courses.push(d))) 
         })
 
