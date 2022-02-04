@@ -321,12 +321,12 @@
                 const appToken = this.$q.sessionStorage.getItem('app_token');
                 courseStore.getCourseDetails(appToken, courseId).then((result) => {
                     console.log(result);
+                    courseStore.courses = [];
                     this.course = Object.assign(this.course, result.data);
                 })
             },
 
             getLessonsDetails(course_id) {
-                console.log('COURSE_ID' + course_id);
                 const appToken = this.$q.sessionStorage.getItem('app_token')
                 //const courseId = this.$q.sessionStorage.getItem('_id')
                
