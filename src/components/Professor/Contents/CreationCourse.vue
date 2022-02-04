@@ -116,7 +116,6 @@ export default {
     },
 
     mounted() {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this.getCoursesDetails();
     },
 

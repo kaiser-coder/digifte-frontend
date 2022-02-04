@@ -24,7 +24,7 @@ const fetchDetails = (appToken: string, courseId: string) => {
 
 // Subscribe student
 const subscribeStudent = (appToken: string, data: any) => {
-    return axios.post('/api/courses/subscribe', data, { headers: { 'x-access-token': appToken }})
+    return axios.post('http://localhost:3000/api/courses/subscribe', data, { headers: { 'x-access-token': appToken }})
         .then((response: any) => {
             return response.data;
         });
