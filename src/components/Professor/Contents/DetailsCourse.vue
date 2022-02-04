@@ -46,33 +46,70 @@
                                     required
                                 /> <br> 
 
-                                <q-input outlined v-model="date" label="Date">
+                                <q-input outlined v-model="start_date_meet" label="Date du cours">
                                     <template v-slot:prepend>
                                         <q-icon name="event" class="cursor-pointer">
-                                        <q-popup-proxy
-                                            cover
-                                            transition-show="scale"
-                                            transition-hide="scale"
-                                        >
-                                            <q-date
-                                                v-model="date"
-                                                mask="YYYY-MM-DD"
-                                                color="negative"
+                                            <q-popup-proxy
+                                                cover
+                                                transition-show="scale"
+                                                transition-hide="scale"
                                             >
-                                            <div class="row items-center justify-end">
-                                                <q-btn
-                                                v-close-popup
-                                                label="Close"
-                                                color="#b71c1c"
-                                                flat
-                                                />
-                                            </div>
-                                            </q-date>
-                                        </q-popup-proxy>
+                                                <q-date
+                                                    v-model="start_date_meet"
+                                                    mask="YYYY-MM-DD"
+                                                    color="negative"
+                                                >
+                                                    <div class="row items-center justify-end">
+                                                        <q-btn
+                                                            v-close-popup
+                                                            label="Close"
+                                                            color="#b71c1c"
+                                                            flat
+                                                        />
+                                                    </div>
+                                                </q-date>
+                                            </q-popup-proxy>
                                         </q-icon>
                                     </template>
                                 </q-input> <br>
 
+                                <q-input outlined v-model="start_time_meet" label="Heure">
+                                    <template v-slot:prepend>
+                                        <q-icon name="access_time" class="cursor-pointer">
+                                            <q-popup-proxy
+                                                cover
+                                                transition-show="scale"
+                                                transition-hide="scale"
+                                            >
+                                                <q-time
+                                                v-model="start_time_meet"
+                                                mask="HH:mm:ss"
+                                                format24h
+                                                color="negative"
+                                                >
+                                                <div class="row items-center justify-end">
+                                                    <q-btn
+                                                    v-close-popup
+                                                    label="Close"
+                                                    color="#b71c1c"
+                                                    flat
+                                                    />
+                                                </div>
+                                                </q-time>
+                                            </q-popup-proxy>
+                                        </q-icon>
+                                    </template>
+                                </q-input> <br>
+
+                                <q-input
+                                    outlined
+                                    label="Topic"
+                                    id="topic"
+                                    v-model="topic"
+                                    stack-label
+                                    :dense="dense"
+                                    required
+                                /> <br>
                                 <q-select
                                     outlined
                                     :options="options"
@@ -80,6 +117,16 @@
                                     id="duration"
                                     v-model="duration"
                                     stack-label
+                                    :dense="dense"
+                                /> <br>
+                                <q-input
+                                    outlined
+                                    label="Mot de passe réunion"
+                                    id="passcode"
+                                    v-model="passcode"
+                                    stack-label
+                                    :dense="dense"
+                                    required
                                 /> <br>
 
                                 <q-btn
@@ -346,24 +393,26 @@
             submitFormLesson() {
                 const $q = useQuasar()
                 const appToken = this.$q.sessionStorage.getItem('app_token');
+                const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
+                const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
 
                 var zoom_url = this.$q.sessionStorage.getItem('join_url'); 
-                // var course_Id = this.$q.sessionStorage.getItem('_id'); 
-                const route = this.$router;
-               
-                const courseId = route.currentRoute.value.params._id
-
-
+                var date_zoom = this.start_date_meet + 'T' + this.start_time_meet + ':00Z';
                 
                 //var getJoinUrl = obj_zoomUrl.data.join_url
                 var date = this.date;
 
                 const formLesson = {
                     name: this.name,
-                    zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
-                    start_date: date,
+                    start_time: date_zoom,
+                    topic: this.topic,
                     duration: this.duration,
-                    courseId: courseId
+                    passcode: this.passcode,
+                    zoom_token: zoomToken,
+                    zoom_userId: zoomUserId,
+                    zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
+                    duration: this.duration,
+                    //courseId: courseId
                 }
 
                 axios.post('http://localhost:3000/api/lessons', formLesson, { headers: {'x-access-token' : appToken }} )
@@ -390,61 +439,65 @@
                     console.log(error);
                 }),
 
-                this.name = '';
-                this.date = '';
+                this.name = '',
+                this.start_date_meet = '';
+                this.start_time_meet = '';
+                this.topic = '';
                 this.duration = '';
+                this.passcode = '';
             },
             
-            submitFormMeeting() {
+            // submitFormMeeting() {
       
-                const appToken = this.$q.sessionStorage.getItem("app_token");
-                const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
-                const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
+            //     const appToken = this.$q.sessionStorage.getItem("app_token");
+            //     const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
+            //     const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
 
-                //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
-                var date_zoom = this.start_date_meet + 'T' + this.start_time_meet + ':00Z';
+            //     //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
+            //     var date_zoom = this.start_date_meet + 'T' + this.start_time_meet + ':00Z';
                 
-                const formMeeting = {
-                    start_time: date_zoom,
-                    //topic: this.topic,
-                    //duration: this.duration,
-                    passcode: this.passcode,
-                    zoom_token: zoomToken,
-                    zoom_userId: zoomUserId,
-                };
+            //     const formMeeting = {
+            //         start_time: date_zoom,
+            //         //topic: this.topic,
+            //         //duration: this.duration,
+            //         passcode: this.passcode,
+            //         zoom_token: zoomToken,
+            //         zoom_userId: zoomUserId,
+            //     };
 
-                axios.post('http://localhost:3000/api/meetings', formMeeting, {headers: { 'x-access-token': appToken }})
-                    .then((response) => {
-                        if (response.status === 200) {
-                            console.log(response.data);
+            //     axios.post('http://localhost:3000/api/meetings', formMeeting, {headers: { 'x-access-token': appToken }})
+            //         .then((response) => {
+            //             if (response.status === 200) {
+            //                 console.log(response.data);
 
-                            this.$q.sessionStorage.set('join_url', JSON.stringify(response.data))
+            //                 this.$q.sessionStorage.set('join_url', JSON.stringify(response.data))
                     
-                            this.$q.notify({
-                                type: 'positive',
-                                message: 'Meeting créé',
-                                position: 'top',
-                            });
-                        }
+            //                 this.$q.notify({
+            //                     type: 'positive',
+            //                     message: 'Meeting créé',
+            //                     position: 'top',
+            //                 });
+            //             }
 
-                        if (response.data === 400) {
-                            this.$q.notify({
-                                type: 'negative',
-                                message: 'Erreur',
-                                position: 'top',
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error.message);
-                    }),
+            //             if (response.data === 400) {
+            //                 this.$q.notify({
+            //                     type: 'negative',
+            //                     message: 'Erreur',
+            //                     position: 'top',
+            //                 });
+            //             }
+            //         })
+            //         .catch((error) => {
+            //             console.log(error.message);
+            //         }),
 
-                    this.start_date_meet = '';
-                    this.start_time_meet = '';
-                    this.topic = '';
-                    this.duration = '';
-                    this.passcode = '';
-            },
+            //         this.name = '',
+            //         this.start_date_meet = '';
+            //         this.start_time_meet = '';
+            //         this.topic = '';
+            //         this.duration = '';
+            //         this.passcode = '';
+            // },
 
             handleLaunchMeeting(url) {
                 window.open(url, '_blank');

@@ -130,6 +130,7 @@ export default {
             const appToken = this.$q.sessionStorage.getItem('app_token');
             courseStore.getAll(appToken).then((result) => {
                 result.data.map((d) => courseStore.courses.push(d))
+                this.coursesDetails = result.data.data
             })
         },
 
@@ -139,7 +140,7 @@ export default {
             }
         },
 
-        submitFormCreationCourse () {
+        submitFormCreationCourse() {
 
             const $q = useQuasar()
             const appToken = this.$q.sessionStorage.getItem('app_token')
