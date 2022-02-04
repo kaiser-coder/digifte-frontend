@@ -17,7 +17,7 @@
             class="cursor-pointer"
             v-for="(course, index) in courses"
             :key="index"
-            @click="handleViewDetail"
+            @click="handleViewDetail(course._id)"
           >
             <td class="text-center" v-text="course.title"></td>
             <td class="text-center" v-text="course.description"></td>
@@ -79,48 +79,51 @@
 </template>
 
 <script setup>
+  import { ref, onBeforeMount, onMounted } from 'vue';
+  import { useQuasar } from 'quasar';
+  import { useRouter } from 'vue-router';
+  import { useCourseStore } from 'src/stores/course';
 
-    import { ref, onBeforeMount, onMounted } from 'vue';
-    import { useQuasar } from 'quasar';
-    import { useRouter } from 'vue-router';
-    import { useCourseStore } from 'src/stores/course';
+  /* Stores*/
+  const coursesStore = useCourseStore();
 
-    /* Stores*/
-    const coursesStore = useCourseStore();
+  /* Plugins imports */
+  const $router = useRouter();
+  const $q = useQuasar();
 
-    /* Plugins imports */
-    const $router = useRouter();
-    const $q = useQuasar();
+  /*UI states*/
+  const dense = ref(false);
+  const small = ref(false);
 
-    /*UI states*/
-    const dense = ref(false);
-    const small = ref(false);
+  /* States */
+  const courses = ref([]);
 
-    /* States */
-    const courses = ref(coursesStore.courses);
+  // Functions
+  function handleViewDetail(courseId) {
+    /*eslint-disable*/
+    $router.push(`/home-professor/details-course/${courseId}`);
+  }
 
-    // Functions
-    function handleViewDetail(courseId) {
-        /*eslint-disable*/
-        $router.push(`/home-professor/details-course/${courseId}`)
+  /* Lifecycles */
+  onBeforeMount(() => {
+    /*eslint-disable*/
+    if (!$q.sessionStorage.getItem('current_user')) {
+      $router.push('/');
     }
+  });
 
-    /* Lifecycles */
-    onBeforeMount(() => {
-        /*eslint-disable*/
-        if (!$q.sessionStorage.getItem('current_user')) {
-            $router.push('/');
-        }
-    })
+  onMounted(() => {
+    const appToken = $q.sessionStorage.getItem('app_token');
 
-    onMounted(() => {
-        const appToken = $q.sessionStorage.getItem('app_token');
-        coursesStore.getAll(appToken).then((result) => {
-            coursesStore.courses = []
-            result.data.map((d) => coursesStore.courses.push(d))
-        })
-    })
-
+    coursesStore.courses = [];
+    coursesStore.getAll(appToken).then((result) => {
+      console.log(result.data);
+      result.data.map((d) => {
+        coursesStore.courses.push(d);
+        courses.value.push(d);
+      }); 
+    });
+  });
 </script>
 
 <style scoped>
