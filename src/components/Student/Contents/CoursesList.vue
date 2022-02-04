@@ -3,12 +3,12 @@
     <q-list bordered separator>
       <q-item v-for="(course, key) in courses" :key="key">
         <q-item-section>
-          <q-item-label>
-            <a
-              :href="`/home-student/course-details/${course._id}`"
+          <q-item-label
+              style="cursor: pointer;"
+              @click="handleViewDetails(course._id)"
               id="custom_link"
-              >{{ course.title }}</a
-            >
+          >
+            {{ course.title }}
           </q-item-label>
           <q-item-label caption lines="2">
             <p>{{ course.description }}</p>
@@ -24,6 +24,7 @@
 import { ref, onMounted } from 'vue';
 import { useQuasar } from 'quasar';
 import { useCourseStore } from 'src/stores/course';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'CoursesList',
@@ -31,6 +32,7 @@ export default {
   setup(props) {
     // Plugins import
     const $q = useQuasar();
+    const $router = useRouter();
 
     // Stores
     const courseStore = useCourseStore()
@@ -71,10 +73,14 @@ export default {
       })
     }
 
+    function handleViewDetails(courseId) {
+      $router.push(`/home-student/course-details/${courseId}`)
+    }
     return {
       courses,
       isModalShown,
-      handleSubscribe
+      handleSubscribe,
+      handleViewDetails
     };
   },
 };

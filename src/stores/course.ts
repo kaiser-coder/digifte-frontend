@@ -4,7 +4,6 @@ import { fetchAll, fetchDetails, subscribeStudent, createCourse } from 'src/api/
 export const useCourseStore = defineStore('course', {
     state: () => ({
         courses: [],
-        activeCourse: {}
     }),
     actions: {
         getAll(appToken: string) {

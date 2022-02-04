@@ -27,21 +27,26 @@ export default {
     const lessonStore = useLessonStore();
 
     // States
-    let activeCourse = ref(courseStore.activeCourse);
-    let lessons = ref(lessonStore.lessons);
+    const lessons = ref(lessonStore.lessons);
+    const activeCourse = ref({});
 
     // Lifecycles
     onMounted(() => {
       const token = $q.sessionStorage.getItem('app_token');
       const courseId = router.params.courseId;
 
-      courseStore.getCourseDetails(token, courseId).then((result) => {
-        // console.log(result.data)
-        courseStore.activeCourse = Object.assign(courseStore.activeCourse, result.data)
-      });
+      courseStore.courses = [];
+      lessonStore.lessons = [];
 
+      courseStore.getAll(token).then((result) => {
+        result.data.map((d) => courseStore.courses.push(d));
+
+        activeCourse.value = courseStore.courses.filter((c) => {
+          return c._id === courseId
+        })
+      })
+      
       lessonStore.getAllByCourseId(token, courseId).then((result) => {
-        // console.log(result.data)
         result.data.map((d) => lessonStore.lessons.push(d));
       });
     });

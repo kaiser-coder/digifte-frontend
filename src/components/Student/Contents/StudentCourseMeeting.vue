@@ -39,7 +39,7 @@
                     </q-card-section>
                 </q-card>
             </q-dialog>
-
+            
             <courses-list :courses="courses"/>
         </div>
     </div>
@@ -52,12 +52,12 @@ import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
 
 // Components
-import CoursesLists from './CoursesLists';
+import CoursesList from './CoursesList';
 
 export default {
     components: {
         /*eslint-disable*/
-        CoursesLists
+        CoursesList
     },
     setup () {
         /* Plugins import */
@@ -68,7 +68,7 @@ export default {
         const coursesStore = useCourseStore();
 
         /* States */
-        const courses = ref(coursesStore.courses);
+        const courses = ref([]);
         const alert = ref(false);
         const text = ref('');
 
@@ -85,8 +85,14 @@ export default {
             /* 
                 Récupère la liste des courses (API) et affecte le state "courses" avec les valeurs
             */
-            coursesStore.courses = []
-            coursesStore.getAll(token).then((result) => result.data.map((d) => coursesStore.courses.push(d))) 
+            coursesStore.courses = [];
+            coursesStore.getAll(token).then((result) => {
+                // console.log(result.data);
+                result.data.map((d) => {
+                    courses.value.push(d)
+                    coursesStore.courses.push(d)
+                })
+            })
         })
 
         return {
