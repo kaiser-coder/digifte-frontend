@@ -17,12 +17,12 @@
                     </thead>
                     <tbody>
                         <tr v-for="(lesson, index) in lessonsDetails" :key="index" @click="getLessonsDetails(course_id)" >
-                            <td class="text-center">{{ lesson.start_date}}</td>
-                            <td class="text-center">{{ lesson.name}}</td>
-                            <td class="text-center">{{lesson.duration}}</td>
+                            <td class="text-center">{{ lesson.start_date }}</td>
+                            <td class="text-center">{{ lesson.name }}</td>
+                            <td class="text-center">{{ lesson.duration }}</td>
                             <td class="text-center">
-                                <q-btn color="brown-5" v-show="lesson.zoom_url !== ''" @click="handleLaunchMeeting(lesson.zoom_url)" label="Lancer meeting" /> &nbsp;
-                                <q-btn color="amber" v-show="lesson.zoom_url === ''" @click="inception = true"  label="Créer meeting" /> 
+                                <q-btn color="brown-5" v-if="lesson.zoom_url" @click="handleLaunchMeeting(lesson.zoom_url)" label="Lancer meeting" /> &nbsp;
+                                <q-btn color="amber" v-else @click="inception = true"  label="Créer meeting" /> 
                             </td>
                         </tr>
                     </tbody>
