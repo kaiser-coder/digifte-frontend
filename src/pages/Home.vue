@@ -52,7 +52,7 @@
     </q-dialog> 
 
     <!-- Sidebar -->
-    <Sidebar :open="isOpen"/>
+    <custom-sidebar :open="isOpen"/>
 
     <q-page-container>
       <router-view/>
@@ -63,9 +63,14 @@
 </template>
 
 <script setup>
+  import ForumIcon from 'vue-material-design-icons/Forum.vue';
+  import MailIcon from 'vue-material-design-icons/Mail.vue';
+  import LogoutIcon from 'vue-material-design-icons/Logout.vue';
+  import AccountIcon from 'vue-material-design-icons/Account.vue';
+  
   import { ref } from 'vue';
 
-  import Sidebar from 'src/components/Sidebar.vue';
+  import CustomSidebar from 'src/components/CustomSidebar.vue';
 
   const isOpen = ref(true);
   const dialog = ref(true);

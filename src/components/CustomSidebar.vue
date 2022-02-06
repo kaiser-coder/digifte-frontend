@@ -1,7 +1,6 @@
 <template>
-  This is sidebar
   <q-drawer
-      model-value="open"
+      :modelValue="open"
       show-if-above
       bordered
       :width="250"
@@ -69,7 +68,10 @@
     </q-drawer> 
 </template>
 
-<script setup="props">
+<script setup>
   /*eslint-disable*/
-  const { open } = props
+  const props = defineProps({
+    open: Boolean,
+  })
+
 </script>

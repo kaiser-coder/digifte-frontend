@@ -1,14 +1,14 @@
 <template>
     <q-layout view="lHh Lpr lFf">
     <q-header elevated> 
-      <q-toolbar class="bg-amber-7">
+      <q-toolbar :class="toolbarColor">
         <q-btn
           flat
           dense
           round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
+          @click="toggleSidebar"
         />
 
         <q-toolbar-title>
@@ -51,7 +51,7 @@
     </q-dialog> 
 
     <!-- Sidebar -->
-    <Sidebar/>
+    <CustomSidebar :open="isOpen"/>
 
     <q-page-container>
       <router-view/>
@@ -62,9 +62,28 @@
 </template>
 
 <script setup>
-  import ForumIcon from 'vue-material-design-icons/Forum.vue';
-  import MailIcon from 'vue-material-design-icons/Mail.vue';
-  import LogoutIcon from 'vue-material-design-icons/Logout.vue';
-  import AccountIcon from 'vue-material-design-icons/Account.vue';
+  import { ref, computed } from 'vue';
 
+  import CustomSidebar from 'src/components/CustomSidebar.vue';
+
+  const isOpen = ref(false);
+
+  const toolbarColor = computed(() => {
+    const userRole = 'professor'
+    switch (userRole) {
+      case 'admin':
+        return 'bg-amber-7'
+
+      case 'professor':
+        return 'bg-red-10';
+
+      default:
+        return 'null';
+    }
+  })
+
+  function toggleSidebar() {
+    console.log('toggle sidebar')
+    isOpen.value = !isOpen.value 
+  }
 </script>
