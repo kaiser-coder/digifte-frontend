@@ -51,7 +51,10 @@
     </q-dialog> 
 
     <!-- Sidebar -->
-    <CustomSidebar :open="isOpen"/>
+    <CustomSidebar 
+      :open="isOpen"
+      :menu="itemsForSidebar"
+    />
 
     <q-page-container>
       <router-view/>
@@ -66,7 +69,29 @@
 
   import CustomSidebar from 'src/components/CustomSidebar.vue';
 
+  import ForumIcon from 'vue-material-design-icons/Forum.vue';
+  import MailIcon from 'vue-material-design-icons/Mail.vue';
+  import LogoutIcon from 'vue-material-design-icons/Logout.vue';
+  import AccountIcon from 'vue-material-design-icons/Account.vue';
+
   const isOpen = ref(false);
+  const menuItems = ref({
+    admin: {
+      title: 'ADMINISTRATEUR',
+      items: [
+        {icon: '', link: '', label: ''}
+      ]
+    },
+    professor: {
+      title: 'ESPACE PROFESSEUR',
+      items: [
+        {icon: 'home', link: '', label: 'Accueil'},
+        {icon: 'book', link: '', label: 'Mes cours'},
+        {icon: 'school', link: '', label: 'Mes élèves'},
+        {icon: 'book', link: '', label: 'Mes ressources'},
+      ]
+    }
+  });
 
   const toolbarColor = computed(() => {
     const userRole = 'professor'
@@ -77,8 +102,29 @@
       case 'professor':
         return 'bg-red-10';
 
+      case 'student':
+        return '';
+
       default:
-        return 'null';
+        return '';
+    }
+  })
+
+  const itemsForSidebar = computed(() => {
+    const userRole = 'professor'
+    /*eslint-disable*/
+    switch (userRole) {
+      case 'admin':
+        return menuItems.value.admin;
+
+      case 'professor':
+        return menuItems.value.professor;
+
+      case 'student': 
+        return menuItems.value.student;
+
+      default:
+        return menuItems.value.visitor;
     }
   })
 
