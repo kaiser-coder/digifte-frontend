@@ -22,27 +22,21 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'home', component: () => import('pages/Home.vue') },
-    ]
-  }
-
-  
-  /* {
-    path: '/dashboard',
-    component: () => import('src/layouts/MainLayout.vue'),
-    children: [
-      { path: 'home', component: () => import('pages/Home.vue') },
+      { path: 'courses-list', component: () => import('pages/CoursesList.vue') },
     ]
   },
 
   {
-    path: '/home-professor',
-    component: () => import('src/components/Professor/HomePageProfessor.vue'),
+    path: '/app/courses',
+    component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: 'create-course', component: () => import('src/components/Professor/Contents/CreationCourse.vue')},
-      { path: 'details-course/:_id', props: true, component: () => import('src/components/Professor/Contents/DetailsCourse.vue')},
+      { path: 'list', component: () => import('pages/Courses/CoursesList.vue') },
+      { path: 'details/:courseId', component: () => import('pages/Courses/DetailsCourse.vue') },
     ]
   },
 
+  
+  /*
   {
     path: '/home-admnistrator',
     component: () => import('src/components/Admnistrator/HomePageAdmnistrator.vue'),
