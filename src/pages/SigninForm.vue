@@ -61,9 +61,9 @@ export default {
 
     beforeMount() {
          /*eslint-disable*/
-        if(this.$q.sessionStorage.getItem('current_user')) {
+        /* if(this.$q.sessionStorage.getItem('current_user')) {
             this.$router.push('/home')
-        }
+        } */
     },
 
     methods: {

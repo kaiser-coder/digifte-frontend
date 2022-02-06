@@ -85,8 +85,8 @@
     professor: {
       title: 'ESPACE PROFESSEUR',
       items: [
-        {icon: 'home', link: '', label: 'Accueil'},
-        {icon: 'book', link: '', label: 'Mes cours'},
+        {icon: 'home', link: '/app/home', label: 'Accueil'},
+        {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
         {icon: 'school', link: '', label: 'Mes élèves'},
         {icon: 'book', link: '', label: 'Mes ressources'},
       ]
