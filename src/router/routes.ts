@@ -12,13 +12,21 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('layouts/BlankLayout.vue'),
     children: [
-      { path: 'signin', component: () => import('pages/SigninForm.vue') },
+      { path: '', component: () => import('pages/SigninForm.vue') },
       { path: 'signup', component: () => import('pages/SignupForm.vue') },
     ]
   },
 
-  
   {
+    path: '/app',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: 'home', component: () => import('pages/Home.vue') },
+    ]
+  }
+
+  
+  /* {
     path: '/dashboard',
     component: () => import('src/layouts/MainLayout.vue'),
     children: [
@@ -52,7 +60,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'student-agenda', component: () => import('src/components/Student/Contents/StudentAgenda.vue') },
       { path: 'course-details/:courseId', component: () => import('src/components/Student/Contents/CourseDetails.vue')}
     ]
-  },
+  }, */
 ];
 
 export default routes;
