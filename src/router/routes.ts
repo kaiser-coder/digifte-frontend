@@ -48,7 +48,9 @@ const routes: RouteRecordRaw[] = [
     path: '/home-student',
     component: () => import('src/components/Student/HomePageStudent.vue'),
     children: [
-      // { path: 'student-subscribe', component: () => import('src/components/Student/Contents/StudentCourseMeeting.vue')},
+      //{ path: 'student-subscribe', component: () => import('src/components/Student/Contents/StudentCourseMeeting.vue')},
+      { path: 'courses-lists', component: () => import('src/components/Student/Contents/CoursesLists.vue')},
+      { path: 'course-details/:_id', component: () => import('src/components/Student/Contents/CourseDetails.vue')},
       { path: 'student-agenda', component: () => import('src/components/Student/Contents/StudentAgenda.vue')},
     ]
   },
