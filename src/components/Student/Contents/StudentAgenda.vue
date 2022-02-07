@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4 class="titleContent">Agenda</h4>
+        <h3 class="titleContent" >Agenda</h3>
     </div>
 </template>
 <script>
@@ -12,5 +12,7 @@ export default {
 <style>
     .titleContent {
         text-align: center;
+        margin-top: 20px;
+        line-height: 0.5;
     }
 </style>

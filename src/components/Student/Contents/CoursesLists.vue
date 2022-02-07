@@ -1,88 +1,117 @@
 <template>
-  <div class="q-pa-md">
-    <q-list bordered separator>
-      <q-item v-for="(course, key) in courses" :key="key">
-        <q-item-section>
-          <q-item-label>
-            <a
-              :href="`/home-student/course-details/${course._id}`"
-              id="custom_link"
-              >{{ course.title }}</a
-            >
-          </q-item-label>
-          <q-item-label caption lines="2">
-            <p>{{ course.description }}</p>
-            <q-btn color="secondary" label="M'inscrire" @click="handleSubscribe(course)"/>
-          </q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </div>
+    <div>
+      <h4 class="titleContent">Listes cours</h4> <br>
+      <div class="tableCoursesLists">
+        <q-markup-table>
+            <thead>
+                <tr>
+                  <th class="text-center">Titre</th>
+                  <th class="text-center">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="cursor-pointer" v-for="(course, index) in courses" :key="index" @click="this.selectCourse(course)">
+                  <td class="text-center" v-text="course.title" ></td>
+                  <td class="text-center" v-text="course.description" ></td>
+                </tr>
+            </tbody>
+        </q-markup-table>
+      </div>
+    </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { useQuasar } from 'quasar';
+    
+import { ref } from 'vue';
 import { useCourseStore } from 'src/stores/course';
 
+const data = [
+  {
+    Titre: '',
+    Description: '',
+  }
+]
+
+const columns = [
+  {name: 'Titre', label: 'Titre', field: 'Titre', sortable: true, align: 'left'},
+  {name: 'Description', label: 'Description', field: 'Description', sortable: true, align: 'left'},
+  {name: 'Action', label: 'Action', field: 'Action', sortable: false, align: 'center'}
+];
+
 export default {
-  name: 'CoursesList',
-  props: ['courses'],
-  setup(props) {
-    // Plugins import
-    const $q = useQuasar();
+  name: 'CoursesLists',
 
-    // Stores
-    const courseStore = useCourseStore()
-
-    // Props
-    /*eslint-disable*/
-    const { courses } = props;
-
-    // States
-    let isModalShown = ref(false);
-    let token = ref('');
-    let studentId = ref('');
-
-    // Lifecycles 
-    onMounted(() => {
-      token = $q.sessionStorage.getItem('app_token');
-      studentId = $q.sessionStorage.getItem('current_user').user_id
-    })
-
-    // Functions 
-    function handleSubscribe(course) {
-      // When subscribing student
-      courseStore.subscribeToCourse(token, {
-        courseId: course._id,
-        student: studentId
-      }).then((result) => {
-        $q.notify({
-          type: 'positive',
-          message: result.message,
-          position: 'top',
-        });
-      }).catch(() => {
-        $q.notify({
-          type: 'negative',
-          message: 'Already subscribed',
-          position: 'top',
-        });
-      })
-    }
-
+  data() {
     return {
-      courses,
-      isModalShown,
-      handleSubscribe
-    };
+      title: '',
+      description: '',
+      professor_id: '',
+      coursesDetails: [],
+    }
   },
-};
+
+  beforeMount() {
+    /*eslint-disable*/
+    if (!this.$q.sessionStorage.getItem('current_user')) {}
+  },
+
+  setup () {
+    const courseStore = useCourseStore()
+    let courses = ref(courseStore.courses)
+    return {
+      text: ref(''),
+      small: ref(false),
+      ph: ref(''),
+      dense: ref(false),
+      model: ref(null),
+      data,
+      columns,
+      courses
+    }
+  },
+
+  mounted() {
+    this.getCoursesDetails();
+  },
+
+  methods: {
+    selectCourse (course) {
+      const { _id } = course
+      this.$router.push({ path: `/home-student/course-details/${_id}`})
+    },
+
+    getCoursesDetails() {
+      const courseStore = useCourseStore()
+      const appToken = this.$q.sessionStorage.getItem('app_token');
+      courseStore.getAll(appToken).then((result) => {
+        console.log(result.data);
+        result.data.map((d) => courseStore.courses.push(d))
+        this.coursesDetails = result.data.data
+      })
+    },
+
+    formatCoursesDetails(courses) {
+      for (let key in courses) {
+        this.coursesDetails.push({ ...courses[key], id:key})
+      }
+    },
+  }
+}
+
 </script>
 
+
 <style scoped>
-#custom_link {
-  text-decoration: none;
-  color: #373a3a;
-}
+
+  .titleContent {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 0.5;
+  }
+
+  .tableCoursesLists {
+    margin-right: 5em;
+    margin-left: 5em;
+  }
+
 </style>
