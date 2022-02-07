@@ -55,7 +55,7 @@ export default {
                 email: '',
                 password: '',
                 roles: ''
-            }
+            },
         }
     },
 
@@ -107,6 +107,15 @@ export default {
     a {
         text-align: center;
         margin-right: 2em;
+    }
+
+    .logo {
+        height:150px;
+        width: 150px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
     }
 
     .form-signin {
