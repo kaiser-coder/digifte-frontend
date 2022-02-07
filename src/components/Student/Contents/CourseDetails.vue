@@ -131,30 +131,20 @@
           if (response.status === 200) {
             this.$q.notify({
               type: 'positive',
-              message: 'Inscription validé',
-              position: 'top'
-            })
-
-          }
-
-          if (response.status === 400) {
-            this.$q.notify({
-              type: 'negative',
-              message: 'Inscription non autorisé',
-              position: 'top'
-            })
-          }
-
-          if (response.status === 401) {
-            this.$q.notify({
-              type: 'negative',
-              message: 'Inscription déjà enregistré',
+              message: 'Félicitation! Vous êtes inscris',
               position: 'top'
             })
           }
         })
         .catch((error) => {
           console.log(error.message);
+          if (error) {
+            this.$q.notify({
+              type: 'negative',
+              message: 'Vous êtes déjà inscris',
+              position: 'top'
+            })
+          }
         })
       },
 
