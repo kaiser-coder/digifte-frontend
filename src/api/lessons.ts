@@ -10,7 +10,7 @@ const fetchAllByCourseId = (appToken: string, courseId: string) => {
         });
 }
 
-//Create lessons
+//Create lesson
 const createLessons = async (appToken: string, data: any) => {
     const response = await axios.post('/api/lessons', data, { headers: { 'x-access-token': appToken }});
     return response.data;
