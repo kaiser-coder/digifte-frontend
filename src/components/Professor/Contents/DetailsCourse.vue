@@ -17,7 +17,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="(lesson, index) in lessonsDetails" :key="index" @click="getLessonsDetails(course_id)" >
-                            <td class="text-center">{{ lesson.start_date_lesson }}</td>
+                            <td class="text-center">{{ lesson.start_date }}</td>
                             <td class="text-center">{{ lesson.name }}</td>
                             <td class="text-center">{{ lesson.duration }}</td>
                             <td class="text-center">
@@ -136,7 +136,7 @@
                 <q-dialog v-model="inception">
                     <q-card>
                         <q-card-section>
-                        <div class="text-h6" style="align-content:center">Création meeting - {{ currentLesson.name }}</div>
+                            <div class="text-h6" style="align-content:center">Création meeting - {{ currentLesson.name }}</div>
                         </q-card-section>
 
                         <q-card-section class="q-pt-none">
@@ -287,9 +287,9 @@
                 const formLesson = {
                     name: this.name, //input by user
                     start_date: date_lesson, //input by user
-                    topic: 'Meeting Lesson',
+                    //topic: 'Meeting Lesson',
                     duration: this.duration, //input by user
-                    passcode: 'secretpass',
+                    //passcode: 'secretpass',
                     zoom_token: zoomToken,
                     zoom_userId: zoomUserId,
                     zoom_url: zoom_url,
@@ -299,8 +299,6 @@
                 axios.post('http://localhost:3000/api/lessons', formLesson, { headers: {'x-access-token' : appToken }} )
                 .then((response) => {
                     if (response.status === 200) {
-                        console.log(response.data);
-
                         this.$q.notify({
                             type: 'positive',
                             message: 'Félicitations! Votre leçon a été créé',
@@ -311,7 +309,7 @@
                     if (response.data === 400) {
                         this.$q.notify({
                             type: 'negative',
-                            message: 'La leçon ',
+                            message: 'La leçon n\'est pas créée ',
                             position: 'top',
                         });
                     }
@@ -323,9 +321,7 @@
                 this.name = '',
                 this.start_date_lesson = '';
                 this.start_time_lesson = '';
-                this.topic = '';
                 this.duration = '';
-                this.passcode = '';
             },
             
             submitFormMeeting(lesson) {
@@ -350,11 +346,21 @@
 
                 console.log('Updated lesson', updatedLesson)
 
-                lessonStore.editLesson(appToken, lesson._id, updatedLesson).then((result) => {
+                lessonStore.editLesson(appToken, lesson._id, updatedLesson)
+                .then((result) => {
                     console.log('Meeting submited', result);
+                    this.$q.notify({
+                    type: 'positive',
+                    message: 'Meeting créé',
+                    position: 'top',
+                });
+                    
                 }).catch((error) => {
                     console.log('An error occur', error);
                 })
+
+                this.topic = '',
+                this.passcode = ''
             },
 
             handleLaunchMeeting(url) {

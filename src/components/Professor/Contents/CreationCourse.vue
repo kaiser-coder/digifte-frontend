@@ -159,7 +159,7 @@ export default {
                 console.log(result.data)
                 this.$q.notify({
                     type: 'positive',
-                    message: 'Course Created',
+                    message: 'Félicitations, votre cours a été bien créé',
                     position: 'top',
                 });
             })
