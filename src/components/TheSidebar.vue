@@ -28,13 +28,10 @@
 </template>
 
 <script setup lang="ts">
-  import {MenuType} from './models';
-
   /*eslint-disable*/
   const props = defineProps({
     open: Boolean,
-    // @ts-ignore
-    menu: MenuType
+    menu: Object
   })
 
 </script>
