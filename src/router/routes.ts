@@ -22,18 +22,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'home', component: () => import('pages/Home.vue') },
+      { 
+        path: 'courses', 
+        component: () => import('layouts/MainLayout.vue'),
+        children: [
+          { path: 'list', component: () => import('pages/Courses/CoursesList.vue') },
+          { path: 'details/:courseId', component: () => import('pages/Courses/DetailsCourse.vue') },
+        ]
+      }
     ]
   },
-
-  {
-    path: '/app/courses',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: 'list', component: () => import('pages/Courses/CoursesList.vue') },
-      { path: 'details/:courseId', component: () => import('pages/Courses/DetailsCourse.vue') },
-    ]
-  },
-
   
   /*
   {

@@ -51,7 +51,7 @@
     </q-dialog> 
 
     <!-- Sidebar -->
-    <CustomSidebar 
+    <TheSidebar 
       :open="isOpen"
       :menu="itemsForSidebar"
     />
@@ -67,7 +67,7 @@
 <script setup>
   import { ref, computed } from 'vue';
 
-  import CustomSidebar from 'src/components/CustomSidebar.vue';
+  import TheSidebar from 'src/components/TheSidebar.vue';
 
   import ForumIcon from 'vue-material-design-icons/Forum.vue';
   import MailIcon from 'vue-material-design-icons/Mail.vue';
