@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4 class="titleThree">Listes cours</h4> <br>
+        <h4 class="titleContent">Listes cours</h4> <br>
         <q-btn color="primary" @click="small=true" label="Nouveau cours" /> <br> <br>
         <div>
             <q-markup-table>
@@ -129,6 +129,7 @@ export default {
             const courseStore = useCourseStore()
             const appToken = this.$q.sessionStorage.getItem('app_token');
             courseStore.getAll(appToken).then((result) => {
+                console.log(result.data);
                 result.data.map((d) => courseStore.courses.push(d))
                 this.coursesDetails = result.data.data
             })
@@ -155,7 +156,7 @@ export default {
             const courseStore = useCourseStore();
 
             courseStore.submitCourse(appToken, formCreateCourse).then((result) => {
-                console.log(result)
+                console.log(result.data)
                 this.$q.notify({
                     type: 'positive',
                     message: 'Course Created',
@@ -182,19 +183,7 @@ export default {
 
 <style scoped>
     
-    .titleOne {
-        text-align: center;
-        margin-top: 20px;
-        line-height: 0;
-    }
-
-    .titleTwo {
-       text-align: center;
-        margin-top: 20px;
-        line-height: 0;
-    }
-
-    .titleThree {
+    .titleContent {
         text-align: center;
         margin-top: 20px;
         line-height: 0.5;
