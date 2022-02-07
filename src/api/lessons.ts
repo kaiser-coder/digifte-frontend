@@ -16,4 +16,11 @@ const createLessons = async (appToken: string, data: any) => {
     return response.data;
 }
 
-export { fetchAllByCourseId, createLessons }
+// Update lesson
+const updateLesson = async (appToken: string, lessonId: string, data: any) => {
+    const response = await axios.put(`/api/lessons/${lessonId}`, data, { headers: { 'x-access-token': appToken } });
+    return response.data;
+}
+
+
+export { fetchAllByCourseId, createLessons, updateLesson }

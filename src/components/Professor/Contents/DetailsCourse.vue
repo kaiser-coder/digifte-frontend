@@ -140,7 +140,7 @@
                         </q-card-section>
 
                         <q-card-section class="q-pt-none">
-                            <form  @submit.prevent="submitFormMeeting">
+                            <form  @submit.prevent="submitFormMeeting(currentLesson)">
                                 <q-input
                                     outlined
                                     label="Topic"
@@ -189,6 +189,7 @@
     import { useQuasar } from 'quasar'
     import axios from 'axios';
     import { useCourseStore } from 'src/stores/course';
+    import { useLessonStore } from 'src/stores/lesson';
 
     export default {
         data() {
@@ -327,57 +328,34 @@
                 this.passcode = '';
             },
             
-            // submitFormMeeting() {
-      
-            //     const appToken = this.$q.sessionStorage.getItem("app_token");
-            //     const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
-            //     const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
+            submitFormMeeting(lesson) {
+                const lessonStore = useLessonStore();
+                const appToken = this.$q.sessionStorage.getItem('app_token');
+                const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
+                const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
 
-            //     //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
-            //     var date_zoom = this.start_date_meet + 'T' + this.start_time_meet + ':00Z';
-                
-            //     const formMeeting = {
-            //         start_time: date_zoom,
-            //         //topic: this.topic,
-            //         //duration: this.duration,
-            //         passcode: this.passcode,
-            //         zoom_token: zoomToken,
-            //         zoom_userId: zoomUserId,
-            //     };
+                console.log('Current lesson', this.currentLesson)
 
-            //     axios.post('http://localhost:3000/api/meetings', formMeeting, {headers: { 'x-access-token': appToken }})
-            //         .then((response) => {
-            //             if (response.status === 200) {
-            //                 console.log(response.data);
+                const updatedLesson = {
+                    ...this.currentLesson,
+                    meeting: {
+                        start_time: Date.now(),
+                        topic: this.topic,
+                        duration: 1,
+                        passcode: this.passcode,
+                        zoom_token: zoomToken,
+                        zoom_userId: zoomUserId
+                    }
+                };
 
-            //                 this.$q.sessionStorage.set('join_url', JSON.stringify(response.data))
-                    
-            //                 this.$q.notify({
-            //                     type: 'positive',
-            //                     message: 'Meeting créé',
-            //                     position: 'top',
-            //                 });
-            //             }
+                console.log('Updated lesson', updatedLesson)
 
-            //             if (response.data === 400) {
-            //                 this.$q.notify({
-            //                     type: 'negative',
-            //                     message: 'Erreur',
-            //                     position: 'top',
-            //                 });
-            //             }
-            //         })
-            //         .catch((error) => {
-            //             console.log(error.message);
-            //         }),
-
-            //         this.name = '',
-            //         this.start_date_meet = '';
-            //         this.start_time_meet = '';
-            //         this.topic = '';
-            //         this.duration = '';
-            //         this.passcode = '';
-            // },
+                lessonStore.editLesson(appToken, lesson._id, updatedLesson).then((result) => {
+                    console.log('Meeting submited', result);
+                }).catch((error) => {
+                    console.log('An error occur', error);
+                })
+            },
 
             handleLaunchMeeting(url) {
                 window.open(url, '_blank');
