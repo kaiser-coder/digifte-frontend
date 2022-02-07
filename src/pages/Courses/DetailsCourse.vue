@@ -265,191 +265,184 @@
     </div>
 </template>
 
-<script>
+<script setup>
 
-    import { ref } from 'vue'
+    import { ref, onMounted } from 'vue'
     import { useQuasar } from 'quasar'
     import axios from 'axios';
     import { useCourseStore } from 'src/stores/course';
     import { useRoute } from 'vue-router';
 
-    export default {
+    // UI states
+    const options = [1, 2, 3];
+    const fixed = ref(false);
+    const inception = ref(false);
+    const dense = ref(false);
+    const dialog = ref(false);
+    const maximizedToggle = ref(true);
 
-        data() {
-            return {
-                name:'',
-                zoom_url: '',
-                date: '',
-                course_Id:'',
-                lessonsDetails:[],
+    // States
+    const name = ref('');
+    const zoom_url = ref('');
+    const date = ref('');
+    const course_Id = ref('');
+    const lessonsDetails = [];
 
-                start_date_meet: '',
-                start_time_meet: '',
-                topic: '',
-                duration: '',
-                passcode: '',
-                course: {},
+    const start_date_meet = ref('');
+    const start_time_meet = ref('');
+    const topic = ref('');
+    const duration = ref('');
+    const passcode = ref('');
+    const course = ref({});
 
-                options: [1, 2, 3],
-                fixed: ref(false),
-                inception: ref(false),
-                dense: ref(false),
-                dialog: ref(false),
-                maximizedToggle: ref(true)
-            }
-        },
+    // Store
+    const courseStore = useCourseStore();
+    
+    // Plugins import
+    const $route = useRoute();
+    const $q = useQuasar();
 
-        beforeMount() {
-        /*eslint-disable*/
-            if (!this.$q.sessionStorage.getItem('current_user')) {}
-        },
+    onMounted(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const course_id = $route.params._id
+        getLessonsDetails(course_id);
+        getAllCourses();
+    })
 
-        mounted() {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-            const course_id = this.$route.params._id
-            this.getLessonsDetails(course_id);
-            this.getAllCourses();
-        },
+    // Functions
+    function getAllCourses() {
+        const courseId = $route.params._id;
 
-        methods: {
+        const appToken = $q.sessionStorage.getItem('app_token');
+        courseStore.getCourseDetails(appToken, courseId).then((result) => {
+            console.log(result);
+            course = Object.assign(course, result.data);
+        })
+    }
 
-            getAllCourses() {
-                const courseStore = useCourseStore();
-                const route = useRoute();
-                const courseId = route.params._id;
-
-                const appToken = this.$q.sessionStorage.getItem('app_token');
-                courseStore.getCourseDetails(appToken, courseId).then((result) => {
-                    console.log(result);
-                    this.course = Object.assign(this.course, result.data);
-                })
-            },
-
-            getLessonsDetails(course_id) {
-                console.log('COURSE_ID' + course_id);
-                const appToken = this.$q.sessionStorage.getItem('app_token')
-                //const courseId = this.$q.sessionStorage.getItem('_id')
-               
-                axios.get(`http://localhost:3000/api/lessons/courses/${course_id}`, {headers: { 'x-access-token': appToken }})
-                .then((response) => {
-                    console.log(response);
-                    this.lessonsDetails = response.data.data
-                })
-            },
-            
-            formatLessonsDetails(lessons) {
-                for (let key in lessons) {
-                    this.lessonsDetails.push({ ...lessons[key], id:key})
-                }
-            },
-
-            submitFormLesson() {
-                const $q = useQuasar()
-                const appToken = this.$q.sessionStorage.getItem('app_token');
-
-                var zoom_url = this.$q.sessionStorage.getItem('join_url'); 
-                // var course_Id = this.$q.sessionStorage.getItem('_id'); 
-                const route = this.$router;
-               
-                const courseId = route.currentRoute.value.params._id
-
-
-                
-                //var getJoinUrl = obj_zoomUrl.data.join_url
-                var date = this.date;
-
-                const formLesson = {
-                    name: this.name,
-                    zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
-                    start_date: date,
-                    duration: this.duration,
-                    courseId: courseId
-                }
-
-                axios.post('http://localhost:3000/api/lessons', formLesson, { headers: {'x-access-token' : appToken }} )
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log(response.data);
-
-                        this.$q.notify({
-                            type: 'positive',
-                            message: 'Lesson created',
-                            position: 'top',
-                        });
-                    }
-
-                    if (response.data === 400) {
-                        this.$q.notify({
-                            type: 'negative',
-                            message: 'Lesson not stored',
-                            position: 'top',
-                        });
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                }),
-
-                this.name = '';
-                this.date = '';
-                this.duration = '';
-            },
-            
-            submitFormMeeting() {
-      
-                const appToken = this.$q.sessionStorage.getItem("app_token");
-                const zoomToken = this.$q.sessionStorage.getItem("zoom_token");
-                const zoomUserId = this.$q.sessionStorage.getItem("zoom_userId");
-
-                //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
-                var date_zoom = this.start_date_meet + 'T' + this.start_time_meet + ':00Z';
-                
-                const formMeeting = {
-                    start_time: date_zoom,
-                    //topic: this.topic,
-                    //duration: this.duration,
-                    passcode: this.passcode,
-                    zoom_token: zoomToken,
-                    zoom_userId: zoomUserId,
-                };
-
-                axios.post('http://localhost:3000/api/meetings', formMeeting, {headers: { 'x-access-token': appToken }})
-                    .then((response) => {
-                        if (response.status === 200) {
-                            console.log(response.data);
-
-                            this.$q.sessionStorage.set('join_url', JSON.stringify(response.data))
-                    
-                            this.$q.notify({
-                                type: 'positive',
-                                message: 'Meeting créé',
-                                position: 'top',
-                            });
-                        }
-
-                        if (response.data === 400) {
-                            this.$q.notify({
-                                type: 'negative',
-                                message: 'Erreur',
-                                position: 'top',
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error.message);
-                    }),
-
-                    this.start_date_meet = '';
-                    this.start_time_meet = '';
-                    this.topic = '';
-                    this.duration = '';
-                    this.passcode = '';
-            },
-
-            handleLaunchMeeting(url) {
-                window.open(url, '_blank');
-            }
+    function getLessonsDetails(course_id) {
+        console.log('COURSE_ID' + course_id);
+        const appToken = $q.sessionStorage.getItem('app_token')
+        //const courseId = $q.sessionStorage.getItem('_id')
+        
+        axios.get(`http://localhost:3000/api/lessons/courses/${course_id}`, {headers: { 'x-access-token': appToken }})
+        .then((response) => {
+            console.log(response);
+            lessonsDetails = response.data.data
+        })
+    }
+    
+    function formatLessonsDetails(lessons) {
+        for (let key in lessons) {
+            lessonsDetails.push({ ...lessons[key], id:key})
         }
+    }
+
+    function submitFormLesson() {
+        const $q = useQuasar()
+        const appToken = $q.sessionStorage.getItem('app_token');
+
+        var zoom_url = $q.sessionStorage.getItem('join_url'); 
+        // var course_Id = $q.sessionStorage.getItem('_id'); 
+        const route = $router;
+        
+        const courseId = route.currentRoute.value.params._id
+
+
+        
+        //var getJoinUrl = obj_zoomUrl.data.join_url
+        var date = date;
+
+        const formLesson = {
+            name: name,
+            zoom_url: 'https://us04web.zoom.us/j/72256795915?pwd=9xg_QI3ayFPv3S8RaWaI-_Keh6gGM2.1',
+            start_date: date,
+            duration: duration,
+            courseId: courseId
+        }
+
+        axios.post('http://localhost:3000/api/lessons', formLesson, { headers: {'x-access-token' : appToken }} )
+        .then((response) => {
+            if (response.status === 200) {
+                console.log(response.data);
+
+                $q.notify({
+                    type: 'positive',
+                    message: 'Lesson created',
+                    position: 'top',
+                });
+            }
+
+            if (response.data === 400) {
+                $q.notify({
+                    type: 'negative',
+                    message: 'Lesson not stored',
+                    position: 'top',
+                });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        }),
+
+        name = '';
+        date = '';
+        duration = '';
+    }
+    
+    function submitFormMeeting() {
+
+        const appToken = $q.sessionStorage.getItem("app_token");
+        const zoomToken = $q.sessionStorage.getItem("zoom_token");
+        const zoomUserId = $q.sessionStorage.getItem("zoom_userId");
+
+        //yyyy-MM-ddTHH:mm:ssZ   2020-03-31T12:02:00Z  2022-01-28T20:47:00Z
+        var date_zoom = start_date_meet + 'T' + start_time_meet + ':00Z';
+        
+        const formMeeting = {
+            start_time: date_zoom,
+            //topic: topic,
+            //duration: duration,
+            passcode: passcode,
+            zoom_token: zoomToken,
+            zoom_userId: zoomUserId,
+        };
+
+        axios.post('http://localhost:3000/api/meetings', formMeeting, {headers: { 'x-access-token': appToken }})
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log(response.data);
+
+                    $q.sessionStorage.set('join_url', JSON.stringify(response.data))
+            
+                    $q.notify({
+                        type: 'positive',
+                        message: 'Meeting créé',
+                        position: 'top',
+                    });
+                }
+
+                if (response.data === 400) {
+                    $q.notify({
+                        type: 'negative',
+                        message: 'Erreur',
+                        position: 'top',
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error.message);
+            }),
+
+            start_date_meet = '';
+            start_time_meet = '';
+            topic = '';
+            duration = '';
+            passcode = '';
+    }
+
+    function handleLaunchMeeting(url) {
+        window.open(url, '_blank');
     }
 </script>
 
