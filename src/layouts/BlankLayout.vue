@@ -8,10 +8,18 @@
     </q-layout>
 </template>
 
-<script lang="ts">
-import {defineComponent} from 'vue';
+<script setup>
+    import {onBeforeMount} from 'vue';
+    import { useRouter } from 'vue-router';
+    import { useQuasar } from 'quasar';
 
-export default defineComponent({
-    name: 'BlankLayout',
-})
+    const $router = useRouter();
+    const $q = useQuasar();
+
+    onBeforeMount(() => {
+        /*eslint-disable*/
+       if($q.sessionStorage.getItem('current_user')) {
+           $router.push('/app/home')
+       }
+    })
 </script>

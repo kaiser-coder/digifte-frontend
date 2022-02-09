@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCourseStore } from 'src/stores/course';
 import { useQuasar } from 'quasar';
 import { useRoute } from 'vue-router';
@@ -71,14 +71,6 @@ export default {
         const courses = ref([]);
         const alert = ref(false);
         const text = ref('');
-
-        /* Lifecycles */
-        onBeforeMount(() =>{
-            /*eslint-disable*/
-            if (!$q.sessionStorage.getItem('current_user')) {
-                router.push('/')
-            }
-        })
 
         onMounted(() => {
             const token = $q.sessionStorage.getItem('app_token');

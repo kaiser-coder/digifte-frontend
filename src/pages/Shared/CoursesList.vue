@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-  import { ref, onBeforeMount, onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router';
   import { useCourseStore } from 'src/stores/course';
@@ -103,14 +103,6 @@
     /*eslint-disable*/
     $router.push(`/home-professor/details-course/${courseId}`);
   }
-
-  /* Lifecycles */
-  onBeforeMount(() => {
-    /*eslint-disable*/
-    if (!$q.sessionStorage.getItem('current_user')) {
-      $router.push('/');
-    }
-  });
 
   onMounted(() => {
     const appToken = $q.sessionStorage.getItem('app_token');

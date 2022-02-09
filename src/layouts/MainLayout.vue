@@ -22,9 +22,15 @@
 
 <script setup>
   import { ref, computed } from 'vue';
+  import { onBeforeMount } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useQuasar } from 'quasar';
 
   import TheSidebar from 'src/components/TheSidebar.vue';
   import TheToolbar from 'src/components/TheToolbar.vue';
+
+  const $router = useRouter();
+  const $q = useQuasar();
 
   const isOpen = ref(false);
   const menuItems = ref({
@@ -78,6 +84,13 @@
       default:
         return menuItems.value.visitor;
     }
+  })
+
+  onBeforeMount(() => {
+      /*eslint-disable*/
+      if(!$q.sessionStorage.getItem('current_user')) {
+        $router.push('/')
+      }
   })
 
   function toggleSidebar() {

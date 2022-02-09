@@ -47,7 +47,7 @@
 <script setup>
     import jwt_decode from 'jwt-decode';
     
-    import { reactive, onBeforeMount } from 'vue';
+    import { reactive } from 'vue';
     import { useUserStore } from 'src/stores/user';
     import { useQuasar } from 'quasar';
     import { useRouter } from 'vue-router';
@@ -65,13 +65,6 @@
     // Plugins
     const $q = useQuasar();
     const $router = useRouter();
-
-    onBeforeMount(() => {
-        /*eslint-disable*/
-       if($q.sessionStorage.getItem('current_user')) {
-           $router.push('/app/home')
-       }
-    })
 
     function validateEmail(email) {
         let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
