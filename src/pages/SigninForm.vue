@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import jwt_decode from 'jwt-decode';
+import { useUserStore } from 'src/stores/user';
 
 export default {
     data() {
@@ -55,7 +55,7 @@ export default {
                 email: '',
                 password: '',
                 roles: ''
-            }
+            },
         }
     },
 
@@ -72,31 +72,24 @@ export default {
             return regex.test(email)
         },
         submitFormSignin() {
-            axios.post('/api/auth',this.form)
-            .then((response) => {
-                if(response.status === 200) {
-                    /*eslint-disable*/
-                    const { app_token, message, zoom_token } = response.data;
-                    const infos = jwt_decode(app_token);
-                    const { user_id, zoom_userId } = infos
 
-                    this.$q.sessionStorage.set('app_token', app_token)
-                    this.$q.sessionStorage.set('message', message)
-                    this.$q.sessionStorage.set('current_user', infos)
-                    this.$q.sessionStorage.set('zoom_token', zoom_token)
-                    this.$q.sessionStorage.set('zoom_userId', zoom_userId)
-                    this.$q.sessionStorage.set('user_id', user_id)
-                   
-                    this.$router.push('/dashboard/home')
-                }
-            })
-            .catch((error)=> {
-                //console.log(error);
-                this.$q.notify({
-                    type: 'negative',
-                    message: 'Error connection',
-                    position: 'top-right'
-                })
+            const userStore = useUserStore();
+            
+            userStore.userSignin(this.form).then((result) => {
+                console.log(result.data);
+                const { app_token, message, zoom_token } = result.data;
+                const infos = jwt_decode(app_token);
+                const { user_id, zoom_userId } = infos
+
+                this.$q.sessionStorage.set('app_token', app_token)
+                this.$q.sessionStorage.set('message', message)
+                this.$q.sessionStorage.set('current_user', infos)
+                this.$q.sessionStorage.set('zoom_token', zoom_token)
+                this.$q.sessionStorage.set('zoom_userId', zoom_userId)
+                this.$q.sessionStorage.set('user_id', user_id)
+
+                userStore.currentUser = Object.assign(userStore.currentUser, {appToken: app_token, infos: infos})
+                this.$router.push('/dashboard/home')
             })
         }
     }
@@ -114,6 +107,15 @@ export default {
     a {
         text-align: center;
         margin-right: 2em;
+    }
+
+    .logo {
+        height:150px;
+        width: 150px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
     }
 
     .form-signin {
