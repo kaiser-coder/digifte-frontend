@@ -44,56 +44,69 @@
     </div>
 </template>
 
-<script>
-import jwt_decode from 'jwt-decode';
-import { useUserStore } from 'src/stores/user';
+<script setup>
+    import jwt_decode from 'jwt-decode';
+    
+    import { reactive, onBeforeMount } from 'vue';
+    import { useUserStore } from 'src/stores/user';
+    import { useQuasar } from 'quasar';
+    import { useRouter } from 'vue-router';
 
-export default {
-    data() {
-        return {
-            form: {
-                email: '',
-                password: '',
-                roles: ''
-            },
-        }
-    },
+    // Local states
+    const form = reactive({
+        email: '',
+        password: '',
+    });
 
-    beforeMount() {
-         /*eslint-disable*/
-        /* if(this.$q.sessionStorage.getItem('current_user')) {
-            this.$router.push('/home')
-        } */
-    },
+    // Store
+    /*eslint-disable*/
+    const userStore = useUserStore();
+    
+    // Plugins
+    const $q = useQuasar();
+    const $router = useRouter();
 
-    methods: {
-        validateEmail(email) {
-            let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
-            return regex.test(email)
-        },
-        submitFormSignin() {
+    onBeforeMount(() => {
+        /*eslint-disable*/
+       if($q.sessionStorage.getItem('current_user')) {
+           $router.push('/app/home')
+       }
+    })
 
-            const userStore = useUserStore();
-            
-            userStore.userSignin(this.form).then((result) => {
-                console.log(result.data);
-                const { app_token, message, zoom_token } = result.data;
+    function validateEmail(email) {
+        let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
+        // console.log('Regex test is =>', regex.test(email))
+        return regex.test(email)
+    };
+        
+    function submitFormSignin() {
+        console.log('Form content =>', form);
+
+        userStore.userSignin(form)
+            .then((response) => {
+                /*eslint-disable*/
+                const { app_token, zoom_token } = response.data;
                 const infos = jwt_decode(app_token);
                 const { user_id, zoom_userId } = infos
 
-                this.$q.sessionStorage.set('app_token', app_token)
-                this.$q.sessionStorage.set('message', message)
-                this.$q.sessionStorage.set('current_user', infos)
-                this.$q.sessionStorage.set('zoom_token', zoom_token)
-                this.$q.sessionStorage.set('zoom_userId', zoom_userId)
-                this.$q.sessionStorage.set('user_id', user_id)
-
-                userStore.currentUser = Object.assign(userStore.currentUser, {appToken: app_token, infos: infos})
-                this.$router.push('/dashboard/home')
+                $q.sessionStorage.set('app_token', app_token)
+                $q.sessionStorage.set('current_user', infos)
+                $q.sessionStorage.set('zoom_token', zoom_token)
+                $q.sessionStorage.set('zoom_userId', zoom_userId)
+                $q.sessionStorage.set('user_id', user_id)
+                
+                console.log('Route object =>', $router);
+                $router.push('/app/home');
             })
-        }
+            .catch((error)=> {
+                //console.log(error);
+                $q.notify({
+                    type: 'negative',
+                    message: 'Error connection',
+                    position: 'top-right'
+                })
+            })
     }
-}
 </script>
 
 <style scoped>

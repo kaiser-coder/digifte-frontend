@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('layouts/MainLayout.vue'),
         children: [
           { path: 'list', component: () => import('pages/Shared/CoursesList.vue') },
-          { path: 'details/:courseId', component: () => import('pages/Shared/DetailsCourse.vue') },
+          { path: 'details/:courseId', component: () => import('pages/Shared/CourseDetails.vue') },
         ]
       },
       {
