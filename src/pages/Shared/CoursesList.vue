@@ -42,7 +42,7 @@
               outlined
               label="Titre"
               id="title"
-              v-model="title"
+              v-model="form.title"
               stack-label
               :dense="dense"
               required
@@ -53,7 +53,7 @@
               type="description"
               label="Description"
               id="description"
-              v-model="description"
+              v-model="form.description"
               stack-label
               :dense="dense"
               required
@@ -83,6 +83,7 @@
   import { useQuasar } from 'quasar';
   import { useRouter } from 'vue-router';
   import { useCourseStore } from 'src/stores/course';
+  import { storeToRefs } from 'pinia';
 
   /* Stores*/
   const coursesStore = useCourseStore();
@@ -96,7 +97,9 @@
   const small = ref(false);
 
   /* States */
-  const courses = ref([]);
+  const { courses } = storeToRefs(coursesStore);
+  const appToken = ref($q.sessionStorage.getItem('app_token'));
+  const form = ref({});
 
   // Functions
   function handleViewDetail(courseId) {
@@ -104,17 +107,15 @@
     $router.push(`/app/courses/details/${courseId}`);
   }
 
-  onMounted(() => {
-    const appToken = $q.sessionStorage.getItem('app_token');
+  function submitFormCreationCourse() {
+    // console.log('Form fields => ', form.value)
+    coursesStore.submitCourse(appToken.value, {...form.value, professor_id: $q.sessionStorage.getItem('user_id')}).then((result) => {
+      coursesStore.courses.push(result.data)
+    })
+  }
 
-    coursesStore.courses = [];
-    coursesStore.getAll(appToken).then((result) => {
-      console.log(result.data);
-      result.data.map((d) => {
-        coursesStore.courses.push(d);
-        courses.value.push(d);
-      }); 
-    });
+  onMounted(() => {
+    coursesStore.getAll(appToken.value)
   });
 </script>
 

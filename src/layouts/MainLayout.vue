@@ -4,6 +4,7 @@
     <TheToolbar 
       :color="toolbarColor"
       @onMenuClick="toggleSidebar"
+      @onLogout="logout"
     />
 
     <!-- Sidebar -->
@@ -108,5 +109,10 @@
   function toggleSidebar() {
     console.log('toggle sidebar') 
     isOpen.value = !isOpen.value 
+  }
+
+  function logout() {
+    $q.sessionStorage.clear();
+    $router.push('/');
   }
 </script>
