@@ -18,5 +18,10 @@ const updateLesson = async (appToken: string, lessonId: string, data: any) => {
     return response.data;
 }
 
+const createMeeting = async (appToken: string, lessonId: string, data: any) => {
+    const response = await axios.post(`/api/lessons/meeting/${lessonId}/create`, data, { headers: { 'x-access-token': appToken } });
+    return response.data;
+}
 
-export { fetchAllByCourseId, createLessons, updateLesson }
+
+export { fetchAllByCourseId, createLessons, updateLesson, createMeeting }

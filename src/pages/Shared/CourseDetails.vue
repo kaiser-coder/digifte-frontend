@@ -16,13 +16,13 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <tr v-for="(lesson, index) in lessons" :key="index" @click="getLessonsDetails(course_id)" >
+                      <tr v-for="(lesson, index) in lessons" :key="index">
                           <td class="text-center">{{ lesson.date }}</td>
                           <td class="text-center">{{ lesson.name }}</td>
                           <td class="text-center">{{ lesson.duration }}</td>
                           <td class="text-center">
-                              <q-btn color="brown-5" v-if="lesson.zoom_url" @click="handleLaunchMeeting(lesson.zoom_url)" label="Lancer meeting" /> &nbsp;
-                              <q-btn color="amber" v-else @click="creatingMeeting(lesson)" label="Créer meeting" /> 
+                            <q-btn color="brown-5" v-if="lesson.meeting !== undefined" @click="handleLaunchMeeting(lesson.meeting.join_url)" label="Lancer meeting" /> &nbsp;
+                            <q-btn color="amber" v-else @click="createMeeting(lesson)" label="Créer meeting" /> 
                           </td>
                       </tr>
                   </tbody>
@@ -123,7 +123,7 @@
 
 
               <!-- CRÉATION MEETING -->
-              <q-dialog v-model="inception">
+              <!-- <q-dialog v-model="inception">
                   <q-card>
                       <q-card-section>
                           <div class="text-h6" style="align-content:center">Création meeting - {{ currentLesson.name }}</div>
@@ -166,7 +166,7 @@
                           </form>
                       </q-card-section>
                   </q-card>
-              </q-dialog>
+              </q-dialog> -->
           </div>
       </div>
   </div>
@@ -185,7 +185,7 @@ const $q = useQuasar();
 
 // UI States
 const fixed = ref(false);
-const inception = ref(false);
+// const inception = ref(false);
 
 // Stores
 const courseStore = useCourseStore();
@@ -264,6 +264,30 @@ function submitFormLesson() {
     })
   })
 
+}
+
+function createMeeting(lesson) {
+  lessonStore.submitMeeting(appToken.value, lesson._id, {
+    start_time: lesson.start_date,
+    topic: lesson.name,
+    duration: 1,
+    zoom_token: $q.sessionStorage.getItem('zoom_token'),
+    zoom_userId: $q.sessionStorage.getItem('current_user').zoom_userId
+  }).then((result) => {
+    // console.log('Lesson with new meeting => ', result)
+    $q.notify({
+      type: 'positive',
+      message: 'Meeting added',
+      position: 'top-right'
+    })
+  })
+  .catch((error) => {
+    $q.notify({
+      type: 'negative',
+      message: error.data.message,
+      position: 'top-right'
+    })
+  })
 }
 </script>
 
