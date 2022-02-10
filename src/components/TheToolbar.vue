@@ -43,7 +43,7 @@
          <p>Souhaitez-vous vraiment vous déconnecter ?</p>
       </q-card-section>
       <div class="buttonLogoutConfirm" >
-         <q-btn @click="logout" size="10px" style="background: #ffb300;color:white" label="Oui" /> &nbsp; 
+         <q-btn @click="handleLogout" size="10px" style="background: #ffb300;color:white" label="Oui" /> &nbsp; 
          <q-btn size="10px" style="background: #212121;color:white" label="Non" v-close-popup /> <br> <br>
       </div>
    </q-card>
@@ -56,13 +56,20 @@
    import LogoutIcon from 'vue-material-design-icons/Logout.vue';
    import AccountIcon from 'vue-material-design-icons/Account.vue';
 
+   import { ref } from 'vue';
+
    defineProps({
       color: String
    })
 
    const emit = defineEmits()
+   const dialog = ref(false)
 
    function handleMenuClick() {
       emit('onMenuClick')
+   }
+
+   function handleLogout() {
+     emit('onLogout')
    }
 </script>
