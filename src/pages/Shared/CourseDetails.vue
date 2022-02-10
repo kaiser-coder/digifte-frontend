@@ -228,13 +228,13 @@ function submitFormLesson() {
       position: 'top-right'
     })
   })
-  .catch((error) => {
+  /* .catch((error) => {
     $q.notify({
       type: 'negative',
-      message: error.data.message,
+      message: 'Not created as well',
       position: 'top-right'
     })
-  })
+  }) */
 
 }
 
