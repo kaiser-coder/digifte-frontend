@@ -1,78 +1,184 @@
 <template>
   <div>
-    <div class="featuredItem">
-      <span class="featuredTitle">DETAILS COURS</span> &nbsp;
-      <div class="featuredContainer">
-        <h5>Titre : {{ details.title }}</h5>
-        <h5>Description : {{ details.description }}</h5>
-        <br />
-        <q-markup-table>
-          <thead>
-            <tr>
-              <th class="text-center">Date</th>
-              <th class="text-center">Nom du leçon</th>
-              <th class="text-center">Duration</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(lesson, index) in lessons" :key="index">
-              <td class="text-center">{{ lesson.start_date }}</td>
-              <td class="text-center">{{ lesson.name }}</td>
-              <td class="text-center">{{ lesson.duration }}</td>
-              <td class="text-center">
-                <q-btn
-                  color="teal-5"
-                  @click="fixed = true"
-                  label="S'inscrire"
-                />
-                &nbsp;
-                <q-btn
-                  class="buttonMeeting"
-                  color="amber"
-                  @click="handleLaunchMeeting"
-                  label="Lancer meeting"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </q-markup-table>
+      <div class="featuredItem">
+          <span class="featuredTitle">DETAILS COURS</span>
+          <div class="featuredContainer">
+              <h5>Titre :{{details.title}}</h5> 
+              <h5>Description : {{details.description}}</h5> <br>
+              <q-btn color="secondary" @click="fixed = true" label="Créer leçon" /> <br> <br>
+              <q-markup-table>
+                  <thead>
+                      <tr>
+                      <th class="text-center">Date</th>
+                      <th class="text-center">Nom du leçon</th>
+                      <th class="text-center">Duration</th>
+                      <th class="text-center">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr v-for="(lesson, index) in lessons" :key="index" @click="getLessonsDetails(course_id)" >
+                          <td class="text-center">{{ lesson.start_date }}</td>
+                          <td class="text-center">{{ lesson.name }}</td>
+                          <td class="text-center">{{ lesson.duration }}</td>
+                          <td class="text-center">
+                              <q-btn color="brown-5" v-if="lesson.zoom_url" @click="handleLaunchMeeting(lesson.zoom_url)" label="Lancer meeting" /> &nbsp;
+                              <q-btn color="amber" v-else @click="creatingMeeting(lesson)" label="Créer meeting" /> 
+                          </td>
+                      </tr>
+                  </tbody>
+              </q-markup-table>
 
-        <q-dialog v-model="fixed">
-          <q-card>
-            <q-card-section>
-              <div class="text-h6">Voulez-vous s'inscrire à ce cours ?</div>
-            </q-card-section>
-            <q-separator />
-            <q-card-section style="max-height: 20vh" class="scroll">
-              <form @submit.prevent="subscribeStudent">
-                <div class="q-gutter-md" style="max-width: 300px">
-                  <div class="buttonConfirmSubscribe">
-                    <q-btn
-                      @click="subscribeStudent"
-                      size="15px"
-                      color="secondary"
-                      label="Valider"
-                      v-close-popup
-                    />
-                    &nbsp;
-                    <q-btn
-                      size="15px"
-                      style="background: #212121; color: white"
-                      label="Annuler"
-                      color="grey-14"
-                      v-close-popup
-                    />
-                    <br />
-                    <br />
-                  </div>
-                </div>
-              </form>
-            </q-card-section>
-          </q-card>
-        </q-dialog>
+
+              <!-- CRÉATION LEÇON -->
+              <q-dialog v-model="fixed">
+                  <q-card>
+                      <q-card-section>
+                          <div class="text-h6">Création d'une leçon</div>
+                      </q-card-section>
+
+                      <q-separator />
+
+                      <q-card-section style="max-height: 50vh" class="scroll">
+                          <form @submit.prevent="submitFormLesson">  
+                              <q-input
+                                  outlined
+                                  label="Nom du leçon"
+                                  id="name"
+                                  v-model="name"
+                                  stack-label
+                                  required
+                              /> <br> 
+
+                              <q-input outlined v-model="start_date_lesson" label="Date du cours">
+                                  <template v-slot:prepend>
+                                      <q-icon name="event" class="cursor-pointer">
+                                          <q-popup-proxy
+                                              cover
+                                              transition-show="scale"
+                                              transition-hide="scale"
+                                          >
+                                              <q-date
+                                                  v-model="start_date_lesson"
+                                                  mask="YYYY-MM-DD"
+                                                  color="negative"
+                                              >
+                                                  <div class="row items-center justify-end">
+                                                      <q-btn
+                                                          v-close-popup
+                                                          label="Close"
+                                                          color="#b71c1c"
+                                                          flat
+                                                      />
+                                                  </div>
+                                              </q-date>
+                                          </q-popup-proxy>
+                                      </q-icon>
+                                  </template>
+                              </q-input> <br>
+
+                              <q-input outlined v-model="start_time_lesson" label="Heure">
+                                  <template v-slot:prepend>
+                                      <q-icon name="access_time" class="cursor-pointer">
+                                          <q-popup-proxy
+                                              cover
+                                              transition-show="scale"
+                                              transition-hide="scale"
+                                          >
+                                              <q-time
+                                              v-model="start_time_lesson"
+                                              mask="HH:mm:ss"
+                                              format24h
+                                              color="negative"
+                                              >
+                                              <div class="row items-center justify-end">
+                                                  <q-btn
+                                                  v-close-popup
+                                                  label="Close"
+                                                  color="#b71c1c"
+                                                  flat
+                                                  />
+                                              </div>
+                                              </q-time>
+                                          </q-popup-proxy>
+                                      </q-icon>
+                                  </template>
+                              </q-input> <br>
+
+                              <q-select
+                                  outlined
+                                  :options="options"
+                                  label="Durée heure"
+                                  id="duration"
+                                  v-model="duration"
+                                  stack-label
+                                  :dense="dense"
+                              /> <br>
+
+                              <q-btn
+                                  size="18px"
+                                  type="submit"
+                                  style="
+                                      background: #7e807c;
+                                      color: white;
+                                      width: 330px;
+                                      margin-left: 0.5rem;
+                                  "
+                                  label="Créer"
+                                  v-close-popup
+                              />      
+                          </form>
+                      </q-card-section>
+                  </q-card>
+              </q-dialog>
+
+
+              <!-- CRÉATION MEETING -->
+              <q-dialog v-model="inception">
+                  <q-card>
+                      <q-card-section>
+                          <div class="text-h6" style="align-content:center">Création meeting - {{ currentLesson.name }}</div>
+                      </q-card-section>
+
+                      <q-card-section class="q-pt-none">
+                          <form  @submit.prevent="submitFormMeeting(currentLesson)">
+                              <q-input
+                                  outlined
+                                  label="Topic"
+                                  id="topic"
+                                  v-model="topic"
+                                  stack-label
+                                  :dense="dense"
+                                  required
+                              /> <br>
+
+                              <q-input
+                                  outlined
+                                  label="Mot de passe réunion"
+                                  id="passcode"
+                                  v-model="passcode"
+                                  stack-label
+                                  :dense="dense"
+                                  required
+                              /> <br>
+
+                              <q-btn
+                                  size="18px"
+                                  type="submit"
+                                  style="
+                                      background: #7e807c;
+                                      color: white;
+                                      width: 330px;
+                                      margin-left: 0.5rem;
+                                  "
+                                  label="Créer"
+                                  v-close-popup
+                              />
+                          </form>
+                      </q-card-section>
+                  </q-card>
+              </q-dialog>
+          </div>
       </div>
-    </div>
   </div>
 </template>
 
