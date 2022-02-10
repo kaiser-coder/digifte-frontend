@@ -17,12 +17,15 @@
                   </thead>
                   <tbody>
                       <tr v-for="(lesson, index) in lessons" :key="index">
-                          <td class="text-center">{{ lesson.date }}</td>
+                          <td class="text-center">{{ lesson.start_date }}</td>
                           <td class="text-center">{{ lesson.name }}</td>
                           <td class="text-center">{{ lesson.duration }}</td>
                           <td class="text-center">
                             <q-btn color="brown-5" v-if="lesson.meeting !== undefined" @click="handleLaunchMeeting(lesson.meeting.join_url)" label="Lancer meeting" /> &nbsp;
                             <q-btn color="amber" v-else @click="createMeeting(lesson)" label="Créer meeting" /> 
+                          </td>
+                          <td>
+                            <q-btn @click="renderLessonDetails(lesson)">Voir</q-btn>
                           </td>
                       </tr>
                   </tbody>
@@ -122,58 +125,25 @@
               </q-dialog>
 
 
-              <!-- CRÉATION MEETING -->
-              <!-- <q-dialog v-model="inception">
+              <!-- DETAILS LESSON MEETING -->
+              <q-dialog v-model="inception">
                   <q-card>
                       <q-card-section>
-                          <div class="text-h6" style="align-content:center">Création meeting - {{ currentLesson.name }}</div>
+                        <div class="text-h6" style="align-content:center">{{}}</div>
                       </q-card-section>
 
                       <q-card-section class="q-pt-none">
-                          <form  @submit.prevent="submitFormMeeting(currentLesson)">
-                              <q-input
-                                  outlined
-                                  label="Topic"
-                                  id="topic"
-                                  v-model="topic"
-                                  stack-label
-                                  :dense="dense"
-                                  required
-                              /> <br>
-
-                              <q-input
-                                  outlined
-                                  label="Mot de passe réunion"
-                                  id="passcode"
-                                  v-model="passcode"
-                                  stack-label
-                                  :dense="dense"
-                                  required
-                              /> <br>
-
-                              <q-btn
-                                  size="18px"
-                                  type="submit"
-                                  style="
-                                      background: #7e807c;
-                                      color: white;
-                                      width: 330px;
-                                      margin-left: 0.5rem;
-                                  "
-                                  label="Créer"
-                                  v-close-popup
-                              />
-                          </form>
+                        {{lessonDetails}}
                       </q-card-section>
                   </q-card>
-              </q-dialog> -->
+              </q-dialog>
           </div>
       </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCourseStore } from 'src/stores/course';
 import { useLessonStore } from 'src/stores/lesson';
@@ -185,7 +155,7 @@ const $q = useQuasar();
 
 // UI States
 const fixed = ref(false);
-// const inception = ref(false);
+const inception = ref(false);
 
 // Stores
 const courseStore = useCourseStore();
@@ -197,6 +167,7 @@ const { details } = storeToRefs(courseStore);
 const appToken = ref($q.sessionStorage.getItem('app_token'));
 const courseId = ref($router.currentRoute.value.params.courseId);
 const lessonForm = ref({});
+const lessonDetails = reactive({});
 
 onBeforeMount(() => {
   /*eslint-disable*/
@@ -250,6 +221,7 @@ function submitFormLesson() {
   const start_date = new Date(`${date} ${time}`);
 
   lessonStore.submitLesson(appToken.value, {name, start_date, courseId: courseId.value}).then((result) => {
+    lessonStore.lessons.push(result)
     $q.notify({
       type: 'positive',
       message: result.data.message,
@@ -288,6 +260,12 @@ function createMeeting(lesson) {
       position: 'top-right'
     })
   })
+}
+
+function renderLessonDetails(lesson) {
+  // console.log('This lesson => ', lesson)
+  inception.value = true;
+  lessonDetails.value = lesson;
 }
 </script>
 
