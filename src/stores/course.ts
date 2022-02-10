@@ -4,6 +4,7 @@ import { fetchAll, fetchDetails, subscribeStudent, createCourse } from 'src/api/
 export const useCourseStore = defineStore('course', {
     state: () => ({
         courses: [],
+        details: {}
     }),
     actions: {
         getAll(appToken: string) {
@@ -12,7 +13,10 @@ export const useCourseStore = defineStore('course', {
         },
 
         getCourseDetails(appToken: string, courseId: string) {
-            return fetchDetails(appToken, courseId);
+            fetchDetails(appToken, courseId)
+                .then((result) => {
+                    this.details = Object.assign(this.details, result.data);
+                });
         },
 
         subscribeToCourse(appToken: string, data: any) {

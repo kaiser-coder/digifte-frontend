@@ -6,9 +6,10 @@ export const useLessonStore = defineStore('lesson', {
         lessons: []
     }),
     actions: {
-        getAllByCourseId(appToken: string, courseId: string) {
+        async getAllByCourseId(appToken: string, courseId: string) {
             /*eslint-disable*/
-            return fetchAllByCourseId(appToken, courseId);
+            const result = await fetchAllByCourseId(appToken, courseId)
+            this.lessons = result.data;
         },
 
         editLesson(appToken: string, lessonId: string, data: any) {

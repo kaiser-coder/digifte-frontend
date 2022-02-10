@@ -101,7 +101,7 @@
   // Functions
   function handleViewDetail(courseId) {
     /*eslint-disable*/
-    $router.push(`/home-professor/details-course/${courseId}`);
+    $router.push(`/app/courses/details/${courseId}`);
   }
 
   onMounted(() => {
