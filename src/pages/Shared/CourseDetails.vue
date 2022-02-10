@@ -17,7 +17,7 @@
                   </thead>
                   <tbody>
                       <tr v-for="(lesson, index) in lessons" :key="index" @click="getLessonsDetails(course_id)" >
-                          <td class="text-center">{{ lesson.start_date }}</td>
+                          <td class="text-center">{{ lesson.date }}</td>
                           <td class="text-center">{{ lesson.name }}</td>
                           <td class="text-center">{{ lesson.duration }}</td>
                           <td class="text-center">
@@ -44,12 +44,12 @@
                                   outlined
                                   label="Nom du leçon"
                                   id="name"
-                                  v-model="name"
+                                  v-model="lessonForm.name"
                                   stack-label
                                   required
                               /> <br> 
 
-                              <q-input outlined v-model="start_date_lesson" label="Date du cours">
+                              <q-input outlined v-model="lessonForm.date" label="Date du cours">
                                   <template v-slot:prepend>
                                       <q-icon name="event" class="cursor-pointer">
                                           <q-popup-proxy
@@ -58,7 +58,7 @@
                                               transition-hide="scale"
                                           >
                                               <q-date
-                                                  v-model="start_date_lesson"
+                                                  v-model="lessonForm.date"
                                                   mask="YYYY-MM-DD"
                                                   color="negative"
                                               >
@@ -76,7 +76,7 @@
                                   </template>
                               </q-input> <br>
 
-                              <q-input outlined v-model="start_time_lesson" label="Heure">
+                              <q-input outlined v-model="lessonForm.time" label="Heure">
                                   <template v-slot:prepend>
                                       <q-icon name="access_time" class="cursor-pointer">
                                           <q-popup-proxy
@@ -85,7 +85,7 @@
                                               transition-hide="scale"
                                           >
                                               <q-time
-                                              v-model="start_time_lesson"
+                                              v-model="lessonForm.time"
                                               mask="HH:mm:ss"
                                               format24h
                                               color="negative"
@@ -103,16 +103,6 @@
                                       </q-icon>
                                   </template>
                               </q-input> <br>
-
-                              <q-select
-                                  outlined
-                                  :options="options"
-                                  label="Durée heure"
-                                  id="duration"
-                                  v-model="duration"
-                                  stack-label
-                                  :dense="dense"
-                              /> <br>
 
                               <q-btn
                                   size="18px"
@@ -195,6 +185,7 @@ const $q = useQuasar();
 
 // UI States
 const fixed = ref(false);
+const inception = ref(false);
 
 // Stores
 const courseStore = useCourseStore();
@@ -203,21 +194,19 @@ const lessonStore = useLessonStore();
 // States
 const { lessons } = storeToRefs(lessonStore);
 const { details } = storeToRefs(courseStore);
-const appToken = ref(null);
-const courseId = ref(null);
+const appToken = ref($q.sessionStorage.getItem('app_token'));
+const courseId = ref($router.currentRoute.value.params.courseId);
+const lessonForm = ref({});
 
 onBeforeMount(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const appToken = $q.sessionStorage.getItem('app_token');
-  const courseId = $router.currentRoute.value.params.courseId;
-
+  /*eslint-disable*/
   console.log('CourseId =>', $router.currentRoute.value.params.courseId);
   // console.log('Courses details =>', courseStore.details)
   console.log('Lessons for this course =>', lessonStore.lessons);
 
   /*eslint-disable*/
-  courseStore.getCourseDetails(appToken, courseId);
-  lessonStore.getAllByCourseId(appToken, courseId);
+  courseStore.getCourseDetails(appToken.value, courseId.value);
+  lessonStore.getAllByCourseId(appToken.value, courseId.value);
 });
 
 // Functions
@@ -254,6 +243,27 @@ function subscribeStudent() {
 
 function handleLaunchMeeting(url) {
   window.open(url, '_blank');
+}
+
+function submitFormLesson() {
+  const { date, time, name } = lessonForm.value;
+  const start_date = new Date(`${date} ${time}`);
+
+  lessonStore.submitLesson(appToken.value, {name, start_date, courseId: courseId.value}).then((result) => {
+    $q.notify({
+      type: 'positive',
+      message: result.data.message,
+      position: 'top-right'
+    })
+  })
+  .catch((error) => {
+    $q.notify({
+      type: 'negative',
+      message: error.data.message,
+      position: 'top-right'
+    })
+  })
+
 }
 </script>
 
