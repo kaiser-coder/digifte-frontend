@@ -32,6 +32,7 @@
   const $router = useRouter();
   const $q = useQuasar();
 
+  const userRole = ref('');
   const isOpen = ref(false);
   const menuItems = ref({
     admin: {
@@ -48,12 +49,18 @@
         {icon: 'school', link: '', label: 'Mes élèves'},
         {icon: 'book', link: '', label: 'Mes ressources'},
       ]
+    },
+    student: {
+      title: 'ESPACE ETUDIANT',
+      items: [
+        {icon: 'home', link: '/app/home', label: 'Accueil'},
+        {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
+      ]
     }
   });
 
   const toolbarColor = computed(() => {
-    const userRole = 'professor'
-    switch (userRole) {
+    switch (userRole.value) {
       case 'admin':
         return 'bg-amber-7'
 
@@ -69,9 +76,8 @@
   })
 
   const itemsForSidebar = computed(() => {
-    const userRole = 'professor'
     /*eslint-disable*/
-    switch (userRole) {
+    switch (userRole.value) {
       case 'admin':
         return menuItems.value.admin;
 
@@ -87,10 +93,16 @@
   })
 
   onBeforeMount(() => {
-      /*eslint-disable*/
-      if(!$q.sessionStorage.getItem('current_user')) {
-        $router.push('/')
-      }
+    /*eslint-disable*/
+    const currentUser = $q.sessionStorage.getItem('current_user');
+
+    if(!currentUser) {
+      $router.push('/')
+    }
+
+    // Get User Role
+    userRole.value = currentUser.roles[0]
+
   })
 
   function toggleSidebar() {
