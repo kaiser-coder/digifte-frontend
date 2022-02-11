@@ -38,15 +38,15 @@
     </q-header>
 
    <q-dialog v-model="dialog">
-   <q-card>
-      <q-card-section class="row items-center q-gutter-sm">
-         <p>Souhaitez-vous vraiment vous déconnecter ?</p>
-      </q-card-section>
-      <div class="buttonLogoutConfirm" >
-         <q-btn @click="handleLogout" size="10px" style="background: #ffb300;color:white" label="Oui" /> &nbsp; 
-         <q-btn size="10px" style="background: #212121;color:white" label="Non" v-close-popup /> <br> <br>
-      </div>
-   </q-card>
+    <q-card>
+        <q-card-section class="row items-center q-gutter-sm">
+          <p>Souhaitez-vous vraiment vous déconnecter ?</p>
+        </q-card-section>
+        <div class="buttonLogoutConfirm" >
+          <q-btn @click="handleLogout" size="10px" style="background: #ffb300;color:white" label="Oui" /> &nbsp; 
+          <q-btn size="10px" style="background: #212121;color:white" label="Non" v-close-popup /> <br> <br>
+        </div>
+    </q-card>
    </q-dialog> 
 </template>
 
@@ -73,3 +73,13 @@
      emit('onLogout')
    }
 </script>
+
+<style scoped>
+  .account {
+    cursor: pointer;
+  }
+
+  .buttonLogoutConfirm {
+    margin-left: 5.5rem;
+  }
+</style>
