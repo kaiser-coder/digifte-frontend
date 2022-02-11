@@ -221,10 +221,11 @@ function submitFormLesson() {
   const start_date = new Date(`${date} ${time}`);
 
   lessonStore.submitLesson(appToken.value, {name, start_date, courseId: courseId.value}).then((result) => {
-    lessonStore.lessons.push(result)
+    // console.log('Submited lesson => ', result)
+    lessonStore.lessons.push(result.data)
     $q.notify({
       type: 'positive',
-      message: result.data.message,
+      message: result.message,
       position: 'top-right'
     })
   })
@@ -247,16 +248,17 @@ function createMeeting(lesson) {
     zoom_userId: $q.sessionStorage.getItem('current_user').zoom_userId
   }).then((result) => {
     // console.log('Lesson with new meeting => ', result)
+
     $q.notify({
       type: 'positive',
-      message: 'Meeting added',
+      message: result.message,
       position: 'top-right'
     })
   })
   .catch((error) => {
     $q.notify({
       type: 'negative',
-      message: error.data.message,
+      message: error.message,
       position: 'top-right'
     })
   })
