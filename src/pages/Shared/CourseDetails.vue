@@ -11,7 +11,6 @@
                       <tr>
                       <th class="text-center">Date</th>
                       <th class="text-center">Nom du leçon</th>
-                      <th class="text-center">Duration</th>
                       <th class="text-center">Action</th>
                       </tr>
                   </thead>
@@ -19,7 +18,6 @@
                       <tr v-for="(lesson, index) in lessons" :key="index">
                           <td class="text-center">{{ lesson.start_date }}</td>
                           <td class="text-center">{{ lesson.name }}</td>
-                          <td class="text-center">{{ lesson.duration }}</td>
                           <td class="text-center">
                             <q-btn color="brown-5" v-if="lesson.meeting !== undefined" @click="handleLaunchMeeting(lesson.meeting.join_url)" label="Lancer meeting" /> &nbsp;
                             <q-btn color="amber" v-else @click="createMeeting(lesson)" label="Créer meeting" /> 

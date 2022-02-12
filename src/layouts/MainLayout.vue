@@ -1,24 +1,25 @@
 <template>
+  <div class="q-pa-md">
     <q-layout view="lHh Lpr lFf">
-    <!-- Toolbar -->
-    <TheToolbar 
-      :color="toolbarColor"
-      @onMenuClick="toggleSidebar"
-      @onLogout="logout"
-    />
+      <!-- Toolbar -->
+      <TheToolbar 
+        :color="toolbarColor"
+        @onMenuClick="toggleSidebar"
+        @onLogout="logout"
+      />
 
-    <!-- Sidebar -->
-    <TheSidebar 
-      :open="isOpen"
-      :menu="itemsForSidebar"
-    />
+      <!-- Sidebar -->
+      <TheSidebar 
+        :open="isOpen"
+        :menu="itemsForSidebar"
+      />
 
-    <q-page-container>
-      <router-view/>
-    </q-page-container>
+      <q-page-container>
+        <router-view/>
+      </q-page-container>
 
-  </q-layout>
-
+    </q-layout>
+  </div>
 </template>
 
 <script setup>
@@ -55,7 +56,7 @@
       title: 'ESPACE ETUDIANT',
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
-        {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
+        {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
       ]
     }
   });

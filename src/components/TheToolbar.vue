@@ -73,3 +73,13 @@
      emit('onLogout')
    }
 </script>
+
+<style>
+  .account {
+    cursor: pointer;
+  }
+
+  .buttonLogoutConfirm {
+    margin-left: 5.5rem;
+  }
+</style>
