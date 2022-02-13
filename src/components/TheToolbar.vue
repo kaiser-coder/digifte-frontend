@@ -62,7 +62,7 @@
       color: String
    })
 
-   const emit = defineEmits()
+   const emit = defineEmits(['onMenuClick', 'onLogout'])
    const dialog = ref(false)
 
    function handleMenuClick() {
