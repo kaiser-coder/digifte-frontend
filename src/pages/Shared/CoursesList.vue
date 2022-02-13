@@ -35,7 +35,7 @@
             <td>
               <q-btn 
                 label="Voir les détails"
-                :disabled="checkSubscribeStatus(course)"
+                :disabled="!checkSubscribeStatus(course)"
                 @click="handleViewDetail(course._id)"
               />
             </td>
@@ -72,10 +72,10 @@
   function checkSubscribeStatus(course) {
     if(userRole.value == 'student') {
       const userId = $q.sessionStorage.getItem('user_id');
-      return !course.students.includes(userId)
+      return course.students.includes(userId)
     }
 
-    return false
+    return true
   }
 
   // Functions
