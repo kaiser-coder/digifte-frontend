@@ -2,7 +2,7 @@
    <q-btn color="primary" @click="showCourseForm" label="Nouveau cours" /> <br />
    <br />
 
-  <q-dialog :modelValue="small">
+  <q-dialog v-model="small">
    <q-card style="width: 300px">
       <q-card-section>
          <div class="text-h6">Création cours</div>

@@ -1,14 +1,10 @@
 import axios from 'axios';
 
 // Fetch all courses
-const fetchAll = (appToken: string) => {
-    return axios.get('/api/courses', {
-            headers: { 'x-access-token': appToken}
-        })
-        /*eslint-disable*/
-        .then((response: any) => {
-            return response.data;
-        });
+const fetchAll = async (appToken: string) => {
+    const response = await axios.get('/api/courses', { headers: { 'x-access-token': appToken}})
+    /*eslint-disable*/
+    return response.data;
 };
 
 // Fetch courses details
@@ -23,11 +19,9 @@ const fetchDetails = (appToken: string, courseId: string) => {
 }
 
 // Subscribe student
-const subscribeStudent = (appToken: string, data: any) => {
-    return axios.post('/api/courses/subscribe', data, { headers: { 'x-access-token': appToken }})
-        .then((response: any) => {
-            return response.data;
-        });
+const subscribeStudent = async (appToken: string, data: any) => {
+    const response = await axios.post('/api/courses/subscribe', data, { headers: { 'x-access-token': appToken }})
+    return response.data;
 };
 
 const createCourse = (appToken: string, data: any) => {

@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-      :modelValue="true"
+      :modelValue="open"
       show-if-above
       bordered
       :width="250"
@@ -27,7 +27,7 @@
     </q-drawer> 
 </template>
 
-<script setup lang="ts">
+<script setup>
   /*eslint-disable*/
   const props = defineProps({
     open: Boolean,

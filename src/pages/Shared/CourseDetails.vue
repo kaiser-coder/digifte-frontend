@@ -5,7 +5,10 @@
           <div class="featuredContainer">
               <h5>Titre :{{details.title}}</h5> 
               <h5>Description : {{details.description}}</h5> <br>
-              <q-btn color="secondary" @click="fixed = true" label="Créer leçon" /> <br> <br>
+              <CreateLessonButton 
+                v-if="userRole === 'professor'"
+                @onSubmitLesson="submitFormLesson"
+              />
               <q-markup-table>
                   <thead>
                       <tr>
@@ -31,100 +34,6 @@
                       </tr>
                   </tbody>
               </q-markup-table>
-
-
-              <!-- CRÉATION LEÇON -->
-              <q-dialog v-model="fixed">
-                  <q-card>
-                      <q-card-section>
-                          <div class="text-h6">Création d'une leçon</div>
-                      </q-card-section>
-
-                      <q-separator />
-
-                      <q-card-section style="max-height: 50vh" class="scroll">
-                          <form @submit.prevent="submitFormLesson">  
-                              <q-input
-                                  outlined
-                                  label="Nom du leçon"
-                                  id="name"
-                                  v-model="lessonForm.name"
-                                  stack-label
-                                  required
-                              /> <br> 
-
-                              <q-input outlined v-model="lessonForm.date" label="Date du cours">
-                                  <template v-slot:prepend>
-                                      <q-icon name="event" class="cursor-pointer">
-                                          <q-popup-proxy
-                                              cover
-                                              transition-show="scale"
-                                              transition-hide="scale"
-                                          >
-                                              <q-date
-                                                  v-model="lessonForm.date"
-                                                  mask="YYYY-MM-DD"
-                                                  color="negative"
-                                              >
-                                                  <div class="row items-center justify-end">
-                                                      <q-btn
-                                                          v-close-popup
-                                                          label="Close"
-                                                          color="#b71c1c"
-                                                          flat
-                                                      />
-                                                  </div>
-                                              </q-date>
-                                          </q-popup-proxy>
-                                      </q-icon>
-                                  </template>
-                              </q-input> <br>
-
-                              <q-input outlined v-model="lessonForm.time" label="Heure">
-                                  <template v-slot:prepend>
-                                      <q-icon name="access_time" class="cursor-pointer">
-                                          <q-popup-proxy
-                                              cover
-                                              transition-show="scale"
-                                              transition-hide="scale"
-                                          >
-                                              <q-time
-                                              v-model="lessonForm.time"
-                                              mask="HH:mm:ss"
-                                              format24h
-                                              color="negative"
-                                              >
-                                              <div class="row items-center justify-end">
-                                                  <q-btn
-                                                  v-close-popup
-                                                  label="Close"
-                                                  color="#b71c1c"
-                                                  flat
-                                                  />
-                                              </div>
-                                              </q-time>
-                                          </q-popup-proxy>
-                                      </q-icon>
-                                  </template>
-                              </q-input> <br>
-
-                              <q-btn
-                                  size="18px"
-                                  type="submit"
-                                  style="
-                                      background: #7e807c;
-                                      color: white;
-                                      width: 330px;
-                                      margin-left: 0.5rem;
-                                  "
-                                  label="Créer"
-                                  v-close-popup
-                              />      
-                          </form>
-                      </q-card-section>
-                  </q-card>
-              </q-dialog>
-
 
               <!-- DETAILS LESSON MEETING -->
               <q-dialog v-model="inception">
@@ -152,12 +61,12 @@ import { useRouter } from 'vue-router';
 import { useQuasar } from 'quasar';
 
 import MeetingButton from 'src/components/courses/MeetingButton.vue';
+import CreateLessonButton from 'src/components/lessons/CreateLessonButton.vue';
 
 const $router = useRouter();
 const $q = useQuasar();
 
 // UI States
-const fixed = ref(false);
 const inception = ref(false);
 
 // Stores
@@ -169,7 +78,8 @@ const { lessons } = storeToRefs(lessonStore);
 const { details } = storeToRefs(courseStore);
 const appToken = ref($q.sessionStorage.getItem('app_token'));
 const courseId = ref($router.currentRoute.value.params.courseId);
-const lessonForm = ref({});
+/*eslint-disable*/
+const userRole = ref($q.sessionStorage.getItem('current_user').roles[0]);
 const lessonDetails = reactive({});
 
 onBeforeMount(() => {
@@ -185,44 +95,18 @@ onBeforeMount(() => {
 
 // Functions
 
-function subscribeStudent() {
-  const studentId = $q.sessionStorage.getItem('user_id');
-
-  const formSubscribe = {
-    courseId: courseId,
-    student: studentId,
-  };
-
-  courseStore.subscribeToCourse(appToken, formSubscribe)
-    .then((response) => {
-      if (response.status === 200) {
-        $q.notify({
-          type: 'positive',
-          message: 'Félicitation! Vous êtes inscris',
-          position: 'top',
-        });
-      }
-    })
-    .catch((error) => {
-      console.log(error.message);
-      if (error) {
-        $q.notify({
-          type: 'negative',
-          message: 'Vous êtes déjà inscris',
-          position: 'top',
-        });
-      }
-    });
-}
-
 function handleLaunchMeeting(url) {
   window.open(url, '_blank');
 }
 
-function submitFormLesson() {
-  const { date, time, name } = lessonForm.value;
+function submitFormLesson(lesson) {
+  const { date, time, name } = lesson;
   const start_date = new Date(`${date} ${time}`);
 
+  /* console.log(lesson);
+  throw '';
+  */
+ 
   lessonStore.submitLesson(appToken.value, {name, start_date, courseId: courseId.value}).then((result) => {
     // console.log('Submited lesson => ', result)
     lessonStore.lessons.push(result.data)

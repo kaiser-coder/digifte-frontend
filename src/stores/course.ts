@@ -9,10 +9,7 @@ export const useCourseStore = defineStore('course', {
     actions: {
         getAll(appToken: string) {
             /*eslint-disable*/
-            fetchAll(appToken).then((result) => {
-                console.log('All courses => ', result.data);
-                this.courses = result.data
-            });
+            return fetchAll(appToken);
         },
 
         getCourseDetails(appToken: string, courseId: string) {
