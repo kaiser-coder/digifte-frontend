@@ -1,5 +1,5 @@
 <template>
-   <q-btn :color="btnColor" @click="handleClick" :label="btnLabel" />    
+   <q-btn :color="btnColor" @click="handleClick" :label="btnLabel" :disable="isDisabled"/>    
 </template>
 
 <script setup>
@@ -15,10 +15,15 @@
 
    const btnColor = ref('amber');
    const btnLabel = ref('Créer meeting');
+   const isDisabled = ref(false);
 
    onMounted(() => {
       /*eslint-disable*/
       const userRole = $q.sessionStorage.getItem('current_user').roles[0];
+
+      if(userRole === 'student' && props.lesson.meeting === undefined) {
+         isDisabled.value = true;
+      }
 
       if(props.lesson.meeting !== undefined || userRole === 'student') {
          btnColor.value = 'brown-5';

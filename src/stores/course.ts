@@ -13,10 +13,7 @@ export const useCourseStore = defineStore('course', {
         },
 
         getCourseDetails(appToken: string, courseId: string) {
-            fetchDetails(appToken, courseId)
-                .then((result) => {
-                    this.details = Object.assign(this.details, result.data);
-                });
+            return fetchDetails(appToken, courseId)
         },
 
         subscribeToCourse(appToken: string, data: any) {

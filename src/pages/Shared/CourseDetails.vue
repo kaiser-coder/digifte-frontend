@@ -89,8 +89,15 @@ onBeforeMount(() => {
   console.log('Lessons for this course =>', lessonStore.lessons);
 
   /*eslint-disable*/
-  courseStore.getCourseDetails(appToken.value, courseId.value);
-  lessonStore.getAllByCourseId(appToken.value, courseId.value);
+  courseStore.getCourseDetails(appToken.value, courseId.value).then((result) => {
+    console.log('Course details =>', result)
+    details.value = result.data;
+  });
+
+  lessonStore.getAllByCourseId(appToken.value, courseId.value).then((result) => {
+    console.log('All lessons by courseId', result);
+    lessons.value = result;
+  })
 });
 
 // Functions

@@ -19,7 +19,6 @@
         </thead>
         <tbody>
           <tr
-            class="cursor-pointer"
             v-for="(course, index) in courses"
             :key="index"
           >
@@ -87,9 +86,10 @@
 
   function submitFormCreationCourse(formContents) {
     console.log('Form fields => ', formContents)
-    /* courseStore.submitCourse(appToken.value, {...formContents, professor_id: userId}).then((result) => {
+    courseStore.submitCourse(appToken.value, {...formContents, professor_id: userId.value}).then((result) => {
+      console.log('New course => ', result);
       courseStore.courses.push(result.data)
-    }) */
+    })
   }
 
   function handleSubscribeStudent(courseId) {
