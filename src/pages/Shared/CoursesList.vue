@@ -2,14 +2,19 @@
   <div>
     <h4 class="titleThree">Listes cours</h4>
     <br />
-    <q-btn color="primary" @click="small = true" label="Nouveau cours" /> <br />
-    <br />
+    
+    <NewCourseButton 
+      v-if="userRole == 'professor'"
+      @onSubmitForm="submitFormCreationCourse"
+    />
+    
     <div>
       <q-markup-table>
         <thead>
           <tr>
             <th class="text-center">Titre</th>
             <th class="text-center">Description</th>
+            <th class="text-center" colspan="2">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -17,64 +22,27 @@
             class="cursor-pointer"
             v-for="(course, index) in courses"
             :key="index"
-            @click="handleViewDetail(course._id)"
           >
             <td class="text-center" v-text="course.title"></td>
             <td class="text-center" v-text="course.description"></td>
-            <!-- <td class="text-center">
-                            <q-btn label="Détails"  color="secondary"/>
-                        </td> -->
+            <td class="text-center">
+              <SubscribeCourseButton 
+                :courseId="course._id"
+                :isSubscribed="checkSubscribeStatus(course)"
+                v-if="userRole == 'student'"
+              />
+            </td>
+            <td>
+              <q-btn 
+                label="Voir les détails"
+                :disabled="!checkSubscribeStatus(course)"
+                @click="handleViewDetail(course._id)"
+              />
+            </td>
           </tr>
         </tbody>
       </q-markup-table>
     </div>
-    <q-dialog v-model="small">
-      <q-card style="width: 300px">
-        <q-card-section>
-          <div class="text-h6">Création cours</div>
-        </q-card-section>
-
-        <q-separator /> <br />
-
-        <q-card-section class="q-pt-none">
-          <form @submit.prevent="submitFormCreationCourse">
-            <q-input
-              outlined
-              label="Titre"
-              id="title"
-              v-model="form.title"
-              stack-label
-              :dense="dense"
-              required
-            />
-            <br />
-            <q-input
-              outlined
-              type="description"
-              label="Description"
-              id="description"
-              v-model="form.description"
-              stack-label
-              :dense="dense"
-              required
-            />
-            <br />
-            <q-btn
-              size="18px"
-              type="submit"
-              style="
-                background: #7e807c;
-                color: white;
-                width: 250px;
-                margin-left: 0.5rem;
-              "
-              v-close-popup
-              label="Enregistrer"
-            />
-          </form>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
@@ -85,6 +53,9 @@
   import { useCourseStore } from 'src/stores/course';
   import { storeToRefs } from 'pinia';
 
+  import NewCourseButton from 'src/components/courses/NewCourseButton.vue';
+  import SubscribeCourseButton from 'src/components/courses/SubscribeCourseButton.vue';
+
   /* Stores*/
   const coursesStore = useCourseStore();
 
@@ -92,14 +63,20 @@
   const $router = useRouter();
   const $q = useQuasar();
 
-  /*UI states*/
-  const dense = ref(false);
-  const small = ref(false);
-
   /* States */
   const { courses } = storeToRefs(coursesStore);
   const appToken = ref($q.sessionStorage.getItem('app_token'));
-  const form = ref({});
+  /*eslint-disable*/
+  const userRole = ref($q.sessionStorage.getItem('current_user').roles[0])
+
+  function checkSubscribeStatus(course) {
+    if(userRole.value == 'student') {
+      const userId = $q.sessionStorage.getItem('user_id');
+      return course.students.includes(userId)
+    }
+
+    return true
+  }
 
   // Functions
   function handleViewDetail(courseId) {
@@ -107,11 +84,11 @@
     $router.push(`/app/courses/details/${courseId}`);
   }
 
-  function submitFormCreationCourse() {
-    // console.log('Form fields => ', form.value)
-    coursesStore.submitCourse(appToken.value, {...form.value, professor_id: $q.sessionStorage.getItem('user_id')}).then((result) => {
+  function submitFormCreationCourse(formContents) {
+    console.log('Form fields => ', formContents)
+    /* coursesStore.submitCourse(appToken.value, {...formContents, professor_id: $q.sessionStorage.getItem('user_id')}).then((result) => {
       coursesStore.courses.push(result.data)
-    })
+    }) */
   }
 
   onMounted(() => {

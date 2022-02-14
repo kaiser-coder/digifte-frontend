@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-      :modelValue="open"
+      :modelValue="true"
       show-if-above
       bordered
       :width="250"

@@ -20,7 +20,6 @@
 
     </q-layout>
   </div>
-
 </template>
 
 <script setup>
@@ -57,7 +56,7 @@
       title: 'ESPACE ETUDIANT',
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
-        {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
+        {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
       ]
     }
   });
