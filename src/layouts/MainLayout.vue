@@ -57,7 +57,11 @@
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
         {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
+<<<<<<< HEAD
         {icon: 'plan', link: '/app/students/agenda', label: 'PLanning'},
+=======
+        {icon: 'folder', link: '/app/students/agenda', label: 'Mon agenda'},
+>>>>>>> 1e2294ef5331dd394c9a338474e7274032e8b64f
       ]
     }
   });
