@@ -24,6 +24,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.0",
+    "@quasar/quasar-app-extension-qcalendar": "^4.0.0-beta.12",
     "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
@@ -48,20 +49,20 @@
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   },
-  "eslintConfig": { 
+  "eslintConfig": {
     "root": true,
     "env": {
-        "node": true
+      "node": true
     },
     "extends": [
-        "plugin:vue/essential",
-        "eslint:recommended"
+      "plugin:vue/essential",
+      "eslint:recommended"
     ],
     "parserOptions": {
-        "parser": "babel-eslint"
+      "parser": "babel-eslint"
     },
-    "rules": { 
-        "no-unused-vars": "off" 
+    "rules": {
+      "no-unused-vars": "off"
     }
-}
+  }
 }

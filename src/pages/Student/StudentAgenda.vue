@@ -1,12 +1,12 @@
 <template>
     <div>
         <h3 class="titleContent" >Agenda</h3>
+        <TheCalendar/>
     </div>
 </template>
-<script>
-export default {
-    
-}
+
+<script setup>
+    import TheCalendar from 'src/components/TheCalendar.vue';
 </script>
 
 <style>
