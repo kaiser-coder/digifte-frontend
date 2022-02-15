@@ -24,7 +24,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'home', component: () => import('pages/Home.vue') },
       { 
         path: 'courses', 
-        component: () => import('layouts/MainLayout.vue'),
+        component: () => import('layouts/EmptyLayout.vue'),
         children: [
           { path: 'list', component: () => import('pages/Shared/CoursesList.vue') },
           { path: 'details/:courseId', component: () => import('pages/Shared/CourseDetails.vue') },
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'students',
-        component: () => import('layouts/MainLayout.vue'),
+        component: () => import('layouts/EmptyLayout.vue'),
         children: [
           { path: 'follow', component: () => import('pages/Admnistrator/FollowStudent.vue') },
           { path: 'register', component: () => import('pages/Admnistrator/RegistrationManagement.vue') },
