@@ -622,6 +622,7 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
+
 .header
   display: flex
   justify-content: space-between
@@ -661,7 +662,7 @@ export default defineComponent({
 .pending
   color: green
 .blocking
-  color: red
+  color: redsubcontent
 .logged-time
   display: flex
   justify-content: center

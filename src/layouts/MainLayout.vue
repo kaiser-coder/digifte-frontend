@@ -57,6 +57,7 @@
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
         {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
+        {icon: 'plan', link: '/app/students/agenda', label: 'PLanning'},
       ]
     }
   });
