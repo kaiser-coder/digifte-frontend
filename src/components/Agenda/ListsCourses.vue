@@ -1,13 +1,6 @@
 <template lang="">
     <div class="row">
-         <q-card class="my-card col-4 q-ma-lg" v-for="course in courses" :key="course._id" >
-            <q-card-section class="bg-primary text-white">
-                <div class="text-h6" >{{ course.title }}</div>
-            </q-card-section>
-            <q-card-actions vertical align="center">
-                <q-btn  flat>Planning leçon</q-btn>
-            </q-card-actions>
-        </q-card>
+        <q-btn class="q-ma-xs" color="primary" :label="course.title" v-for="course in courses" :key="course._id"/>
     </div>
 </template>
 

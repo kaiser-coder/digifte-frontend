@@ -1,29 +1,12 @@
 <template>
   <div class="subcontent">
-    <navigation-bar
+    <!-- <navigation-bar
       @today="onToday"
       @prev="onPrev"
       @next="onNext"
-    />
+    /> -->
 
     <div class="q-ma-sm q-gutter-sm row justify-center">
-      <q-select
-        v-model="selectedCalendar"
-        label="Calendar Mode"
-        outlined
-        dense
-        options-dense
-        :options="[
-          'day',
-          'month',
-          'agenda',
-          'resource',
-          'scheduler',
-          'task'
-        ]"
-        class="button"
-        style="min-width: 180px;"
-      />
       <q-select
         v-model="selectedView"
         label="Calendar View"
@@ -41,15 +24,11 @@
       />
     </div>
 
-    <div class="row justify-center">
-      <div style="display: flex; max-width: 800px; width: 100%; max-height: 400px;">
+    <div class="row">
+      <div style="display: flex; max-width: 100%; width: 100%; max-height: 400px;">
         <q-calendar
           ref="calendar"
           v-model="selectedDate"
-          v-model:model-resources="resources"
-          v-model:model-title="titleTasks"
-          v-model:model-tasks="parsedTasks"
-          v-model:model-footer="footerTasks"
           :mode="selectedCalendar"
           resource-key="id"
           resource-label="name"
@@ -61,123 +40,18 @@
           :min-weekday-length="2"
           @change="onChange"
         >
-          <template
-            v-if="selectedCalendar === 'task'"
-            #title-task="{ scope }"
-          >
-            <div class="summary ellipsis">
-              <div class="title ellipsis">{{ scope.title.label }}</div>
-            </div>
-          </template>
-
-          <template
-            v-if="selectedCalendar === 'task'"
-            #head-tasks="{ /* scope */ }"
-          >
-            <div
-              class="header ellipsis"
-              style="font-weight: 600"
-            >
-              <div class="issue ellipsis">Issue</div>
-              <div class="key">Key</div>
-              <div class="logged">Logged</div>
-            </div>
-          </template>
-
-          <template
-            v-if="selectedCalendar === 'task'"
-            #task="{ scope }"
-          >
+          <template #resource-days="{ scope }">
             <template
-              v-for="task in getTasks(scope.start, scope.end, scope.task)"
-              :key="task.key"
+              v-for="(event, index) in getEvents(scope)"
+              :key="index"
             >
-              <div class="header ellipsis">
-                <div class="issue ellipsis">
-                  <span
-                    v-if="scope.task.icon === 'done'"
-                    class="done"
-                  ><Done /></span>
-                  <span
-                    v-else-if="scope.task.icon === 'pending'"
-                    class="pending"
-                  ><Pending /></span>
-                  <span
-                    v-else-if="scope.task.icon === 'blocking'"
-                    class="blocking"
-                  ><Blocking /></span>
-                  {{ scope.task.title }}
-                </div>
-                <div class="key">{{ scope.task.key }}</div>
-                <div class="logged">{{ sum(scope.start, scope.end, scope.task) }}</div>
-              </div>
+              <q-badge
+                outline
+                color="primary"
+                :label="event.title"
+                :style="getStyle(event)"
+              />
             </template>
-          </template>
-
-          <template
-            v-if="selectedCalendar === 'task'"
-            #day="{ scope: { timestamp, task } }"
-          >
-            <template
-              v-for="time in getLogged(timestamp.date, task.logged)"
-              :key="time"
-            >
-              <div class="logged-time">{{ time.logged }}</div>
-            </template>
-          </template>
-
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-if="selectedCalendar === 'agenda'" #day="{ scope: { timestamp } }">
-            <template
-              v-for="a in getAgenda(timestamp)"
-              :key="timestamp.date + a.time"
-            >
-              <div
-                :label="a.time"
-                class="justify-start q-ma-sm shadow-5 bg-grey-6"
-                style="margin-top: 25px;"
-              >
-                <div
-                  v-if="a.avatar"
-                  class="row justify-center"
-                  style="margin-top: 30px; width: 100%;"
-                >
-                  <q-avatar style="margin-top: -50px; margin-bottom: 10px; font-size: 60px;">
-                    <img
-                      :src="a.avatar"
-                      style="border: #9e9e9e solid 5px;"
-                    >
-                  </q-avatar>
-                </div>
-                <div class="col-12 q-px-sm">
-                  <strong>{{ a.time }}</strong>
-                </div>
-                <div
-                  v-if="a.desc"
-                  class="col-12 q-px-sm"
-                  style="font-size: 10px;"
-                >
-                  {{ a.desc }}
-                </div>
-              </div>
-            </template>
-          </template>
-
-          <template
-            v-if="selectedCalendar === 'task'"
-            #footer-task="{ scope: { start, end, footer } }"
-          >
-            <div class="summary ellipsis">
-              <div class="title ellipsis">{{ footer.title }}</div>
-              <div class="total">{{ totals(start, end) }}</div>
-            </div>
-          </template>
-
-          <template
-            v-if="selectedCalendar === 'task'"
-            #footer-day="{ scope: { timestamp } }"
-          >
-            <div class="logged-time">{{ getLoggedSummary(timestamp.date) }}</div>
           </template>
         </q-calendar>
       </div>
@@ -216,372 +90,32 @@ export default defineComponent({
       selectedView = ref('day'),
       calendar = ref(null),
       selectedDate = ref(today()),
-      resources = reactive([
-        { id: '1', name: 'John' },
+      events = reactive([
         {
-          id: '2',
-          name: 'Board Room',
-          expanded: false,
-          children: [
-            { id: '2.1', name: 'Room-1' },
-            {
-              id: '2.2',
-              name: 'Room-2',
-              expanded: false,
-              children: [
-                { id: '2.2.1', name: 'Partition-A' },
-                { id: '2.2.2', name: 'Partition-B' },
-                { id: '2.2.3', name: 'Partition-C' }
-              ]
-            }
-          ]
+          id: 1,
+          title: 'Vacation',
+          details: 'Time at the cabin',
+          date: '',
+          days: 2,
+          allDay: true,
+          bgcolor: 'orange'
         },
-        { id: '3', name: 'Mary' },
-        { id: '4', name: 'Susan' },
-        { id: '5', name: 'Olivia' }
+        {
+          id: 2,
+          title: 'Training',
+          details: 'Javascript 101',
+          date: '',
+          days: 2,
+          allDay: true,
+          bgcolor: 'green'
+        }
       ]),
       startDate = ref(today()),
-      endDate = ref(today()),
-      tasks = reactive([
-        {
-          icon: 'done',
-          title: 'Task 1',
-          key: 'TSK-584',
-          logged: [
-            { date: '2021-03-02', logged: 0.5 },
-            { date: '2021-03-05', logged: 2.0 }
-          ]
-        },
-        {
-          icon: 'pending',
-          title: 'Task 2',
-          key: 'TSK-592',
-          logged: [
-            { date: '2021-03-06', logged: 3.5 },
-            { date: '2021-03-08', logged: 4.0 }
-          ]
-        },
-        {
-          icon: 'pending',
-          title: 'Task 3',
-          key: 'TSK-593',
-          logged: [
-            { date: '2021-03-10', logged: 4.5 },
-            { date: '2021-03-11', logged: 2.4 }
-          ]
-        },
-        {
-          icon: 'done',
-          title: 'Task 4',
-          key: 'TSK-594',
-          logged: [
-            { date: '2021-03-14', logged: 6.5 },
-            { date: '2021-03-15', logged: 2.0 }
-          ]
-        },
-        {
-          icon: 'pending',
-          title: 'Task 5',
-          key: 'TSK-595',
-          logged: [
-            { date: '2021-03-12', logged: 1.5 },
-            { date: '2021-03-18', logged: 2.0 }
-          ]
-        },
-        {
-          icon: 'blocking',
-          title: 'Task 6',
-          key: 'TSK-596',
-          logged: [
-            { date: '2021-03-13', logged: 1.5 },
-            { date: '2021-03-23', logged: 3.5 }
-          ]
-        },
-        {
-          icon: 'pending',
-          title: 'Task 7',
-          key: 'TSK-597',
-          logged: [
-            { date: '2021-03-19', logged: 0.75 },
-            { date: '2021-03-26', logged: 2.25 }
-          ]
-        },
-        {
-          icon: 'done',
-          title: 'Task 8',
-          key: 'TSK-598',
-          logged: [
-            { date: '2021-03-21', logged: 1.5 },
-            { date: '2021-03-22', logged: 4.0 }
-          ]
-        },
-        {
-          icon: 'pending',
-          title: 'Task 9',
-          key: 'TSK-599',
-          logged: [
-            { date: '2021-03-26', logged: 6.5 },
-            { date: '2021-03-27', logged: 3.5 }
-          ]
-        },
-        {
-          icon: 'blocking',
-          title: 'Task 10',
-          key: 'TSK-600',
-          logged: [
-            { date: '2021-03-12', logged: 0.5 },
-            { date: '2021-03-14', logged: 2.0 },
-            { date: '2021-03-28', logged: 4.5 },
-            { date: '2021-03-30', logged: 1.0 }
-          ]
-        }
-      ]),
-      titleTasks = reactive([
-        { label: 'TITLE' },
-        { label: 'SUBTITLE' }
-      ]),
-      footerTasks = reactive([
-        { title: 'TOTALS' }
-      ]),
-      agenda = {
-        // value represents day of the week
-        1: [
-          {
-            time: '08:00',
-            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-            desc: 'Meeting with CEO'
-          },
-          {
-            time: '08:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar.png',
-            desc: 'Meeting with HR'
-          },
-          {
-            time: '10:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar1.jpg',
-            desc: 'Meeting with Karen'
-          }
-        ],
-        2: [
-          {
-            time: '11:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar2.jpg',
-            desc: 'Meeting with Alisha'
-          },
-          {
-            time: '17:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar3.jpg',
-            desc: 'Meeting with Sarah'
-          }
-        ],
-        3: [
-          {
-            time: '08:00',
-            desc: 'Stand-up SCRUM',
-            avatar: 'https://cdn.quasar.dev/img/material.png'
-          },
-          {
-            time: '09:00',
-            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
-          },
-          {
-            time: '10:00',
-            desc: 'Sprint planning',
-            avatar: 'https://cdn.quasar.dev/img/material.png'
-          },
-          {
-            time: '13:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar1.jpg'
-          }
-        ],
-        4: [
-          {
-            time: '09:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar3.jpg'
-          },
-          {
-            time: '10:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
-          },
-          {
-            time: '13:00',
-            avatar: 'https://cdn.quasar.dev/img/material.png'
-          }
-        ],
-        5: [
-          {
-            time: '08:00',
-            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
-          },
-          {
-            time: '09:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
-          },
-          {
-            time: '09:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar4.jpg'
-          },
-          {
-            time: '10:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar5.jpg'
-          },
-          {
-            time: '11:30',
-            avatar: 'https://cdn.quasar.dev/img/material.png'
-          },
-          {
-            time: '13:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar6.jpg'
-          },
-          {
-            time: '13:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar3.jpg'
-          },
-          {
-            time: '14:00',
-            avatar: 'https://cdn.quasar.dev/img/linux-avatar.png'
-          },
-          {
-            time: '14:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar.png'
-          },
-          {
-            time: '15:00',
-            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
-          },
-          {
-            time: '15:30',
-            avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
-          },
-          {
-            time: '16:00',
-            avatar: 'https://cdn.quasar.dev/img/avatar6.jpg'
-          }
-        ]
-      }
-
-    const parsedTasks = computed(() => {
-      const start = parsed(startDate.value)
-      const end = parsed(endDate.value)
-      const t = []
-
-      for (let i = 0; i < tasks.length; ++i) {
-        const task = tasks[ i ]
-        for (let j = 0; j < task.logged.length; ++j) {
-          const loggedTimestamp = parsed(task.logged[ j ].date)
-          if (isBetweenDates(loggedTimestamp, start, end)) {
-            t.push(task)
-            break
-          }
-        }
-      }
-      return t
-    })
-
-    onBeforeMount(() => {
-      // adjust all the dates for the current month so examples don't expire
-      const date = new Date()
-      const year = date.getFullYear()
-      const month = padNumber((date.getMonth() + 1), 2)
-      tasks.forEach(task => {
-        task.logged.forEach(logged => {
-          // get last 2 digits from current date (day)
-          const day = logged.date.slice(-2)
-          logged.date = [ year, padNumber(month, 2), padNumber(day, 2) ].join('-')
-        })
-      })
-    })
+      endDate = ref(today());
 
     function onChange (data) {
       startDate.value = data.start
       endDate.value = data.end
-    }
-
-    function getLogged (date, logged) {
-      const val = []
-      for (let index = 0; index < logged.length; ++index) {
-        if (logged[ index ].date === date) {
-          val.push({ logged: logged[ index ].logged })
-          break
-        }
-      }
-      return val
-    }
-
-    function getLoggedSummary (date) {
-      let total = 0
-
-      const reducer = (accumulator, currentValue) => {
-        if (date === currentValue.date) {
-          return accumulator + currentValue.logged
-        }
-        return accumulator
-      }
-
-      for (const index in tasks) {
-        const task = tasks[ index ]
-        total += task.logged.reduce(reducer, 0)
-      }
-
-      return total
-    }
-
-    /**
-     * Sums up the amount of time spent on a task
-     * This only sums it up if the logged date falls
-     * between the start and end times
-     */
-    function sum (start, end, task) {
-      const reducer = (accumulator, currentValue) => {
-        const loggedTimestamp = parsed(currentValue.date)
-        if (isBetweenDates(loggedTimestamp, start, end)) {
-          return accumulator + currentValue.logged
-        }
-        return accumulator
-      }
-      return task.logged.reduce(reducer, 0)
-    }
-
-    /**
-     * Determines if the passed in task has logged time
-     * between the start and end times
-     */
-    function getTasks (start, end, task) {
-      const tasks = []
-
-      for (let index = 0; index < task.logged.length; ++index) {
-        const loggedTimestamp = parsed(task.logged[ index ].date)
-        if (isBetweenDates(loggedTimestamp, start, end)) {
-          tasks.push(task)
-          break
-        }
-      }
-      return tasks
-    }
-
-    /**
-     * Sums up the amount of time spent for all tasks
-     * between the start and end dates
-     */
-    function totals (start, end) {
-      let total = 0
-      const reducer = (accumulator, currentValue) => {
-        const loggedTimestamp = parsed(currentValue.date)
-        if (isBetweenDates(loggedTimestamp, start, end)) {
-          return accumulator + currentValue.logged
-        }
-        return accumulator
-      }
-
-      for (const task in tasks) {
-        total += tasks[ task ].logged.reduce(reducer, 0)
-      }
-
-      return total
-    }
-
-    function getAgenda (day) {
-      return this.agenda[ parseInt(day.weekday, 10) ]
     }
 
     function onToday () {
@@ -594,28 +128,47 @@ export default defineComponent({
       calendar.value.next()
     }
 
+    function getEvents (scope) {
+      const events = []
+      if (this.events[ scope.resource.id ]) {
+        // get events for the specified resource
+        const resourceEvents = this.events[ scope.resource.id ]
+        // make sure we have events
+        if (resourceEvents && resourceEvents.length > 0) {
+          // for each event figure out start position and width
+          for (let x = 0; x < resourceEvents.length; ++x) {
+            events.push({
+              left: this.getLeft(scope, resourceEvents[ x ]),
+              width: this.getWidth(scope, resourceEvents[ x ]),
+              title: resourceEvents[ x ].title
+            })
+          }
+        }
+      }
+      return events
+    }
+
+    function getStyle (event) {
+      return {
+        position: 'absolute',
+        background: 'white',
+        left: event.left,
+        width: event.width
+      }
+    }
+
     return {
       selectedCalendar,
       selectedView,
       selectedDate,
       calendar,
-      resources,
+      events,
       onToday,
       onPrev,
       onNext,
       onChange,
-      // tasks
-      parsedTasks,
-      titleTasks,
-      footerTasks,
-      getLogged,
-      getLoggedSummary,
-      sum,
-      getTasks,
-      totals,
-      // agenda
-      agenda,
-      getAgenda
+      getEvents,
+      getStyle
     }
   }
 })
