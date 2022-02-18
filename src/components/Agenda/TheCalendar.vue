@@ -4,7 +4,9 @@
       @today="onToday"
       @prev="onPrev"
       @next="onNext"
-    /> -->
+    /> -->  
+    
+    {{getLessons('2022-02-15')}}
 
     <div class="q-ma-sm q-gutter-sm row justify-center">
       <q-select
@@ -73,11 +75,16 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendar.sass'
 
+
 // import NavigationBar from '../components/NavigationBar.vue'
 
 // import Done from '@carbon/icons-vue/es/checkmark--outline/16'
 // import Pending from '@carbon/icons-vue/es/pending/16'
 // import Blocking from '@carbon/icons-vue/es/undefined/16'
+import { useLessonStore } from 'src/stores/lesson';
+import { useQuasar } from 'quasar';
+
+
 
 export default defineComponent({
   name: 'CalendarAll',
@@ -112,6 +119,41 @@ export default defineComponent({
       ]),
       startDate = ref(today()),
       endDate = ref(today());
+    
+    const lessonStore = useLessonStore(),
+    $q = useQuasar();
+
+    function getLessons(from = '', to = '') {
+      const appToken = $q.sessionStorage.getItem('app_token');
+      const courseId = '620a013680351c3b36562258';
+      return lessonStore.getAllByCourseId(appToken, courseId).then((result) => {
+        console.log('Lessons => ', result);
+        const filtered = result.filter((r) => {
+          const startDateParsed = Date.parse(r.start_date) / 1000,
+                fromParsed = Date.parse(from) / 1000,
+                toParsed = Date.parse(to) / 1000;
+
+            console.log('Timestamps => ', {startDateParsed, fromParsed, toParsed});
+          
+          if(fromParsed && !toParsed) {
+            console.log('1');
+            return startDateParsed > fromParsed;
+          }
+
+          if(!fromParsed && toParsed) {
+            return startDateParsed < toParsed;
+          }
+
+          if(fromParsed && toParsed) {
+            console.log('3');
+            return startDateParsed > fromParsed && r.startDateParsed < toParsed
+          }
+
+        });
+        
+        return filtered;
+      })
+    }
 
     function onChange (data) {
       startDate.value = data.start
@@ -168,7 +210,8 @@ export default defineComponent({
       onNext,
       onChange,
       getEvents,
-      getStyle
+      getStyle,
+      getLessons
     }
   }
 })
