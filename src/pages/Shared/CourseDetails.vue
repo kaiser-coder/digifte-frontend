@@ -1,4 +1,4 @@
-<template>
+<template lang="" >
   <div>
       <div class="featuredItem">
           <span class="featuredTitle">DETAILS COURS</span>
@@ -78,6 +78,7 @@ const { lessons } = storeToRefs(lessonStore);
 const { details } = storeToRefs(courseStore);
 const appToken = ref($q.sessionStorage.getItem('app_token'));
 const courseId = ref($router.currentRoute.value.params.courseId);
+
 /*eslint-disable*/
 const userRole = ref($q.sessionStorage.getItem('current_user').roles[0]);
 const lessonDetails = reactive({});
@@ -85,6 +86,7 @@ const lessonDetails = reactive({});
 onBeforeMount(() => {
   /*eslint-disable*/
   console.log('CourseId =>', $router.currentRoute.value.params.courseId);
+  $q.sessionStorage.set('courseId', courseId.value)
   // console.log('Courses details =>', courseStore.details)
   console.log('Lessons for this course =>', lessonStore.lessons);
 
