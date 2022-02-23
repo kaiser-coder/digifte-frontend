@@ -23,5 +23,10 @@ const createMeeting = async (appToken: string, lessonId: string, data: any) => {
     return response.data;
 }
 
+const fetchAll = async (appToken: string) => {
+  const response = await axios.get(`/api/lessons`, { headers: { 'x-access-token': appToken } })
+  return response.data;
+}
 
-export { fetchAllByCourseId, createLessons, updateLesson, createMeeting }
+
+export { fetchAllByCourseId, createLessons, updateLesson, createMeeting, fetchAll }

@@ -38,7 +38,13 @@
               >
                 <div class="title q-calendar__ellipsis">
                   {{ event.title + (event.time ? ' - ' + event.time : '') }}
-                  <q-tooltip>{{ event.details }}</q-tooltip>
+                  <q-tooltip>
+                    <ul style="list-style: none;">
+                      <li>Durée: {{ event.details[0] }}</li>
+                      <li>Lien du Meeting: {{ event.details[1] }}</li>
+                      <li>Date de début: {{ event.details[2] }}</li>
+                    </ul>
+                  </q-tooltip>
                 </div>
               </div>
             </template>
@@ -62,7 +68,9 @@
   import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
   import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-  import { ref, computed } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
+  import { useLessonStore } from 'src/stores/lesson'
+  import { useQuasar } from 'quasar'
 
   //import NavigationBar from '../components/NavigationBar.vue'
 
@@ -75,10 +83,14 @@
     return tm.date
   }
 
-  // ======== STATES =========
+  // This function define random colors
+  const COLORS = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
+  function setColor() {
+    return COLORS[Math.floor(Math.random() * 8)];
+  }
 
   const selectedDate = today();
-  const events = ref([
+  /* const events = ref([
       {
         id: 1,
         title: '1st of the Month',
@@ -171,10 +183,13 @@
         icon: 'fas fa-plane',
         days: 5
       }
-  ])
+  ]); */
 
-  // =========================
-  // ======== COMPUTED ==========
+  const events = ref([]);
+
+  const lessonStore = useLessonStore();
+  const $q = useQuasar();
+
   const eventsMap = computed(() => {
     const map = {}
     if (events.value.length > 0) {
@@ -199,8 +214,29 @@
     console.log(map)
     return map
   })
-  // =========================
-  // ======= FUNCTIONS =======
+
+  onMounted(() => {
+    const appToken = $q.sessionStorage.getItem('app_token')
+    // Get lessons with courseId
+    lessonStore.getAllByCourseId(appToken, '61f914861956f9f78d5065f9').then((result) => {
+      console.log('Lessons of "61f914861956f9f78d5065f9" => ', result)
+    })
+
+    // Get all lessons
+    lessonStore.getAll(appToken).then((result) => {
+      // Format data
+      result.data.forEach((d) => {
+        const date = new Date(d.start_date);
+        events.value.push({
+          id: d._id,
+          title: d.name,
+          details: [d.duration, d.zoom_url, date],
+          date: getCurrentDay(date.getDate()), // start_date
+          bgcolor: setColor()
+        })
+      })
+    })
+  })
 
   function badgeClasses (event, type) {
     return {

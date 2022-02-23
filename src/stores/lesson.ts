@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { fetchAllByCourseId, createLessons, createMeeting } from 'src/api/lessons';
+import { fetchAllByCourseId, createLessons, createMeeting, fetchAll } from 'src/api/lessons';
 
 export const useLessonStore = defineStore('lesson', {
     state: () => ({
@@ -24,6 +24,11 @@ export const useLessonStore = defineStore('lesson', {
         async submitMeeting(appToken: string, lessonId: string, data: any) {
             const result = await createMeeting(appToken, lessonId, data);
             return result;
+        },
+
+        async getAll(appToken: string) {
+          const result = await fetchAll(appToken);
+          return result;
         }
     },
 });
