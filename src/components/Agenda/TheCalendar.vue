@@ -49,183 +49,175 @@
   </div>
 </template>
 
-<script>
-/* eslint-disable */
-import {
-  QCalendarMonth,
-  addToDate,
-  parseDate,
-  parseTimestamp,
-  today
-} from '@quasar/quasar-ui-qcalendar/src/index.js'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
-import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
+<script setup>
+  /* eslint-disable */
+  import {
+    QCalendarMonth,
+    addToDate,
+    parseDate,
+    parseTimestamp,
+    today
+  } from '@quasar/quasar-ui-qcalendar/src/index.js'
+  import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
+  import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
+  import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-import { defineComponent } from 'vue'
-//import NavigationBar from '../components/NavigationBar.vue'
+  import { ref, computed } from 'vue'
 
-// The function below is used to set up our demo data
-const CURRENT_DAY = new Date()
-function getCurrentDay (day) {
-  const newDay = new Date(CURRENT_DAY)
-  newDay.setDate(day)
-  const tm = parseDate(newDay)
-  return tm.date
-}
+  //import NavigationBar from '../components/NavigationBar.vue'
 
-export default defineComponent({
-  name: 'MonthSlotDay',
-  components: {
-    //NavigationBar,
-    QCalendarMonth
-  },
-  data () {
-    return {
-      selectedDate: today(),
-
-      events: [
-        {
-          id: 1,
-          title: '1st of the Month',
-          details: 'Everything is funny as long as it is happening to someone else',
-          date: getCurrentDay(1),
-          bgcolor: 'orange'
-        },
-        {
-          id: 2,
-          title: 'Sisters Birthday',
-          details: 'Buy a nice present',
-          date: getCurrentDay(4),
-          bgcolor: 'green',
-          icon: 'fas fa-birthday-cake'
-        },
-        {
-          id: 3,
-          title: 'Meeting',
-          details: 'Time to pitch my idea to the company',
-          date: getCurrentDay(10),
-          time: '10:00',
-          duration: 120,
-          bgcolor: 'red',
-          icon: 'fas fa-handshake'
-        },
-        {
-          id: 4,
-          title: 'Lunch',
-          details: 'Company is paying!',
-          date: getCurrentDay(10),
-          time: '11:30',
-          duration: 90,
-          bgcolor: 'teal',
-          icon: 'fas fa-hamburger'
-        },
-        {
-          id: 5,
-          title: 'Visit mom',
-          details: 'Always a nice chat with mom',
-          date: getCurrentDay(20),
-          time: '17:00',
-          duration: 90,
-          bgcolor: 'grey',
-          icon: 'fas fa-car'
-        },
-        {
-          id: 6,
-          title: 'Conference',
-          details: 'Teaching Javascript 101',
-          date: getCurrentDay(22),
-          time: '08:00',
-          duration: 540,
-          bgcolor: 'blue',
-          icon: 'fas fa-chalkboard-teacher'
-        },
-        {
-          id: 7,
-          title: 'Girlfriend',
-          details: 'Meet GF for dinner at Swanky Restaurant',
-          date: getCurrentDay(22),
-          time: '19:00',
-          duration: 180,
-          bgcolor: 'teal',
-          icon: 'fas fa-utensils'
-        },
-        {
-          id: 8,
-          title: 'Rowing',
-          details: 'Stay in shape!',
-          date: getCurrentDay(27),
-          bgcolor: 'purple',
-          icon: 'rowing',
-          days: 2
-        },
-        {
-          id: 9,
-          title: 'Fishing',
-          details: 'Time for some weekend R&R',
-          date: getCurrentDay(27),
-          bgcolor: 'purple',
-          icon: 'fas fa-fish',
-          days: 2
-        },
-        {
-          id: 10,
-          title: 'Vacation',
-          details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
-          date: getCurrentDay(29),
-          bgcolor: 'purple',
-          icon: 'fas fa-plane',
-          days: 5
-        }
-      ]
-    }
-  },
-
-  computed: {
-    eventsMap () {
-      const map = {}
-      if (this.events.length > 0) {
-        this.events.forEach(event => {
-          (map[ event.date ] = (map[ event.date ] || [])).push(event)
-          if (event.days !== undefined) {
-            let timestamp = parseTimestamp(event.date)
-            let days = event.days
-            // add a new event for each day
-            // skip 1st one which would have been done above
-            do {
-              timestamp = addToDate(timestamp, { day: 1 })
-              if (!map[ timestamp.date ]) {
-                map[ timestamp.date ] = []
-              }
-              map[ timestamp.date ].push(event)
-              // already accounted for 1st day
-            } while (--days > 1)
-          }
-        })
-      }
-      console.log(map)
-      return map
-    }
-  },
-  
-  methods: {
-    badgeClasses (event, type) {
-      return {
-        [ `text-white bg-${ event.bgcolor }` ]: true,
-        'rounded-border': true
-      }
-    },
-
-    badgeStyles (day, event) {
-      const s = {}
-      // s.left = day.weekday === 0 ? 0 : (day.weekday * this.parsedCellWidth) + '%'
-      // s.top = 0
-      // s.bottom = 0
-      // s.width = (event.days * this.parsedCellWidth) + '%'
-      return s
-    },
+  // The function below is used to set up our demo data
+  const CURRENT_DAY = new Date()
+  function getCurrentDay (day) {
+    const newDay = new Date(CURRENT_DAY)
+    newDay.setDate(day)
+    const tm = parseDate(newDay)
+    return tm.date
   }
-})
+
+  // ======== STATES =========
+
+  const selectedDate = today();
+  const events = ref([
+      {
+        id: 1,
+        title: '1st of the Month',
+        details: 'Everything is funny as long as it is happening to someone else',
+        date: getCurrentDay(1),
+        bgcolor: 'orange'
+      },
+      {
+        id: 2,
+        title: 'Sisters Birthday',
+        details: 'Buy a nice present',
+        date: getCurrentDay(4),
+        bgcolor: 'green',
+        icon: 'fas fa-birthday-cake'
+      },
+      {
+        id: 3,
+        title: 'Meeting',
+        details: 'Time to pitch my idea to the company',
+        date: getCurrentDay(10),
+        time: '10:00',
+        duration: 120,
+        bgcolor: 'red',
+        icon: 'fas fa-handshake'
+      },
+      {
+        id: 4,
+        title: 'Lunch',
+        details: 'Company is paying!',
+        date: getCurrentDay(10),
+        time: '11:30',
+        duration: 90,
+        bgcolor: 'teal',
+        icon: 'fas fa-hamburger'
+      },
+      {
+        id: 5,
+        title: 'Visit mom',
+        details: 'Always a nice chat with mom',
+        date: getCurrentDay(20),
+        time: '17:00',
+        duration: 90,
+        bgcolor: 'grey',
+        icon: 'fas fa-car'
+      },
+      {
+        id: 6,
+        title: 'Conference',
+        details: 'Teaching Javascript 101',
+        date: getCurrentDay(22),
+        time: '08:00',
+        duration: 540,
+        bgcolor: 'blue',
+        icon: 'fas fa-chalkboard-teacher'
+      },
+      {
+        id: 7,
+        title: 'Girlfriend',
+        details: 'Meet GF for dinner at Swanky Restaurant',
+        date: getCurrentDay(22),
+        time: '19:00',
+        duration: 180,
+        bgcolor: 'teal',
+        icon: 'fas fa-utensils'
+      },
+      {
+        id: 8,
+        title: 'Rowing',
+        details: 'Stay in shape!',
+        date: getCurrentDay(27),
+        bgcolor: 'purple',
+        icon: 'rowing',
+        days: 2
+      },
+      {
+        id: 9,
+        title: 'Fishing',
+        details: 'Time for some weekend R&R',
+        date: getCurrentDay(27),
+        bgcolor: 'purple',
+        icon: 'fas fa-fish',
+        days: 2
+      },
+      {
+        id: 10,
+        title: 'Vacation',
+        details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
+        date: getCurrentDay(29),
+        bgcolor: 'purple',
+        icon: 'fas fa-plane',
+        days: 5
+      }
+  ])
+
+  // =========================
+  // ======== COMPUTED ==========
+  const eventsMap = computed(() => {
+    const map = {}
+    if (events.value.length > 0) {
+      events.value.forEach(event => {
+        (map[ event.date ] = (map[ event.date ] || [])).push(event)
+        if (event.days !== undefined) {
+          let timestamp = parseTimestamp(event.date)
+          let days = event.days
+          // add a new event for each day
+          // skip 1st one which would have been done above
+          do {
+            timestamp = addToDate(timestamp, { day: 1 })
+            if (!map[ timestamp.date ]) {
+              map[ timestamp.date ] = []
+            }
+            map[ timestamp.date ].push(event)
+            // already accounted for 1st day
+          } while (--days > 1)
+        }
+      })
+    }
+    console.log(map)
+    return map
+  })
+  // =========================
+  // ======= FUNCTIONS =======
+
+  function badgeClasses (event, type) {
+    return {
+      [ `text-white bg-${ event.bgcolor }` ]: true,
+      'rounded-border': true
+    }
+  }
+
+  function badgeStyles (day, event) {
+    const s = {}
+    // s.left = day.weekday === 0 ? 0 : (day.weekday * this.parsedCellWidth) + '%'
+    // s.top = 0
+    // s.bottom = 0
+    // s.width = (event.days * this.parsedCellWidth) + '%'
+    return s
+  }
+
 </script>
 
 
