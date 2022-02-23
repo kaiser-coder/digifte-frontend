@@ -1,4 +1,4 @@
-<template>
+<template lang="" >
   <div class="subcontent">
     <!-- <navigation-bar
       @today="onToday"
@@ -142,7 +142,6 @@
     // s.width = (event.days * this.parsedCellWidth) + '%'
     return s
   }
-
 </script>
 
 
