@@ -1,4 +1,4 @@
-<template>
+<template lang="">
    <q-btn :color="btnColor" @click="handleClick" :label="btnLabel" :disable="isDisabled"/>    
 </template>
 

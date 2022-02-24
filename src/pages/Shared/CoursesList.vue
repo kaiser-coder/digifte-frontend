@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div>
     <h4 class="titleThree">Listes cours</h4>
     <br />
@@ -97,22 +97,22 @@
     // throw '';
 
     courseStore.subscribeToCourse(appToken.value, {courseId, student: userId.value})
-         .then((result) => {
-            console.log('Subscribed student =>', result);
-            
-            $q.notify({
-               type: 'positive',
-               message: result.message,
-               position: 'top-right'
-            })
-         })
-         .catch((error) => {
-            $q.notify({
-               type: 'negative',
-               message: error.message,
-               position: 'top-right'
-            })
-         })
+      .then((result) => {
+        console.log('Subscribed student =>', result);
+        
+        $q.notify({
+            type: 'positive',
+            message: result.message,
+            position: 'top-right'
+        })
+      })
+      .catch((error) => {
+        $q.notify({
+            type: 'negative',
+            message: error.message,
+            position: 'top-right'
+        })
+      })
   }
 
   onMounted(() => {
