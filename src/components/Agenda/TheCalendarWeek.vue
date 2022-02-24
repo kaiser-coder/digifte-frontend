@@ -10,7 +10,7 @@
           bordered
           no-active-date
         >
-          <!-- <template #head-day-event="{ scope: { timestamp } }">
+          <template #head-day-event="{ scope: { timestamp } }">
             <div style="display: flex; justify-content: center; flex-wrap: wrap; padding: 2px;">
               <template
                 v-for="event in eventsMap[timestamp.date]"
@@ -41,7 +41,7 @@
                 </q-badge>
               </template>
             </div>
-          </template> -->
+          </template>
 
           <template #day-body="{ scope: { timestamp, timeStartPos, timeDurationHeight } }">
             <template
@@ -56,7 +56,13 @@
               >
                 <span class="title q-calendar__ellipsis">
                   {{ event.title }}
-                  <q-tooltip>{{ event.details }}</q-tooltip>
+                  <q-tooltip>
+                    <ul style="list-style: none;">
+                      <li>Durée: {{ event.details[0] }}</li>
+                      <li>Lien du Meeting: {{ event.details[1] }}</li>
+                      <li>Date de début: {{ event.details[2] }}</li>
+                    </ul>
+                  </q-tooltip>
                 </span>
               </div>
             </template>
@@ -83,7 +89,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 
-import { defineComponent, computed, defineProps } from 'vue'
+import { defineComponent, computed, defineProps, onMounted } from 'vue';
 //import NavigationBar from '../components/NavigationBar.vue'
 
 
@@ -98,8 +104,17 @@ function getCurrentDay (day) {
 }
 
 const selectedDate = today();
+const props = defineProps({
+  lessons: Array
+});
 
-const events = [
+// This function define random colors
+const COLORS = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
+function setColor() {
+  return COLORS[Math.floor(Math.random() * 8)]
+}
+
+/* const events = [
 {
     id: 1,
     title: '1st of the Month',
@@ -183,11 +198,34 @@ const events = [
     icon: 'fas fa-plane',
     days: 5
 }
-];
+]; */
 
+const events = computed(() => {
+    // Format data
+    let custom = [];
+    props.lessons.forEach((d) => {
+      const date = new Date(d.start_date);
+      custom.push({
+        id: d._id,
+        title: d.name,
+        details: [d.duration, d.zoom_url, date],
+        date: getCurrentDay(date.getDate()), // start_date
+        time: '10:00',
+        duration: 60,
+        bgcolor: setColor()
+      })
+    })
+    return custom
+});
+
+onMounted(() => {
+  console.log('Events 2022-02-23 => ', eventsMap.value['2022-02-23']);
+})
+
+// Dispatch events by date
 const eventsMap = computed (() => {
     const map = {}
-    events.forEach(event => {
+    events.value.forEach(event => {
     if (!map[ event.date ]) {
         map[ event.date ] = []
     }
@@ -196,14 +234,15 @@ const eventsMap = computed (() => {
         let timestamp = parseTimestamp(event.date)
         let days = event.days
         do {
-        timestamp = addToDate(timestamp, { day: 1 })
-        if (!map[ timestamp.date ]) {
-            map[ timestamp.date ] = []
-        }
-        map[ timestamp.date ].push(event)
+          timestamp = addToDate(timestamp, { day: 1 })
+          if (!map[ timestamp.date ]) {
+              map[ timestamp.date ] = []
+          }
+          map[ timestamp.date ].push(event)
         } while (--days > 0)
     }
     })
+    console.log('Mapped => ', map)
     return map
 })
 
@@ -230,27 +269,29 @@ function badgeStyles (event, type, timeStartPos = undefined, timeDurationHeight 
 
 function getEvents (dt) {
     // get all events for the specified date
-    const events = this.eventsMap[ dt ] || []
+
+    const events = eventsMap.value[dt] || []
+    console.log('Date event => ', dt);
 
     if (events.length === 1) {
-    events[ 0 ].side = 'full'
+      events[ 0 ].side = 'full'
     }
     else if (events.length === 2) {
-    // this example does no more than 2 events per day
-    // check if the two events overlap and if so, select
-    // left or right side alignment to prevent overlap
-    const startTime = addToDate(parsed(events[ 0 ].date), { minute: parseTime(events[ 0 ].time) })
-    const endTime = addToDate(startTime, { minute: events[ 0 ].duration })
-    const startTime2 = addToDate(parsed(events[ 1 ].date), { minute: parseTime(events[ 1 ].time) })
-    const endTime2 = addToDate(startTime2, { minute: events[ 1 ].duration })
-    if (isBetweenDates(startTime2, startTime, endTime, true) || isBetweenDates(endTime2, startTime, endTime, true)) {
-        events[ 0 ].side = 'left'
-        events[ 1 ].side = 'right'
-    }
-    else {
-        events[ 0 ].side = 'full'
-        events[ 1 ].side = 'full'
-    }
+      // this example does no more than 2 events per day
+      // check if the two events overlap and if so, select
+      // left or right side alignment to prevent overlap
+      const startTime = addToDate(parsed(events[ 0 ].date), { minute: parseTime(events[ 0 ].time) })
+      const endTime = addToDate(startTime, { minute: events[ 0 ].duration })
+      const startTime2 = addToDate(parsed(events[ 1 ].date), { minute: parseTime(events[ 1 ].time) })
+      const endTime2 = addToDate(startTime2, { minute: events[ 1 ].duration })
+      if (isBetweenDates(startTime2, startTime, endTime, true) || isBetweenDates(endTime2, startTime, endTime, true)) {
+          events[ 0 ].side = 'left'
+          events[ 1 ].side = 'right'
+      }
+      else {
+          events[ 0 ].side = 'full'
+          events[ 1 ].side = 'full'
+      }
     }
 
     return events
