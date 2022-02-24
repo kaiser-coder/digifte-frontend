@@ -114,104 +114,30 @@ function setColor() {
   return COLORS[Math.floor(Math.random() * 8)]
 }
 
-/* const events = [
-{
-    id: 1,
-    title: '1st of the Month',
-    details: 'Everything is funny as long as it is happening to someone else',
-    date: getCurrentDay(1),
-    bgcolor: 'orange'
-},
-{
-    id: 2,
-    title: 'Sisters Birthday',
-    details: 'Buy a nice present',
-    date: getCurrentDay(4),
-    bgcolor: 'green',
-    icon: 'fas fa-birthday-cake'
-},
-{
-    id: 3,
-    title: 'Meeting',
-    details: 'Time to pitch my idea to the company',
-    date: getCurrentDay(10),
-    time: '10:00',
-    duration: 120,
-    bgcolor: 'red',
-    icon: 'fas fa-handshake'
-},
-{
-    id: 4,
-    title: 'Lunch',
-    details: 'Company is paying!',
-    date: getCurrentDay(10),
-    time: '11:30',
-    duration: 90,
-    bgcolor: 'teal',
-    icon: 'fas fa-hamburger'
-},
-{
-    id: 5,
-    title: 'Visit mom',
-    details: 'Always a nice chat with mom',
-    date: getCurrentDay(20),
-    time: '17:00',
-    duration: 90,
-    bgcolor: 'grey',
-    icon: 'fas fa-car'
-},
-{
-    id: 6,
-    title: 'Conference',
-    details: 'Teaching Javascript 101',
-    date: getCurrentDay(22),
-    time: '08:00',
-    duration: 540,
-    bgcolor: 'blue',
-    icon: 'fas fa-chalkboard-teacher'
-},
-{
-    id: 7,
-    title: 'Girlfriend',
-    details: 'Meet GF for dinner at Swanky Restaurant',
-    date: getCurrentDay(22),
-    time: '19:00',
-    duration: 180,
-    bgcolor: 'teal',
-    icon: 'fas fa-utensils'
-},
-{
-    id: 8,
-    title: 'Fishing',
-    details: 'Time for some weekend R&R',
-    date: getCurrentDay(27),
-    bgcolor: 'purple',
-    icon: 'fas fa-fish',
-    days: 2
-},
-{
-    id: 9,
-    title: 'Vacation',
-    details: 'Trails and hikes, going camping! Don\'t forget to bring bear spray!',
-    date: getCurrentDay(29),
-    bgcolor: 'purple',
-    icon: 'fas fa-plane',
-    days: 5
+
+const handleTime = (dateD) => {
+  let hrs = dateD.getHours()
+  let mins = dateD.getMinutes()
+  if(hrs<=9)
+      hrs = '0' + hrs
+  if(mins<10)
+    mins = '0' + mins
+  const postTime= hrs + ':' + mins
+  return postTime
 }
-]; */
 
 const events = computed(() => {
     // Format data
     let custom = [];
     props.lessons.forEach((d) => {
       const date = new Date(d.start_date);
+      console.log('Time => ', handleTime(date))
       custom.push({
         id: d._id,
         title: d.name,
         details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
-        time: '10:00',
-        duration: 60,
+        time: handleTime(date),
         bgcolor: setColor()
       })
     })
@@ -219,7 +145,7 @@ const events = computed(() => {
 });
 
 onMounted(() => {
-  console.log('Events 2022-02-23 => ', eventsMap.value['2022-02-23']);
+  console.log('Lessons => ', props.lessons);
 })
 
 // Dispatch events by date
@@ -271,7 +197,7 @@ function getEvents (dt) {
     // get all events for the specified date
 
     const events = eventsMap.value[dt] || []
-    console.log('Date event => ', dt);
+    // console.log('Date event => ', dt);
 
     if (events.length === 1) {
       events[ 0 ].side = 'full'
