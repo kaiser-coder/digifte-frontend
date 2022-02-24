@@ -11,10 +11,6 @@
           transition-next="slide-left"
           transition-prev="slide-right"
           no-active-date
-          :interval-minutes="15"
-          :interval-start="24"
-          :interval-count="68"
-          :interval-height="28"
         >
           <template #head-day-event="{ scope: { timestamp } }">
             <div style="display: flex; justify-content: center; flex-wrap: wrap; padding: 2px;">
@@ -79,64 +75,67 @@ import {
   isBetweenDates,
   today,
   parsed,
-  parseTime
+  parseTime,
+  parseDate
 } from '@quasar/quasar-ui-qcalendar/src/index.js'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, defineProps } from 'vue'
 //import NavigationBar from '../components/NavigationBar.vue'
 
+const CURRENT_DAY = new Date()
+function getCurrentDay (day) {
+  const newDay = new Date(CURRENT_DAY)
+  newDay.setDate(day)
+  const tm = parseDate(newDay)
+  return tm.date
+}
 const selectedDate = today();
+const props = defineProps({
+  lessons: Array
+});
 
-const events = [
-  {
-    id: 1,
-    title: 'Meeting',
-    details: 'Time to pitch my idea to the company',
-    date: today(),
-    time: '09:00',
-    duration: 120,
-    bgcolor: 'red',
-    icon: 'fas fa-handshake'
-  },
-  {
-    id: 2,
-    title: 'Lunch',
-    details: 'Company is paying!',
-    date: today(),
-    time: '12:00',
-    duration: 60,
-    bgcolor: 'teal',
-    icon: 'fas fa-hamburger'
-  },
-  {
-    id: 3,
-    title: 'Conference',
-    details: 'Teaching Javascript 101',
-    date: today(),
-    time: '13:00',
-    duration: 240,
-    bgcolor: 'blue',
-    icon: 'fas fa-chalkboard-teacher'
-  },
-  {
-    id: 4,
-    title: 'Girlfriend',
-    details: 'Meet GF for dinner at Swanky Restaurant',
-    date: today(),
-    time: '19:00',
-    duration: 180,
-    bgcolor: 'teal-2',
-    icon: 'fas fa-utensils'
-  }
-]
-  
+// This function define random colors
+const COLORS = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
+function setColor() {
+  return COLORS[Math.floor(Math.random() * 8)]
+}
+
+const handleTime = (dateD) => {
+  let hrs = dateD.getHours()
+  let mins = dateD.getMinutes()
+  if(hrs<=9)
+    hrs = '0' + hrs
+  if(mins<10)
+    mins = '0' + mins
+  const postTime= hrs + ':' + mins
+  return postTime
+}
+
+const events = computed(() => {
+    // Format data
+    let custom = [];
+    props.lessons.forEach((d) => {
+      const date = new Date(d.start_date);
+      console.log('Time => ', handleTime(date))
+      custom.push({
+        id: d._id,
+        title: d.name,
+        details: [d.duration, d.zoom_url, date],
+        date: getCurrentDay(date.getDate()), // start_date
+        time: handleTime(date),
+        bgcolor: setColor()
+      })
+    })
+    return custom
+});
+
 const eventsMap = computed (() => {
   const map = {}
   // this.events.forEach(event => (map[ event.date ] = map[ event.date ] || []).push(event))
-  events.forEach(event => {
+  events.value.forEach(event => {
     if (!map[ event.date ]) {
       map[ event.date ] = []
     }

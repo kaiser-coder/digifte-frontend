@@ -10,7 +10,7 @@
             <q-btn @click="handleClick('month')" color="blue-grey-7" glossy text-color="white" push label="Month" />
         </q-btn-group> <br> <br>
 
-        <TheCalendarDay v-if="isDay === true"/>
+        <TheCalendarDay v-if="isDay === true" :lessons="filteredLessons" />
         <TheCalendarWeek v-if="isWeek === true" :lessons="filteredLessons"/>
         <TheCalendarMonth v-if="isMonth === true" :lessons="filteredLessons"/>
 
