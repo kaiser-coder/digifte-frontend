@@ -34,7 +34,7 @@
 
     import { useCourseStore } from 'src/stores/course';
     import { useLessonStore } from 'src/stores/lesson';
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import { useQuasar } from 'quasar';
 
     const $q = useQuasar();
@@ -44,8 +44,10 @@
     /*eslint-disable*/
     const courses = ref([]);
     const lessons = ref([]);
-    const lessonsId = [];
-    const filteredLessons = ref(lessons.value);
+    const lessonsId = ref([]);
+    const filteredLessons = computed(()=> {     
+      return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
+    })
 
     const isDay = ref(true);
     const isWeek = ref(false);
@@ -98,19 +100,12 @@
     })
 
     function getLessons(id) {
-      const indexId = lessonsId.indexOf(id)
+      const indexId = lessonsId.value.indexOf(id)
       if (indexId > -1) {
-        lessonsId.splice(indexId, 1)
+        lessonsId.value.splice(indexId, 1)
       } else {
-        lessonsId.push(id)
+        lessonsId.value.push(id)
       }
-      // Clear before insert new data 
-      filteredLessons.value = []
-      lessons.value.map((l) => {
-        if(lessonsId.includes(l.courseId)) {
-          filteredLessons.value.push(l)
-        }
-      })
     }
 
     function handleClick (mode) {
