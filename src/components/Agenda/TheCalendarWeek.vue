@@ -108,13 +108,6 @@ const props = defineProps({
   lessons: Array
 });
 
-// This function define random colors
-const COLORS = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
-function setColor() {
-  return COLORS[Math.floor(Math.random() * 8)]
-}
-
-
 const handleTime = (dateD) => {
   let hrs = dateD.getHours()
   let mins = dateD.getMinutes()
@@ -138,7 +131,7 @@ const events = computed(() => {
         details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
         time: handleTime(date),
-        bgcolor: setColor()
+        bgcolor: d.bgcolor
       })
     })
     return custom

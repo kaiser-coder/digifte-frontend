@@ -55,17 +55,11 @@
   import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
   import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-  import { computed, defineProps } from 'vue'
+  import { computed, defineProps, onMounted } from 'vue'
 
   const props = defineProps({
     lessons: Array,
   })
-
-  // This function define random colors
-  const COLORS = ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
-  function setColor() {
-    return COLORS[Math.floor(Math.random() * 8)]
-  }
 
   // The function below is used to set up our demo data
   const CURRENT_DAY = new Date()
@@ -88,7 +82,7 @@
         title: d.name,
         details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
-        bgcolor: setColor()
+        bgcolor: d.bgcolor
       })
     })
     return custom

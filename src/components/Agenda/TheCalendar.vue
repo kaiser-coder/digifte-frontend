@@ -35,7 +35,7 @@
     /*eslint-disable*/
     const courses = ref([]);
     const lessons = ref([]);
-    const filteredLessons = ref([]);
+    const filteredLessons = ref(lessons.value);
 
 
     const isDay = ref(true);
@@ -48,11 +48,12 @@
     // This function define random colors
     const COLORS = ['pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey', 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
 
-    const setColor = () => {
-      let max = COLORS.length;
+    const setColor = (i) => {
+      /* let max = COLORS.length;
       let color = COLORS[Math.floor(Math.random() * max) + 1]
       console.log('Color is ', color, Math.floor(Math.random() * max) + 1);
-      return color;
+      return color; */
+      return COLORS[i];
     }
 
     // ==================================
@@ -65,8 +66,8 @@
           console.log('Courses =>', result);
           /*eslint-disable*/
           courseStore.courses = result.data;
-          courses.value = result.data.map((d) => {
-            return {...d, bgcolor: setColor()}
+          courses.value = result.data.map((d, i) => {
+            return {...d, bgcolor: setColor(i)}
           });
 
           console.log('Courses in the calendar => ', courses.value);
@@ -74,13 +75,24 @@
 
         // Get all lessons
         lessonStore.getAll(appToken).then((result) => {
-          lessons.value = result.data
-          filteredLessons.value = result.data
+          result.data.map((d) => {
+            // Get bgcolor property from each course
+            let color = '';
+            courses.value.map((c) => {
+              if(c._id === d.courseId) {
+                color = c.bgcolor
+              }
+            })
+            // console.log(`Color of lesson: ${d.name} => `, color)
+            // Inject color to filtered lessons
+            lessons.value.push({...d, bgcolor: color});
+          })
         })
     })
 
     function getLessons(id) {
       filteredLessons.value = lessons.value.filter((l) => l.courseId === id)
+      console.log('Filtered lessons => ', filteredLessons.value)
     }
 
     function handleClick (mode) {
