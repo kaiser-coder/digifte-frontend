@@ -1,8 +1,8 @@
 <template lang="" >
     <div>
         <h3 class="titleContent">Planning</h3>
-       
-        <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br> 
+
+        <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
          <q-btn-group push>
             <q-btn @click="handleClick('day')" color="blue-grey-4" glossy text-color="white" push label="Today" />
@@ -36,20 +36,40 @@
     const courses = ref([]);
     const lessons = ref([]);
     const filteredLessons = ref([]);
-    
+
 
     const isDay = ref(true);
     const isWeek = ref(false);
     const isMonth  = ref(false);
 
+
+    // ========= HANDLE COLOR ===========
+
+    // This function define random colors
+    const COLORS = ['pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey', 'primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'];
+
+    const setColor = () => {
+      let max = COLORS.length;
+      let color = COLORS[Math.floor(Math.random() * max) + 1]
+      console.log('Color is ', color, Math.floor(Math.random() * max) + 1);
+      return color;
+    }
+
+    // ==================================
+
+
     onMounted(() => {
         const appToken = $q.sessionStorage.getItem('app_token');
         /*eslint-disable*/
-        void courseStore.getAll(appToken).then((result) => {
-            console.log('Courses =>', result);
-            /*eslint-disable*/
-            courseStore.courses = result.data;
-            courses.value = result.data;
+        courseStore.getAll(appToken).then((result) => {
+          console.log('Courses =>', result);
+          /*eslint-disable*/
+          courseStore.courses = result.data;
+          courses.value = result.data.map((d) => {
+            return {...d, bgcolor: setColor()}
+          });
+
+          console.log('Courses in the calendar => ', courses.value);
         })
 
         // Get all lessons

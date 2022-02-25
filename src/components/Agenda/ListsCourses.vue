@@ -1,6 +1,6 @@
 <template lang="">
     <div class="row">
-      <q-btn class="q-ma-xs" color="primary" :label="course.title" v-for="course in courses" :key="course._id" @click="handleClick(course._id)"/>
+      <q-btn class="q-ma-xs" :color="course.bgcolor" :label="course.title" v-for="course in courses" :key="course._id" @click="handleClick(course._id)"/>
     </div>
 </template>
 

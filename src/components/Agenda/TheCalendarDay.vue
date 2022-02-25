@@ -119,7 +119,7 @@ const events = computed(() => {
     let custom = [];
     props.lessons.forEach((d) => {
       const date = new Date(d.start_date);
-      console.log('Time => ', handleTime(date))
+      // console.log('Time => ', handleTime(date))
       custom.push({
         id: d._id,
         title: d.name,
@@ -201,7 +201,7 @@ function getEvents (dt) {
   }
   return events
 }
-  
+
 </script>
 
 <style lang="sass" scoped>
