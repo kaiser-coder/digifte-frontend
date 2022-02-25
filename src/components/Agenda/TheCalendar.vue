@@ -94,6 +94,7 @@
             // Inject color to filtered lessons
             lessons.value.push({...d, bgcolor: color});
           })
+          lessonsId.value = lessons.value.map((l) => l.courseId)
         })
 
       console.log('Filtered lessons => ', filteredLessons.value)
@@ -102,9 +103,20 @@
     function getLessons(id) {
       const indexId = lessonsId.value.indexOf(id)
       if (indexId > -1) {
-        lessonsId.value.splice(indexId, 1)
+        if (lessonsId.value.length == lessons.value.length) {
+          // full calendar so start from the id requested
+          lessonsId.value = []
+          lessonsId.value.push(id)
+        } else {
+          lessonsId.value.splice(indexId, 1)
+        }
       } else {
         lessonsId.value.push(id)
+      }
+
+      if (!lessonsId.value.length) {
+        // empty calendar so start reset to full calendar lessons
+        lessonsId.value = lessons.value.map((l) => l.courseId)
       }
     }
 
