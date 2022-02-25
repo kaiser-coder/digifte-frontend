@@ -10,9 +10,18 @@
             <q-btn @click="handleClick('month')" color="blue-grey-7" glossy text-color="white" push label="Month" />
         </q-btn-group> <br> <br>
 
-        <TheCalendarDay v-if="isDay === true" :lessons="filteredLessons" />
-        <TheCalendarWeek v-if="isWeek === true" :lessons="filteredLessons"/>
-        <TheCalendarMonth v-if="isMonth === true" :lessons="filteredLessons"/>
+        <TheCalendarDay
+          v-if="isDay === true"
+          :lessons="filteredLessons"
+        />
+        <TheCalendarWeek
+          v-if="isWeek === true"
+          :lessons="filteredLessons"
+        />
+        <TheCalendarMonth
+          v-if="isMonth === true"
+          :lessons="filteredLessons"
+        />
 
     </div>
 </template>
@@ -35,13 +44,12 @@
     /*eslint-disable*/
     const courses = ref([]);
     const lessons = ref([]);
+    const lessonsId = ref([]);
     const filteredLessons = ref(lessons.value);
-
 
     const isDay = ref(true);
     const isWeek = ref(false);
     const isMonth  = ref(false);
-
 
     // ========= HANDLE COLOR ===========
 
@@ -58,7 +66,6 @@
 
     // ==================================
 
-
     onMounted(() => {
         const appToken = $q.sessionStorage.getItem('app_token');
         /*eslint-disable*/
@@ -69,8 +76,6 @@
           courses.value = result.data.map((d, i) => {
             return {...d, bgcolor: setColor(i)}
           });
-
-          console.log('Courses in the calendar => ', courses.value);
         })
 
         // Get all lessons
@@ -88,11 +93,19 @@
             lessons.value.push({...d, bgcolor: color});
           })
         })
+
+      console.log('Filtered lessons => ', filteredLessons.value)
     })
 
     function getLessons(id) {
-      filteredLessons.value = lessons.value.filter((l) => l.courseId === id)
-      console.log('Filtered lessons => ', filteredLessons.value)
+      lessonsId.value.push(id)
+      // Clear before insert new data 
+      filteredLessons.value = []
+      lessons.value.map((l) => {
+        if(lessonsId.value.includes(l.courseId)) {
+          filteredLessons.value.push(l)
+        }
+      })
     }
 
     function handleClick (mode) {
