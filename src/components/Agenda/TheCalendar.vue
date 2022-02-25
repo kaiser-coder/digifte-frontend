@@ -44,7 +44,7 @@
     /*eslint-disable*/
     const courses = ref([]);
     const lessons = ref([]);
-    const lessonsId = ref([]);
+    const lessonsId = [];
     const filteredLessons = ref(lessons.value);
 
     const isDay = ref(true);
@@ -98,11 +98,16 @@
     })
 
     function getLessons(id) {
-      lessonsId.value.push(id)
+      const indexId = lessonsId.indexOf(id)
+      if (indexId > -1) {
+        lessonsId.splice(indexId, 1)
+      } else {
+        lessonsId.push(id)
+      }
       // Clear before insert new data 
       filteredLessons.value = []
       lessons.value.map((l) => {
-        if(lessonsId.value.includes(l.courseId)) {
+        if(lessonsId.includes(l.courseId)) {
           filteredLessons.value.push(l)
         }
       })
