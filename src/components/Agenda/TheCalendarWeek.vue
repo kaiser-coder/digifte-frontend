@@ -26,10 +26,9 @@
                     {{ event.title }}  &nbsp;
                     <q-icon
                       name="launch"
-                      @click="launchMeeting(event.details[1])"
-                      v-if="event.details[1] !== undefined"
+                      @click="launchMeeting(event.details.join_url)"
+                      v-if="event.details !== undefined"
                     />
-                    <q-tooltip>{{ event.details }}</q-tooltip>
                   </span>
                 </q-badge>
 
@@ -133,10 +132,10 @@ const events = computed(() => {
       custom.push({
         id: d._id,
         title: d.name,
-        details: [d.duration, d.zoom_url, date],
+        details: d.meeting,
         date: getCurrentDay(date.getDate()), // start_date
         time: handleTime(date),
-        duration: d.duration,
+        duration: d.meeting ? d.meeting.duration : 1,
         bgcolor: d.bgcolor
       })
     })

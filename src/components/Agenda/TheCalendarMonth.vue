@@ -27,16 +27,9 @@
                   {{ event.title + (event.time ? ' - ' + event.time : '') }} &nbsp;
                   <q-icon
                     name="launch"
-                    @click="launchMeeting(event.details[1])"
-                    v-if="event.details[1] !== undefined"
+                    @click="launchMeeting(event.details.join_url)"
+                    v-if="event.details !== undefined"
                   />
-                  <q-tooltip>
-                    <ul style="list-style: none;">
-                      <li>Durée: {{ event.details[0] }}</li>
-                      <li>Lien du Meeting: {{ event.details[1] }}</li>
-                      <li>Date de début: {{ event.details[2] }}</li>
-                    </ul>
-                  </q-tooltip>
                 </div>
               </div>
             </template>
@@ -87,10 +80,9 @@
       custom.push({
         id: d._id,
         title: d.name,
-        details: [d.duration, d.zoom_url, date],
+        details: d.meeting,
         date: getCurrentDay(date.getDate()), // start_date
-        duration: d.duration,
-        bgcolor: d.bgcolor
+        bgcolor: d.bgcolor,
       })
     })
     return custom

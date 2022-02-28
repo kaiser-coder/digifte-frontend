@@ -28,10 +28,9 @@
                     {{ event.title }} &nbsp;
                     <q-icon
                       name="launch"
-                      @click="launchMeeting(event.details[1])"
-                      v-if="event.details[1] !== undefined"
+                      @click="launchMeeting(event.details.join_url)"
+                      v-if="event.details !== undefined"
                     />
-                    <q-tooltip>{{ event.details }}</q-tooltip>
                   </div>
                 </q-badge>
                 <q-badge
@@ -118,19 +117,21 @@ const handleTime = (dateD) => {
 const events = computed(() => {
     // Format data
     let custom = [];
+    console.log('Lesson 41 => ', props.lessons[41]);
     props.lessons.forEach((d) => {
       const date = new Date(d.start_date);
       // console.log('Time => ', handleTime(date))
       custom.push({
         id: d._id,
         title: d.name,
-        details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
         time: handleTime(date),
-        duration: d.duration,
-        bgcolor: d.bgcolor
+        details: d.meeting,
+        duration: d.meeting ? d.meeting.duration : 1,
+        bgcolor: d.bgcolor,
       })
     })
+    console.log('Custom data => ', custom)
     return custom
 });
 
