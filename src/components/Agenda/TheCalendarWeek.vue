@@ -131,6 +131,7 @@ const events = computed(() => {
         details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
         time: handleTime(date),
+        duration: d.duration,
         bgcolor: d.bgcolor
       })
     })

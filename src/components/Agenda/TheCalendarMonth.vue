@@ -82,6 +82,7 @@
         title: d.name,
         details: [d.duration, d.zoom_url, date],
         date: getCurrentDay(date.getDate()), // start_date
+        duration: d.duration,
         bgcolor: d.bgcolor
       })
     })
