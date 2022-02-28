@@ -45,7 +45,7 @@
     const courses = ref([]);
     const lessons = ref([]);
     const lessonsId = ref([]);
-    const filteredLessons = computed(()=> {     
+    const filteredLessons = computed(()=> {
       return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
     })
 
@@ -70,12 +70,14 @@
 
     onMounted(() => {
         const appToken = $q.sessionStorage.getItem('app_token');
+        const userId = $q.sessionStorage.getItem('user_id');
+
         /*eslint-disable*/
         courseStore.getAll(appToken).then((result) => {
           console.log('Courses =>', result);
           /*eslint-disable*/
-          courseStore.courses = result.data;
-          courses.value = result.data.map((d, i) => {
+          let filtered = result.data.filter((c) => c.students.indexOf(userId) > -1);
+          courses.value = filtered.map((d, i) => {
             return {...d, bgcolor: setColor(i)}
           });
         })
