@@ -13,14 +13,17 @@
         <TheCalendarDay
           v-if="isDay === true"
           :lessons="filteredLessons"
+          @onLaunchMeeting="launchMeeting"
         />
         <TheCalendarWeek
           v-if="isWeek === true"
           :lessons="filteredLessons"
+          @onLaunchMeeting="launchMeeting"
         />
         <TheCalendarMonth
           v-if="isMonth === true"
           :lessons="filteredLessons"
+          @onLaunchMeeting="launchMeeting"
         />
 
     </div>
@@ -142,6 +145,9 @@
         }
     }
 
+    function launchMeeting(url) {
+      window.open(url, '_blank');
+    }
 </script>
 
 <style>

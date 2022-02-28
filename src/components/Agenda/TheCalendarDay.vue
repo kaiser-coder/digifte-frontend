@@ -25,7 +25,12 @@
                   style="width: 100%; cursor: pointer; height: 12px; font-size: 10px; margin: 1px;"
                 >
                   <div class="title q-calendar__ellipsis">
-                    {{ event.title }}
+                    {{ event.title }} &nbsp;
+                    <q-icon
+                      name="launch"
+                      @click="launchMeeting(event.details[1])"
+                      v-if="event.details[1] !== undefined"
+                    />
                     <q-tooltip>{{ event.details }}</q-tooltip>
                   </div>
                 </q-badge>
@@ -84,6 +89,8 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 
 import { defineComponent, computed, defineProps } from 'vue'
 //import NavigationBar from '../components/NavigationBar.vue'
+
+const emits = defineEmits(['onLaunchMeeting']);
 
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
@@ -195,6 +202,10 @@ function getEvents (dt) {
     }
   }
   return events
+}
+
+function launchMeeting(url) {
+  emits('onLaunchMeeting', url)
 }
 
 </script>

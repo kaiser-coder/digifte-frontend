@@ -24,7 +24,12 @@
                 class="my-event"
               >
                 <div class="title q-calendar__ellipsis">
-                  {{ event.title + (event.time ? ' - ' + event.time : '') }}
+                  {{ event.title + (event.time ? ' - ' + event.time : '') }} &nbsp;
+                  <q-icon
+                    name="launch"
+                    @click="launchMeeting(event.details[1])"
+                    v-if="event.details[1] !== undefined"
+                  />
                   <q-tooltip>
                     <ul style="list-style: none;">
                       <li>Durée: {{ event.details[0] }}</li>
@@ -56,6 +61,8 @@
   import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
   import { computed, defineProps, onMounted } from 'vue'
+
+  const emits = defineEmits(['onLaunchMeeting']);
 
   const props = defineProps({
     lessons: Array,
@@ -128,6 +135,10 @@
     // s.bottom = 0
     // s.width = (event.days * this.parsedCellWidth) + '%'
     return s
+  }
+
+  function launchMeeting(url) {
+    emits('onLaunchMeeting', url)
   }
 </script>
 
