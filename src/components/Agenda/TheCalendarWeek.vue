@@ -39,9 +39,7 @@
                   style="margin: 1px; width: 10px; max-width: 10px; height: 10px; max-height: 10px"
                   @click="scrollToEvent(event)"
                 >
-                  <q-tooltip>
-                    {{ event.time + ' - ' + event.details }}
-                </q-tooltip>
+
                 </q-badge>
               </template>
             </div>
