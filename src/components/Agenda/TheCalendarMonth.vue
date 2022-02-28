@@ -53,7 +53,7 @@
   import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
   import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 
-  import { computed, defineProps, onMounted } from 'vue'
+  import { computed } from 'vue'
 
   const emits = defineEmits(['onLaunchMeeting']);
 

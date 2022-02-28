@@ -85,7 +85,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 
-import { defineComponent, computed, defineProps } from 'vue'
+import { computed } from 'vue'
 //import NavigationBar from '../components/NavigationBar.vue'
 
 const emits = defineEmits(['onLaunchMeeting']);
