@@ -3,9 +3,9 @@
       <div class="featuredItem">
           <span class="featuredTitle">DETAILS COURS</span>
           <div class="featuredContainer">
-              <h5>Titre :{{details.title}}</h5> 
+              <h5>Titre :{{details.title}}</h5>
               <h5>Description : {{details.description}}</h5> <br>
-              <CreateLessonButton 
+              <CreateLessonButton
                 v-if="userRole === 'professor'"
                 @onSubmitLesson="submitFormLesson"
               />
@@ -22,7 +22,7 @@
                           <td class="text-center">{{ lesson.start_date }}</td>
                           <td class="text-center">{{ lesson.name }}</td>
                           <td class="text-center">
-                            <MeetingButton 
+                            <MeetingButton
                               :lesson="lesson"
                               @onLaunchMeeting="handleLaunchMeeting"
                               @onCreateMeeting="createMeeting"
@@ -115,7 +115,7 @@ function submitFormLesson(lesson) {
   /* console.log(lesson);
   throw '';
   */
- 
+
   lessonStore.submitLesson(appToken.value, {name, start_date, courseId: courseId.value}).then((result) => {
     // console.log('Submited lesson => ', result)
     lessonStore.lessons.push(result.data)
@@ -139,7 +139,7 @@ function createMeeting(lesson) {
   lessonStore.submitMeeting(appToken.value, lesson._id, {
     start_time: lesson.start_date,
     topic: lesson.name,
-    duration: 1,
+    duration: 60,
     zoom_token: $q.sessionStorage.getItem('zoom_token'),
     zoom_userId: $q.sessionStorage.getItem('current_user').zoom_userId
   }).then((result) => {
