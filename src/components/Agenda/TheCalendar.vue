@@ -5,9 +5,9 @@
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
          <q-btn-group push>
-            <q-btn @click="handleClick('day')" color="blue-grey-4" glossy text-color="white" push label="Today" />
-            <q-btn @click="handleClick('week')" color="blue-grey-5" glossy text-color="white" push label="Week" />
-            <q-btn @click="handleClick('month')" color="blue-grey-7" glossy text-color="white" push label="Month" />
+            <q-btn @click="handleClick('day')" color="blue-grey-5" glossy text-color="white" push label="Jour" />
+            <q-btn @click="handleClick('week')" color="blue-grey-5" glossy text-color="white" push label="Semaine" />
+            <q-btn @click="handleClick('month')" color="blue-grey-5" glossy text-color="white" push label="Mois" />
         </q-btn-group> <br> <br>
 
         <TheCalendarDay

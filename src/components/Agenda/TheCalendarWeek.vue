@@ -1,5 +1,11 @@
 <template lang="" >
   <div class="subcontent">
+  <q-btn-group>
+    <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
+    <q-btn @click="onPrev" color="blue-grey-4" glossy text-color="white" push label="Prev" />
+    <q-btn @click="onNext" color="blue-grey-4" glossy text-color="white" push label="Next" />
+  </q-btn-group> &nbsp; <br> <br>
+
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%; height: 400px;">
         <q-calendar-day
@@ -8,7 +14,19 @@
           view="week"
           animated
           bordered
+          transition-next="slide-left"
+          transition-prev="slide-right"
           no-active-date
+          :interval-start="6"
+          :interval-count="18"
+          :interval-height="28"
+          @change="onChange"
+          @moved="onMoved"
+          @click-date="onClickDate"
+          @click-time="onClickTime"
+          @click-interval="onClickInterval"
+          @click-head-intervals="onClickHeadIntervals"
+          @click-head-day="onClickHeadDay"
         >
           <template #head-day-event="{ scope: { timestamp } }">
             <div style="display: flex; justify-content: center; flex-wrap: wrap; padding: 2px;">
@@ -39,7 +57,7 @@
                   style="margin: 1px; width: 10px; max-width: 10px; height: 10px; max-height: 10px"
                   @click="scrollToEvent(event)"
                 >
-
+                <q-tooltip>{{ event.time + ' - ' + event.details }}</q-tooltip>
                 </q-badge>
               </template>
             </div>
@@ -91,8 +109,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 
-import { computed, onMounted } from 'vue';
-//import NavigationBar from '../components/NavigationBar.vue'
+import { computed, onMounted, ref } from 'vue';
 
 const emits = defineEmits(['onLaunchMeeting']);
 
@@ -122,26 +139,32 @@ const handleTime = (dateD) => {
 }
 
 const events = computed(() => {
-    // Format data
-    let custom = [];
-    props.lessons.forEach((d) => {
-      const date = new Date(d.start_date);
-      // console.log('Time => ', handleTime(date))
-      custom.push({
-        id: d._id,
-        title: d.name,
-        details: d.meeting,
-        date: getCurrentDay(date.getDate()), // start_date
-        time: handleTime(date),
-        duration: d.meeting ? d.meeting.duration : 1,
-        bgcolor: d.bgcolor
-      })
+  // Format data
+  let custom = [];
+  props.lessons.forEach((d) => {
+    const date = new Date(d.start_date);
+    // console.log('Time => ', handleTime(date))
+    custom.push({
+      id: d._id,
+      title: d.name,
+      details: d.meeting,
+      date: getCurrentDay(date.getDate()), // start_date
+      time: handleTime(date),
+      duration: d.meeting ? d.meeting.duration : 1,
+      bgcolor: d.bgcolor
     })
-    return custom
+  })
+  return custom
 });
+
+const calendar = ref(null)
 
 onMounted(() => {
   console.log('Lessons => ', props.lessons);
+  console.log('CAL MOUNT ', calendar.value);
+  onToday();
+  onPrev();
+  onNext();
 })
 
 // Dispatch events by date
@@ -149,7 +172,7 @@ const eventsMap = computed (() => {
     const map = {}
     events.value.forEach(event => {
     if (!map[ event.date ]) {
-        map[ event.date ] = []
+      map[ event.date ] = []
     }
     map[ event.date ].push(event)
     if (event.days) {
@@ -191,37 +214,71 @@ function badgeStyles (event, type, timeStartPos = undefined, timeDurationHeight 
 
 function getEvents (dt) {
     // get all events for the specified date
-
     const events = eventsMap.value[dt] || []
     // console.log('Date event => ', dt);
 
     if (events.length === 1) {
-      events[ 0 ].side = 'full'
+      events[0].side = 'full'
     }
     else if (events.length === 2) {
       // this example does no more than 2 events per day
       // check if the two events overlap and if so, select
       // left or right side alignment to prevent overlap
-      const startTime = addToDate(parsed(events[ 0 ].date), { minute: parseTime(events[ 0 ].time) })
-      const endTime = addToDate(startTime, { minute: events[ 0 ].duration })
-      const startTime2 = addToDate(parsed(events[ 1 ].date), { minute: parseTime(events[ 1 ].time) })
-      const endTime2 = addToDate(startTime2, { minute: events[ 1 ].duration })
+      const startTime = addToDate(parsed(events[0].date), { minute: parseTime(events[0].time) })
+      const endTime = addToDate(startTime, { minute: events[0].duration })
+      const startTime2 = addToDate(parsed(events[1].date), { minute: parseTime(events[1].time) })
+      const endTime2 = addToDate(startTime2, { minute: events[1].duration })
       if (isBetweenDates(startTime2, startTime, endTime, true) || isBetweenDates(endTime2, startTime, endTime, true)) {
-          events[ 0 ].side = 'left'
-          events[ 1 ].side = 'right'
+          events[0].side = 'left'
+          events[1].side = 'right'
       }
       else {
-          events[ 0 ].side = 'full'
-          events[ 1 ].side = 'full'
+          events[0].side = 'full'
+          events[1].side = 'full'
       }
     }
-
     return events
+}
+
+function scrollToEvent (event) {
+  calendar.value.scrollToTime(event.time, 350)
+}
+function onToday () {
+  calendar.value.moveToToday()
+}
+function onPrev () {
+  calendar.value.prev()
+}
+function onNext () {
+  calendar.value.next()
+}
+
+function onMoved (custom) {
+  console.log('onMoved', custom)
+}
+function onChange (custom) {
+  console.log('onChange', custom)
+}
+function onClickDate (custom) {
+  console.log('onClickDate', custom)
+}
+function onClickTime (custom) {
+  console.log('onClickTime', custom)
+}
+function onClickInterval (custom) {
+  console.log('onClickInterval', custom)
+}
+function onClickHeadIntervals (custom) {
+  console.log('onClickHeadIntervals', custom)
+}
+function onClickHeadDay (custom) {
+  console.log('onClickHeadDay', custom)
 }
 
 function launchMeeting(url) {
   emits('onLaunchMeeting', url)
 }
+
 
 </script>
 
