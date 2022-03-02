@@ -1,7 +1,6 @@
 <template lang="" >
     <div>
         <h3 class="titleContent">Planning</h3>
-
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
          <q-btn-group>
