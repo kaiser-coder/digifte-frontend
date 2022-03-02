@@ -98,16 +98,16 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 import { defineComponent } from 'vue'
-//import NavigationBar from '../components/NavigationBar.vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
   const newDay = new Date(CURRENT_DAY)
   newDay.setDate(day)
-  const tm = parseDate(newDay)
+  const tm = parseDate(newDay) 
   return tm.date
 }
+
 export default defineComponent({
   name: 'WeekSlotDayBody',
   components: {
@@ -117,7 +117,7 @@ export default defineComponent({
   data () {
     return {
       selectedDate: today(),
-      events: []
+      events:[]
     }
   },
   computed: {

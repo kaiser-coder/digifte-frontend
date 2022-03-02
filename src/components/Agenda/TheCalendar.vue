@@ -1,9 +1,7 @@
 <template lang="" >
     <div>
         <h3 class="titleContent">Planning</h3>
-
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
-
          <q-btn-group push>
             <q-btn @click="handleClick('day')" color="blue-grey-5" glossy text-color="white" push label="Jour" />
             <q-btn @click="handleClick('week')" color="blue-grey-5" glossy text-color="white" push label="Semaine" />
