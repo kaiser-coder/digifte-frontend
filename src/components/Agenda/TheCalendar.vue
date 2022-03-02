@@ -4,10 +4,22 @@
 
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
-         <q-btn-group push>
-            <q-btn @click="handleClick('day')" color="blue-grey-4" glossy text-color="white" push label="Today" />
-            <q-btn @click="handleClick('week')" color="blue-grey-5" glossy text-color="white" push label="Week" />
-            <q-btn @click="handleClick('month')" color="blue-grey-7" glossy text-color="white" push label="Month" />
+         <q-btn-group>
+            <q-btn
+              @click="handleClick('day')"
+              :color="isDay === false ? 'teal' : 'teal-3'"
+              text-color="white" label="Today"
+            />
+            <q-btn
+              @click="handleClick('week')"
+              :color="isWeek === false ? 'teal' : 'teal-3'"
+              text-color="white" label="Week"
+            />
+            <q-btn
+              @click="handleClick('month')"
+              :color="isMonth === false ? 'teal' : 'teal-3'"
+              text-color="white" label="Month"
+            />
         </q-btn-group> <br> <br>
 
         <TheCalendarDay
@@ -102,7 +114,7 @@
           lessonsId.value = lessons.value.map((l) => l.courseId)
         })
 
-      console.log('Filtered lessons => ', filteredLessons.value)
+      // console.log('Filtered lessons => ', filteredLessons.value)
     })
 
     function getLessons(id) {
