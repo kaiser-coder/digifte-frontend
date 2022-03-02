@@ -2,12 +2,12 @@
   <div>
     <h4 class="titleThree">Listes cours</h4>
     <br />
-    
-    <NewCourseButton 
+
+    <NewCourseButton
       v-if="userRole == 'professor'"
       @onSubmitForm="submitFormCreationCourse"
     />
-    
+
     <div>
       <q-markup-table>
         <thead>
@@ -24,15 +24,16 @@
           >
             <td class="text-center" v-text="course.title"></td>
             <td class="text-center" v-text="course.description"></td>
+            <td class="text-center" v-text="checkSubscribeStatus(course)"></td>
             <td class="text-center">
-              <SubscribeCourseButton 
+              <SubscribeCourseButton
                 @onSubscribeStudent="handleSubscribeStudent(course._id)"
                 :isSubscribed="checkSubscribeStatus(course)"
                 v-if="userRole == 'student'"
               />
             </td>
             <td>
-              <q-btn 
+              <q-btn
                 label="Voir les détails"
                 :disabled="!checkSubscribeStatus(course)"
                 @click="handleViewDetail(course._id)"
@@ -99,7 +100,13 @@
     courseStore.subscribeToCourse(appToken.value, {courseId, student: userId.value})
       .then((result) => {
         console.log('Subscribed student =>', result);
-        
+
+        courses.value.forEach((c) => {
+          if(c._id === courseId) {
+            c.students.push(userId.value)
+          }
+        })
+
         $q.notify({
             type: 'positive',
             message: result.message,

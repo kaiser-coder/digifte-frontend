@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-   import { ref, onMounted } from 'vue';
+   import { computed } from 'vue';
 
    const props = defineProps({
       isSubscribed: Boolean
@@ -12,16 +12,19 @@
    const emits = defineEmits(['onSubscribeStudent']);
 
    /*UI states*/
-   const btnColor = ref('secondary');
-   const btnLabel = ref('Subscribe');
+   const btnColor = computed(() => {
+    if(props.isSubscribed) {
+      return 'red'
+    }
+    return 'secondary'
+   });
 
-   onMounted(() => {
-      /*eslint-disable*/
-      if(props.isSubscribed) {
-         btnColor.value = 'red';
-         btnLabel.value = 'Subscribed';
-      }
-   })
+   const btnLabel = computed(() => {
+    if(props.isSubscribed) {
+      return 'Subscribed'
+    }
+    return 'Subscribe'
+   });
 
    function submitStudent() {
       emits('onSubscribeStudent')
