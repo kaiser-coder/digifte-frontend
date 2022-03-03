@@ -2,7 +2,7 @@
   <div class="subcontent">
     <q-btn-group>
       <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" /> 
+      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" />
       <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
     </q-btn-group> &nbsp; <br> <br>
 
@@ -43,7 +43,6 @@
                 >
                   <div class="title q-calendar__ellipsis">
                     {{ event.title }}
-                    <q-tooltip>{{ event.details }}</q-tooltip>
                   </div>
                 </q-badge>
                 <q-badge
@@ -53,7 +52,6 @@
                   style="margin: 1px; width: 10px; max-width: 10px; height: 10px; max-height: 10px; cursor: pointer"
                   @click="scrollToEvent(event)"
                 >
-                  <q-tooltip>{{ event.time + ' - ' + event.details }}</q-tooltip>
                 </q-badge>
               </template>
             </div>
@@ -105,7 +103,7 @@ const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
   const newDay = new Date(CURRENT_DAY)
   newDay.setDate(day)
-  const tm = parseDate(newDay) 
+  const tm = parseDate(newDay)
   return tm.date
 }
 
@@ -161,6 +159,7 @@ export default defineComponent({
     this.lessons.forEach((d) => {
       const date = new Date(d.start_date);
       // console.log('Time => ', handleTime(date))
+      console.log('getDate value', date.getDate())
       this.events.push({
         id: d._id,
         title: d.name,

@@ -2,7 +2,7 @@
   <div class="subcontent">
     <q-btn-group>
       <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" /> 
+      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" />
       <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
     </q-btn-group> &nbsp; <br> <br>
 
@@ -42,7 +42,6 @@
                 >
                   <span class="title q-calendar__ellipsis">
                     {{ event.title }}
-                    <q-tooltip>{{ event.details }}</q-tooltip>
                   </span>
                 </q-badge>
                 <q-badge
@@ -52,7 +51,6 @@
                   style="margin: 1px; width: 10px; max-width: 10px; height: 10px; max-height: 10px"
                   @click="scrollToEvent(event)"
                 >
-                  <q-tooltip>{{ event.time + ' - ' + event.details }}</q-tooltip>
                 </q-badge>
               </template>
             </div>
@@ -71,7 +69,6 @@
               >
                 <span class="title q-calendar__ellipsis">
                   {{ event.title }}
-                  <q-tooltip>{{ event.details }}</q-tooltip>
                 </span>
               </div>
             </template>
@@ -104,7 +101,7 @@ const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
   const newDay = new Date(CURRENT_DAY)
   newDay.setDate(day)
-  const tm = parseDate(newDay) 
+  const tm = parseDate(newDay)
   return tm.date
 }
 

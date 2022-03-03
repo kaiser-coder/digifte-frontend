@@ -3,10 +3,10 @@
 
     <q-btn-group>
       <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" /> 
+      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" />
       <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
     </q-btn-group> &nbsp; <br> <br>
-    
+
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%;">
         <q-calendar-month
@@ -39,7 +39,6 @@
               >
                 <div class="title q-calendar__ellipsis">
                   {{ event.title + (event.time ? ' - ' + event.time : '') }}
-                  <q-tooltip>{{ event.details }}</q-tooltip>
                 </div>
               </div>
             </template>
