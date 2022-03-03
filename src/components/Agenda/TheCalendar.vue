@@ -3,39 +3,58 @@
         <h3 class="titleContent">Planning</h3>
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
-         <q-btn-group>
-            <q-btn
-              @click="handleClick('day')"
-              :color="isDay === false ? 'teal' : 'teal-3'"
-              text-color="white" label="Today"
-            />
-            <q-btn
-              @click="handleClick('week')"
-              :color="isWeek === false ? 'teal' : 'teal-3'"
-              text-color="white" label="Week"
-            />
-            <q-btn
-              @click="handleClick('month')"
-              :color="isMonth === false ? 'teal' : 'teal-3'"
-              text-color="white" label="Month"
-            />
-        </q-btn-group> <br> <br>
+         <div class="row justify-between">
+           <div class="col">
+             <q-btn-group>
+                <q-btn
+                  @click="handleClick('day')"
+                  :color="isDay === false ? 'teal' : 'teal-3'"
+                  text-color="white" label="Today"
+                />
+                <q-btn
+                  @click="handleClick('week')"
+                  :color="isWeek === false ? 'teal' : 'teal-3'"
+                  text-color="white" label="Week"
+                />
+                <q-btn
+                  @click="handleClick('month')"
+                  :color="isMonth === false ? 'teal' : 'teal-3'"
+                  text-color="white" label="Month"
+                />
+             </q-btn-group>
+           </div>
 
-        <TheCalendarDay
-          v-if="isDay === true"
-          :lessons="filteredLessons"
-          @onLaunchMeeting="launchMeeting"
-        />
-        <TheCalendarWeek
-          v-if="isWeek === true"
-          :lessons="filteredLessons"
-          @onLaunchMeeting="launchMeeting"
-        />
-        <TheCalendarMonth
-          v-if="isMonth === true"
-          :lessons="filteredLessons"
-          @onLaunchMeeting="launchMeeting"
-        />
+           <div class="col">
+             Something month
+           </div>
+
+           <div class="col">
+             <BtnGroup
+               @onPrev="onPrev"
+               @onNext="onNext"
+               @onToday="onToday"
+             />
+           </div>
+
+         </div>
+
+        <div class="row"><!--
+          <TheCalendarDay
+            v-if="isDay === true"
+            :lessons="filteredLessons"
+            @onLaunchMeeting="launchMeeting"
+          />
+          <TheCalendarWeek
+            v-if="isWeek === true"
+            :lessons="filteredLessons"
+            @onLaunchMeeting="launchMeeting"
+          /> -->
+          <TheCalendarMonth
+            v-if="isMonth === true"
+            :lessons="filteredLessons"
+            @onLaunchMeeting="launchMeeting"
+          />
+        </div>
 
     </div>
 </template>
@@ -51,6 +70,8 @@
     import { ref, onMounted, computed } from 'vue';
     import { useQuasar } from 'quasar';
 
+    import BtnGroup from './BtnGroup.vue'
+
     const $q = useQuasar();
     const courseStore = useCourseStore();
     const lessonStore = useLessonStore();
@@ -63,9 +84,9 @@
       return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
     })
 
-    const isDay = ref(true);
+    const isDay = ref(false);
     const isWeek = ref(false);
-    const isMonth  = ref(false);
+    const isMonth  = ref(true);
 
     // ========= HANDLE COLOR ===========
 

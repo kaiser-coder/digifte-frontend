@@ -1,12 +1,6 @@
 <template lang="">
   <div class="subcontent">
 
-    <BtnGroup
-      @onPrev="onPrev"
-      @onNext="onNext"
-      @onToday="onToday"
-    />
-
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%;">
         <q-calendar-month
