@@ -1,11 +1,11 @@
 <template lang="">
   <div class="subcontent">
 
-    <q-btn-group>
-      <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" />
-      <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
-    </q-btn-group> &nbsp; <br> <br>
+    <BtnGroup
+      @onPrev="onPrev"
+      @onNext="onNext"
+      @onToday="onToday"
+    />
 
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%;">
@@ -62,6 +62,9 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
 import { defineComponent } from 'vue'
+
+import BtnGroup from './BtnGroup.vue'
+
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
@@ -73,7 +76,8 @@ function getCurrentDay (day) {
 export default defineComponent({
   name: 'MonthSlotDay',
   components: {
-    QCalendarMonth
+    QCalendarMonth,
+    BtnGroup
   },
   props: ['lessons'],
   data () {
@@ -120,16 +124,25 @@ export default defineComponent({
       return postTime
     }
 
+    /* const today = new Date();
+    console.log('Tm', parseDate(today)) */
+
     this.lessons.forEach((d) => {
       const date = new Date(d.start_date);
+      const t = new Date();
+      const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+      const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+
       // console.log('Time => ', handleTime(date))
+      // console.log('Diff =>', dateDiff);
+
       this.events.push({
         id: d._id,
         title: d.name,
         details: d.meeting,
-        date: getCurrentDay(date.getDate()), // start_date
+        date: getCurrentDay(dateDiff + 1), // start_date
         time: handleTime(date),
-        duration: d.meeting ? d.meeting.duration : 1,
+        duration: d.meeting ? d.meeting.duration : 60,
         bgcolor: d.bgcolor
       })
     })

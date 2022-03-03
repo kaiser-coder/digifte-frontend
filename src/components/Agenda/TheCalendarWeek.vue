@@ -1,10 +1,11 @@
 <template lang="">
   <div class="subcontent">
-    <q-btn-group>
-      <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" />
-      <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
-    </q-btn-group> &nbsp; <br> <br>
+
+    <BtnGroup
+      @onPrev="onPrev"
+      @onNext="onNext"
+      @onToday="onToday"
+    />
 
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%; height: 400px;">
@@ -96,6 +97,8 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 import { defineComponent } from 'vue'
 
+import BtnGroup from './BtnGroup.vue'
+
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
@@ -108,7 +111,8 @@ function getCurrentDay (day) {
 export default defineComponent({
   name: 'WeekSlotDayBody',
   components: {
-    QCalendarDay
+    QCalendarDay,
+    BtnGroup
   },
   props: ['lessons'],
   data () {
