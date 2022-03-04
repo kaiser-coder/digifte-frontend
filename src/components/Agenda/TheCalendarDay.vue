@@ -1,12 +1,5 @@
 <template lang="">
   <div class="subcontent">
-
-    <BtnGroup
-      @onPrev="onPrev"
-      @onNext="onNext"
-      @onToday="onToday"
-    />
-
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%; height: 400px;">
         <q-calendar-day
@@ -99,8 +92,6 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
 import { defineComponent } from 'vue'
 
-import BtnGroup from './BtnGroup.vue'
-
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
@@ -114,7 +105,6 @@ export default defineComponent({
   name: 'WeekSlotDayBody',
   components: {
     QCalendarDay,
-    BtnGroup
   },
   props: ['lessons'],
   data () {
@@ -220,17 +210,17 @@ export default defineComponent({
       }
       return events
     },
-    scrollToEvent (event) {
-      this.$refs.calendar.scrollToTime(event.time, 350)
+    goNext () {
+      this.$refs.calendar.next()
     },
-    onToday () {
+    goToday () {
       this.$refs.calendar.moveToToday()
     },
-    onPrev () {
+    goPrev () {
       this.$refs.calendar.prev()
     },
-    onNext () {
-      this.$refs.calendar.next()
+    scrollToEvent (event) {
+      this.$refs.calendar.scrollToTime(event.time, 350)
     },
     onMoved (data) {
       console.log('onMoved', data)

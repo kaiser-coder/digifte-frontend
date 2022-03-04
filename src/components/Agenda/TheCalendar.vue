@@ -3,7 +3,7 @@
         <h3 class="titleContent">Planning</h3>
         <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
 
-         <div class="row justify-between">
+         <div class="row items-center">
            <div class="col">
              <q-btn-group>
                 <q-btn
@@ -30,30 +30,36 @@
 
            <div class="col">
              <BtnGroup
-               @onPrev="onPrev"
-               @onNext="onNext"
-               @onToday="onToday"
+               @onPrev="handlePrev"
+               @onNext="handleNext"
+               @onToday="handleToday"
              />
            </div>
 
          </div>
 
-        <div class="row"><!--
-          <TheCalendarDay
-            v-if="isDay === true"
-            :lessons="filteredLessons"
-            @onLaunchMeeting="launchMeeting"
-          />
-          <TheCalendarWeek
-            v-if="isWeek === true"
-            :lessons="filteredLessons"
-            @onLaunchMeeting="launchMeeting"
-          /> -->
-          <TheCalendarMonth
-            v-if="isMonth === true"
-            :lessons="filteredLessons"
-            @onLaunchMeeting="launchMeeting"
-          />
+        <div class="row q-mt-xl">
+          <div class="col">
+            <TheCalendarDay
+              v-if="isDay === true"
+              :lessons="filteredLessons"
+              @onLaunchMeeting="launchMeeting"
+              @onNext="onNext"
+              ref="calendar"
+            />
+            <TheCalendarWeek
+              v-if="isWeek === true"
+              :lessons="filteredLessons"
+              @onLaunchMeeting="launchMeeting"
+              ref="calendar"
+            />
+            <TheCalendarMonth
+              v-if="isMonth === true"
+              :lessons="filteredLessons"
+              @onLaunchMeeting="launchMeeting"
+              ref="calendar"
+            />
+          </div>
         </div>
 
     </div>
@@ -84,9 +90,11 @@
       return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
     })
 
-    const isDay = ref(false);
+    const isDay = ref(true);
     const isWeek = ref(false);
-    const isMonth  = ref(true);
+    const isMonth  = ref(false);
+
+    const calendar = ref(null);
 
     // ========= HANDLE COLOR ===========
 
@@ -180,12 +188,22 @@
     function launchMeeting(url) {
       window.open(url, '_blank');
     }
+
+    function handleToday () {
+      calendar.value.goToday()
+    }
+    function handlePrev () {
+      calendar.value.goPrev()
+    }
+    function handleNext () {
+      calendar.value.goNext()
+    }
 </script>
 
 <style>
-    .titleContent {
-        text-align: center;
-        margin-top: 2px;
-        line-height: 0.5;
-    }
+  .titleContent {
+      text-align: center;
+      margin-top: 2px;
+      line-height: 0.5;
+  }
 </style>

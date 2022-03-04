@@ -156,14 +156,14 @@ export default defineComponent({
       // s.width = (event.days * this.parsedCellWidth) + '%'
       return s
     },
-    onToday () {
+    goNext () {
+      this.$refs.calendar.next()
+    },
+    goToday () {
       this.$refs.calendar.moveToToday()
     },
-    onPrev () {
+    goPrev () {
       this.$refs.calendar.prev()
-    },
-    onNext () {
-      this.$refs.calendar.next()
     },
     onMoved (data) {
       console.log('onMoved', data)
