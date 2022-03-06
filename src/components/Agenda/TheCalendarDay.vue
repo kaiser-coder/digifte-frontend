@@ -149,13 +149,17 @@ function handleTime(dateD) {
 onMounted(() => {
   props.lessons.forEach((d) => {
     const date = new Date(d.start_date);
+    const t = new Date();
+    const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+    const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+
     // console.log('Time => ', handleTime(date))
     console.log('getDate value', date.getDate())
     events.value.push({
       id: d._id,
       title: d.name,
       details: d.meeting,
-      date: getCurrentDay(date.getDate()), // start_date
+      date: getCurrentDay(dateDiff + 1), // start_date
       time: handleTime(date),
       duration: d.meeting ? d.meeting.duration : 1,
       bgcolor: d.bgcolor

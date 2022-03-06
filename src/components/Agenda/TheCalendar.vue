@@ -29,7 +29,7 @@
            </div>
 
            <div class="col">
-             <BtnGroup
+             <Navigation
                @onPrev="handlePrev"
                @onNext="handleNext"
                @onToday="handleToday"
@@ -75,7 +75,7 @@
     import { ref, onMounted, computed } from 'vue';
     import { useQuasar } from 'quasar';
 
-    import BtnGroup from './BtnGroup.vue'
+    import Navigation from './Navigation.vue'
 
     const $q = useQuasar();
     const courseStore = useCourseStore();
