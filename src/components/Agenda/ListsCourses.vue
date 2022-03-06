@@ -5,7 +5,6 @@
         :color="course.bgcolor"
         :label="course.title" v-for="course in btns" :key="course._id"
         @click="handleClick(course._id)"
-        :outline="course.state"
         ref="btn"
       />
     </div>

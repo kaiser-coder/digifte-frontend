@@ -40,11 +40,10 @@
 
         <div class="row q-mt-xl">
           <div class="col">
-            <TheCalendarDay
+            <!-- <TheCalendarDay
               v-if="isDay === true"
               :lessons="filteredLessons"
               @onLaunchMeeting="launchMeeting"
-              @onNext="onNext"
               ref="calendar"
             />
             <TheCalendarWeek
@@ -52,7 +51,7 @@
               :lessons="filteredLessons"
               @onLaunchMeeting="launchMeeting"
               ref="calendar"
-            />
+            /> -->
             <TheCalendarMonth
               v-if="isMonth === true"
               :lessons="filteredLessons"
@@ -90,9 +89,9 @@
       return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
     })
 
-    const isDay = ref(true);
+    const isDay = ref(false);
     const isWeek = ref(false);
-    const isMonth  = ref(false);
+    const isMonth  = ref(true);
 
     const calendar = ref(null);
 
