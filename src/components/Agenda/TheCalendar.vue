@@ -162,6 +162,8 @@
         // empty calendar so start reset to full calendar lessons
         lessonsId.value = lessons.value.map((l) => l.courseId)
       }
+
+      console.log('Filtered lessons => ', filteredLessons.value)
     }
 
     function handleClick (mode) {

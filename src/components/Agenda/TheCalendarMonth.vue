@@ -55,7 +55,7 @@ import {
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
-import { defineProps, ref, computed, onMounted, defineExpose } from 'vue'
+import { defineProps, ref, computed, defineExpose } from 'vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -70,10 +70,30 @@ const props = defineProps({
   lessons: Array
 })
 
-const selectedDate = ref(today()),
-      events = ref([]);
-    
+const selectedDate = ref(today());
 const calendar = ref(null);
+
+const events = computed(() => {
+  return props.lessons.map((d) => {
+    const date = new Date(d.start_date);
+    const t = new Date();
+    const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+    const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+
+    // console.log('Time => ', handleTime(date))
+    // console.log('Diff =>', dateDiff);
+
+    return {
+      id: d._id,
+      title: d.name,
+      details: d.meeting,
+      date: getCurrentDay(dateDiff + 1), // start_date
+      time: handleTime(date),
+      duration: d.meeting ? d.meeting.duration : 60,
+      bgcolor: d.bgcolor
+    }
+  })
+});    
 
 const eventsMap = computed(() => {
   const map = {}
@@ -111,31 +131,31 @@ const handleTime = (dateD) => {
   return postTime
 }
 
-onMounted(() => {
+// onMounted(() => {
 
-  /* const today = new Date();
-  console.log('Tm', parseDate(today)) */
+//   /* const today = new Date();
+//   console.log('Tm', parseDate(today)) */
 
-  props.lessons.forEach((d) => {
-    const date = new Date(d.start_date);
-    const t = new Date();
-    const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
-    const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+//   props.lessons.forEach((d) => {
+//     const date = new Date(d.start_date);
+//     const t = new Date();
+//     const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+//     const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
 
-    // console.log('Time => ', handleTime(date))
-    // console.log('Diff =>', dateDiff);
+//     // console.log('Time => ', handleTime(date))
+//     // console.log('Diff =>', dateDiff);
 
-    events.value.push({
-      id: d._id,
-      title: d.name,
-      details: d.meeting,
-      date: getCurrentDay(dateDiff + 1), // start_date
-      time: handleTime(date),
-      duration: d.meeting ? d.meeting.duration : 60,
-      bgcolor: d.bgcolor
-    })
-  })
-})
+//     events.value.push({
+//       id: d._id,
+//       title: d.name,
+//       details: d.meeting,
+//       date: getCurrentDay(dateDiff + 1), // start_date
+//       time: handleTime(date),
+//       duration: d.meeting ? d.meeting.duration : 60,
+//       bgcolor: d.bgcolor
+//     })
+//   })
+// })
 
 function badgeClasses (event, type) {
   return {
