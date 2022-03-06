@@ -1,44 +1,36 @@
 <template>
-    <div class="row" v-for="(button, index) in buttons" :key="index">
-    {{ button }}
+    <div class="row" v-for="(course, index) in custom" :key="index">
+    {{ course }}
       <q-btn
         class="q-ma-xs"
-        :color="button.color"
-        :label="button.title"
-        @click="handleClick(button.id)"
+        :color="course.color"
+        :label="course.title"
+        @click="handleClick(course.id)"
+        :outline="course.clicked"
       />
     </div>
 </template>
 
 <script setup>
   /*eslint-disable*/
-  import { defineEmits, ref, onMounted } from 'vue';
+  import { defineEmits, computed } from 'vue';
   import { useCourseStore } from 'src/stores/course';
 
   const courseStore = useCourseStore();
   const emits = defineEmits(['onViewLessons'])
-  const buttons = ref([])
-
-  onMounted(() => {
-    console.log('Mounted is called', courseStore.courses);
-    courseStore.courses.forEach((c) => {
+  const custom = computed(() => {
+    return courseStore.courses.map((c) => {
       const {_id, title, bgcolor} = c;
-      console.count('Loop')
-      // return { id: _id, title: title, color: bgcolor, clicked: false, active: bgcolor, inactive: 'grey' }
-      buttons.value += 'coucou'
+      return { id: _id, title: title, color: bgcolor, clicked: false, active: bgcolor, inactive: 'grey' }
     })
   })
 
   function handleClick(courseId) {
     /*eslint-disable*/
-    buttons.value.forEach((btn) => {
-      if(btn.id === courseId) {
-        btn.clicked = true
-      }
+    custom.value.forEach((c) => {
+      c.clicked = true
+      return c
     })
-
-    // console.log('buttons states => ', buttons.value)
-    console.log('Buttons => ', buttons.value)
 
     emits('onViewLessons', courseId)
   }
