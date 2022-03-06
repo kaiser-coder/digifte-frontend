@@ -45,13 +45,13 @@
               :lessons="filteredLessons"
               @onLaunchMeeting="launchMeeting"
               ref="calendar"
-            />
+            /> -->
             <TheCalendarWeek
               v-if="isWeek === true"
               :lessons="filteredLessons"
               @onLaunchMeeting="launchMeeting"
               ref="calendar"
-            /> -->
+            />
             <TheCalendarMonth
               v-if="isMonth === true"
               :lessons="filteredLessons"

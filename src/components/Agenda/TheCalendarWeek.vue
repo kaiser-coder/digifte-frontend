@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /*eslint-disable*/
 import {
   QCalendarDay,
@@ -88,7 +88,8 @@ import {
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarDay.sass'
-import { defineComponent } from 'vue'
+
+import { defineProps, ref, computed, onMounted, defineExpose } from 'vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -99,60 +100,55 @@ function getCurrentDay (day) {
   return tm.date
 }
 
-export default defineComponent({
-  name: 'WeekSlotDayBody',
-  components: {
-    QCalendarDay,
-  },
-  props: ['lessons'],
-  data () {
-    return {
-      selectedDate: today(),
-      events:[]
-    }
-  },
-  computed: {
+const props = defineProps({
+  lessons: Array
+})
+
+const selectedDate = ref(today()),
+      events = ref([]);
+
+const calendar = ref(null);
+
+const  eventsMap = computed(() => {
     // convert the events into a map of lists keyed by date
-    eventsMap () {
-      const map = {}
-      // this.events.forEach(event => (map[ event.date ] = map[ event.date ] || []).push(event))
-      this.events.forEach(event => {
-        if (!map[ event.date ]) {
-          map[ event.date ] = []
-        }
-        map[ event.date ].push(event)
-        if (event.days) {
-          let timestamp = parseTimestamp(event.date)
-          let days = event.days
-          do {
-            timestamp = addToDate(timestamp, { day: 1 })
-            if (!map[ timestamp.date ]) {
-              map[ timestamp.date ] = []
-            }
-            map[ timestamp.date ].push(event)
-          } while (--days > 0)
-        }
-      })
-      return map
-    },
-  },
-
-  mounted() {
-    function handleTime(dateD) {
-      let hrs = dateD.getHours()
-      let mins = dateD.getMinutes()
-      if(hrs<=9)
-        hrs = '0' + hrs
-      if(mins<10)
-        mins = '0' + mins
-      const postTime= hrs + ':' + mins
-      return postTime
-    }
-
-    this.lessons.forEach((d) => {
+    const map = {}
+    // this.events.forEach(event => (map[ event.date ] = map[ event.date ] || []).push(event))
+    events.value.forEach(event => {
+      if (!map[ event.date ]) {
+        map[ event.date ] = []
+      }
+      map[ event.date ].push(event)
+      if (event.days) {
+        let timestamp = parseTimestamp(event.date)
+        let days = event.days
+        do {
+          timestamp = addToDate(timestamp, { day: 1 })
+          if (!map[ timestamp.date ]) {
+            map[ timestamp.date ] = []
+          }
+          map[ timestamp.date ].push(event)
+        } while (--days > 0)
+      }
+    })
+    return map
+  }
+)
+function handleTime(dateD) {
+  let hrs = dateD.getHours()
+  let mins = dateD.getMinutes()
+  if(hrs<=9)
+    hrs = '0' + hrs
+  if(mins<10)
+    mins = '0' + mins
+  const postTime= hrs + ':' + mins
+  return postTime
+}
+  
+onMounted(() => {
+    props.lessons.forEach((d) => {
       const date = new Date(d.start_date);
       // console.log('Time => ', handleTime(date))
-      this.events.push({
+      events.value.push({
         id: d._id,
         title: d.name,
         details: d.meeting,
@@ -162,87 +158,103 @@ export default defineComponent({
         bgcolor: d.bgcolor
       })
     })
-  },
-  methods: {
-    badgeClasses (event, type) {
-      const isHeader = type === 'header'
-      return {
-        [ `text-white bg-${ event.bgcolor }` ]: true,
-        'full-width': !isHeader && (!event.side || event.side === 'full'),
-        'left-side': !isHeader && event.side === 'left',
-        'right-side': !isHeader && event.side === 'right',
-        'rounded-border': true
-      }
-    },
-    badgeStyles (event, type, timeStartPos = undefined, timeDurationHeight = undefined) {
-      const s = {}
-      if (timeStartPos && timeDurationHeight) {
-        s.top = timeStartPos(event.time) + 'px'
-        s.height = timeDurationHeight(event.duration) + 'px'
-      }
-      s[ 'align-items' ] = 'flex-start'
-      return s
-    },
-    getEvents (dt) {
-      // get all events for the specified date
-      const events = this.eventsMap[ dt ] || []
-      if (events.length === 1) {
-        events[ 0 ].side = 'full'
-      }
-      else if (events.length === 2) {
-        // this example does no more than 2 events per day
-        // check if the two events overlap and if so, select
-        // left or right side alignment to prevent overlap
-        const startTime = addToDate(parsed(events[ 0 ].date), { minute: parseTime(events[ 0 ].time) })
-        const endTime = addToDate(startTime, { minute: events[ 0 ].duration })
-        const startTime2 = addToDate(parsed(events[ 1 ].date), { minute: parseTime(events[ 1 ].time) })
-        const endTime2 = addToDate(startTime2, { minute: events[ 1 ].duration })
-        if (isBetweenDates(startTime2, startTime, endTime, true) || isBetweenDates(endTime2, startTime, endTime, true)) {
-          events[ 0 ].side = 'left'
-          events[ 1 ].side = 'right'
-        }
-        else {
-          events[ 0 ].side = 'full'
-          events[ 1 ].side = 'full'
-        }
-      }
-      return events
-    },
-    scrollToEvent (event) {
-      this.$refs.calendar.scrollToTime(event.time, 350)
-    },
-    goNext () {
-      this.$refs.calendar.next()
-    },
-    goToday () {
-      this.$refs.calendar.moveToToday()
-    },
-    goPrev () {
-      this.$refs.calendar.prev()
-    },
-    onMoved (data) {
-      console.log('onMoved', data)
-    },
-    onChange (data) {
-      console.log('onChange', data)
-    },
-    onClickDate (data) {
-      console.log('onClickDate', data)
-    },
-    onClickTime (data) {
-      console.log('onClickTime', data)
-    },
-    onClickInterval (data) {
-      console.log('onClickInterval', data)
-    },
-    onClickHeadIntervals (data) {
-      console.log('onClickHeadIntervals', data)
-    },
-    onClickHeadDay (data) {
-      console.log('onClickHeadDay', data)
+  }
+)
+
+
+function badgeClasses (event, type) {
+  const isHeader = type === 'header'
+  return {
+    [ `text-white bg-${ event.bgcolor }` ]: true,
+    'full-width': !isHeader && (!event.side || event.side === 'full'),
+    'left-side': !isHeader && event.side === 'left',
+    'right-side': !isHeader && event.side === 'right',
+    'rounded-border': true
+  }
+}
+
+function badgeStyles (event, type, timeStartPos = undefined, timeDurationHeight = undefined) {
+  const s = {}
+  if (timeStartPos && timeDurationHeight) {
+    s.top = timeStartPos(event.time) + 'px'
+    s.height = timeDurationHeight(event.duration) + 'px'
+  }
+  s[ 'align-items' ] = 'flex-start'
+  return s
+}
+
+function getEvents (dt) {
+  // get all events for the specified date
+  const events = eventsMap.value[ dt ] || []
+  if (events.length === 1) {
+    events[ 0 ].side = 'full'
+  }
+  else if (events.length === 2) {
+    // this example does no more than 2 events per day
+    // check if the two events overlap and if so, select
+    // left or right side alignment to prevent overlap
+    const startTime = addToDate(parsed(events[ 0 ].date), { minute: parseTime(events[ 0 ].time) })
+    const endTime = addToDate(startTime, { minute: events[ 0 ].duration })
+    const startTime2 = addToDate(parsed(events[ 1 ].date), { minute: parseTime(events[ 1 ].time) })
+    const endTime2 = addToDate(startTime2, { minute: events[ 1 ].duration })
+    if (isBetweenDates(startTime2, startTime, endTime, true) || isBetweenDates(endTime2, startTime, endTime, true)) {
+      events[ 0 ].side = 'left'
+      events[ 1 ].side = 'right'
+    }
+    else {
+      events[ 0 ].side = 'full'
+      events[ 1 ].side = 'full'
     }
   }
-})
+  return events
+}
+
+defineExpose({goPrev, goNext, goToday})
+
+function scrollToEvent (event) {
+  calendar.value.scrollToTime(event.time, 350)
+}
+
+function goNext () {
+  calendar.value.next()
+}
+
+function goToday () {
+  calendar.value.moveToToday()
+}
+
+function goPrev () {
+  calendar.value.prev()
+}
+
+// function onMoved (data) {
+//   console.log('onMoved', data)
+// }
+
+// function onChange (data) {
+//   console.log('onChange', data)
+// }
+
+// function onClickDate (data) {
+//   console.log('onClickDate', data)
+// }
+
+// function onClickTime (data) {
+//   console.log('onClickTime', data)
+// }
+
+// function onClickInterval (data) {
+//   console.log('onClickInterval', data)
+// }
+
+// function onClickHeadIntervals (data) {
+//   console.log('onClickHeadIntervals', data)
+// }
+
+// function onClickHeadDay (data) {
+//   console.log('onClickHeadDay', data)
+// }
+
 </script>
 
 <style lang="sass" scoped>
