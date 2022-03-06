@@ -1,7 +1,7 @@
 <template lang="" >
     <div>
         <h3 class="titleContent">Planning</h3>
-        <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
+        <ListsCourses @onViewLessons="getLessons"/>
 
          <div class="row items-center">
            <div class="col">
@@ -25,7 +25,7 @@
            </div>
 
            <div class="col">
-             Something month
+             <!-- Something month -->
            </div>
 
            <div class="col">
@@ -122,6 +122,8 @@
           courses.value = filtered.map((d, i) => {
             return {...d, bgcolor: setColor(i)}
           });
+
+          courseStore.courses = courses.value
         })
 
         // Get all lessons
@@ -163,7 +165,7 @@
         lessonsId.value = lessons.value.map((l) => l.courseId)
       }
 
-      console.log('Filtered lessons => ', filteredLessons.value)
+      // console.log('Filtered lessons => ', filteredLessons.value)
     }
 
     function handleClick (mode) {

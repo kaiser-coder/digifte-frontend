@@ -116,7 +116,7 @@ const eventsMap = computed(() => {
       }
     })
   }
-  console.log(map)
+  // console.log(map)
   return map
 })
 
@@ -130,32 +130,6 @@ const handleTime = (dateD) => {
   const postTime= hrs + ':' + mins
   return postTime
 }
-
-// onMounted(() => {
-
-//   /* const today = new Date();
-//   console.log('Tm', parseDate(today)) */
-
-//   props.lessons.forEach((d) => {
-//     const date = new Date(d.start_date);
-//     const t = new Date();
-//     const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
-//     const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
-
-//     // console.log('Time => ', handleTime(date))
-//     // console.log('Diff =>', dateDiff);
-
-//     events.value.push({
-//       id: d._id,
-//       title: d.name,
-//       details: d.meeting,
-//       date: getCurrentDay(dateDiff + 1), // start_date
-//       time: handleTime(date),
-//       duration: d.meeting ? d.meeting.duration : 60,
-//       bgcolor: d.bgcolor
-//     })
-//   })
-// })
 
 function badgeClasses (event, type) {
   return {
