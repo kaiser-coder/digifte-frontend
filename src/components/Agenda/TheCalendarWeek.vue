@@ -116,7 +116,7 @@ const events = computed(() => {
         details: d.meeting,
         date: getCurrentDay(dateDiff + 1), // start_date
         time: handleTime(date),
-        duration: d.meeting ? d.meeting.duration : 1,
+        duration: d.meeting ? d.meeting.duration : 60,
         bgcolor: d.bgcolor
       }
     })
