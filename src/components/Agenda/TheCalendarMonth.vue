@@ -1,12 +1,5 @@
 <template lang="">
   <div class="subcontent">
-
-    <q-btn-group>
-      <q-btn @click="onToday" color="blue-grey-4" glossy text-color="white" push label="Aujourd'hui" />
-      <q-btn label="Prev" icon="navigate_before" @click="onPrev" color="blue-grey-4" glossy text-color="white" /> 
-      <q-btn label="Next" icon-right="navigate_next" @click="onNext" color="blue-grey-4" glossy text-color="white"  />
-    </q-btn-group> &nbsp; <br> <br>
-    
     <div class="row justify-center">
       <div style="display: flex; max-width: 250%; width: 100%;">
         <q-calendar-month
@@ -39,7 +32,6 @@
               >
                 <div class="title q-calendar__ellipsis">
                   {{ event.title + (event.time ? ' - ' + event.time : '') }}
-                  <q-tooltip>{{ event.details }}</q-tooltip>
                 </div>
               </div>
             </template>
@@ -50,7 +42,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /*eslint-disable*/
 import {
   QCalendarMonth,
@@ -62,7 +54,8 @@ import {
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
-import { defineComponent } from 'vue'
+import { defineProps, ref, computed, defineExpose } from 'vue'
+
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
 function getCurrentDay (day) {
@@ -71,117 +64,119 @@ function getCurrentDay (day) {
   const tm = parseDate(newDay)
   return tm.date
 }
-export default defineComponent({
-  name: 'MonthSlotDay',
-  components: {
-    QCalendarMonth
-  },
-  props: ['lessons'],
-  data () {
-    return {
-      selectedDate: today(),
-      events: []
-    }
-  },
-  computed: {
-    eventsMap () {
-      const map = {}
-      if (this.events.length > 0) {
-        this.events.forEach(event => {
-          (map[ event.date ] = (map[ event.date ] || [])).push(event)
-          if (event.days !== undefined) {
-            let timestamp = parseTimestamp(event.date)
-            let days = event.days
-            // add a new event for each day
-            // skip 1st one which would have been done above
-            do {
-              timestamp = addToDate(timestamp, { day: 1 })
-              if (!map[ timestamp.date ]) {
-                map[ timestamp.date ] = []
-              }
-              map[ timestamp.date ].push(event)
-              // already accounted for 1st day
-            } while (--days > 1)
-          }
-        })
-      }
-      console.log(map)
-      return map
-    }
-  },
-  mounted() {
-    function handleTime(dateD) {
-      let hrs = dateD.getHours()
-      let mins = dateD.getMinutes()
-      if(hrs<=9)
-        hrs = '0' + hrs
-      if(mins<10)
-        mins = '0' + mins
-      const postTime= hrs + ':' + mins
-      return postTime
-    }
 
-    this.lessons.forEach((d) => {
-      const date = new Date(d.start_date);
-      // console.log('Time => ', handleTime(date))
-      this.events.push({
-        id: d._id,
-        title: d.name,
-        details: d.meeting,
-        date: getCurrentDay(date.getDate()), // start_date
-        time: handleTime(date),
-        duration: d.meeting ? d.meeting.duration : 1,
-        bgcolor: d.bgcolor
-      })
-    })
-  },
-  methods: {
-    badgeClasses (event, type) {
-      return {
-        [ `text-white bg-${ event.bgcolor }` ]: true,
-        'rounded-border': true
-      }
-    },
-    badgeStyles (day, event) {
-      const s = {}
-      // s.left = day.weekday === 0 ? 0 : (day.weekday * this.parsedCellWidth) + '%'
-      // s.top = 0
-      // s.bottom = 0
-      // s.width = (event.days * this.parsedCellWidth) + '%'
-      return s
-    },
-    onToday () {
-      this.$refs.calendar.moveToToday()
-    },
-    onPrev () {
-      this.$refs.calendar.prev()
-    },
-    onNext () {
-      this.$refs.calendar.next()
-    },
-    onMoved (data) {
-      console.log('onMoved', data)
-    },
-    onChange (data) {
-      console.log('onChange', data)
-    },
-    onClickDate (data) {
-      console.log('onClickDate', data)
-    },
-    onClickDay (data) {
-      console.log('onClickDay', data)
-    },
-    onClickWorkweek (data) {
-      console.log('onClickWorkweek', data)
-    },
-    onClickHeadDay (data) {
-      console.log('onClickHeadDay', data)
-    },
-    onClickHeadWorkweek (data) {
-      console.log('onClickHeadWorkweek', data)
-    }
-  }
+const props = defineProps({
+  lessons: Array
 })
+
+const selectedDate = ref(today());
+const calendar = ref(null);
+const events = computed(() => {
+  return props.lessons.map((d) => {
+    const date = new Date(d.start_date);
+    const t = new Date();
+    const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+    const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+    // console.log('Time => ', handleTime(date))
+    // console.log('Diff =>', dateDiff);
+    return {
+      id: d._id,
+      title: d.name,
+      details: d.meeting,
+      date: getCurrentDay(dateDiff + 1), // start_date
+      time: handleTime(date),
+      duration: d.meeting ? d.meeting.duration : 60,
+      bgcolor: d.bgcolor
+    }
+  })
+});    
+const eventsMap = computed(() => {
+  const map = {}
+  if (events.value.length > 0) {
+    events.value.forEach(event => {
+      (map[ event.date ] = (map[ event.date ] || [])).push(event)
+      if (event.days !== undefined) {
+        let timestamp = parseTimestamp(event.date)
+        let days = event.days
+        // add a new event for each day
+        // skip 1st one which would have been done above
+        do {
+          timestamp = addToDate(timestamp, { day: 1 })
+          if (!map[ timestamp.date ]) {
+            map[ timestamp.date ] = []
+          }
+          map[ timestamp.date ].push(event)
+          // already accounted for 1st day
+        } while (--days > 1)
+      }
+    })
+  }
+  console.log(map)
+  return map
+})
+
+const handleTime = (dateD) => {
+  let hrs = dateD.getHours()
+  let mins = dateD.getMinutes()
+  if(hrs<=9)
+    hrs = '0' + hrs
+  if(mins<10)
+    mins = '0' + mins
+  const postTime= hrs + ':' + mins
+  return postTime
+}
+
+// onMounted(() => {
+//   /* const today = new Date();
+//   console.log('Tm', parseDate(today)) */
+//   props.lessons.forEach((d) => {
+//     const date = new Date(d.start_date);
+//     const t = new Date();
+//     const firstDate = new Date(t.getFullYear(), t.getMonth(), 1)
+//     const dateDiff = Math.floor((date - firstDate) / (1000*60*60*24));
+//     // console.log('Time => ', handleTime(date))
+//     // console.log('Diff =>', dateDiff);
+//     events.value.push({
+//       id: d._id,
+//       title: d.name,
+//       details: d.meeting,
+//       date: getCurrentDay(dateDiff + 1), // start_date
+//       time: handleTime(date),
+//       duration: d.meeting ? d.meeting.duration : 60,
+//       bgcolor: d.bgcolor
+//     })
+//   })
+// })
+
+function badgeClasses (event, type) {
+  return {
+    [ `text-white bg-${ event.bgcolor }` ]: true,
+    'rounded-border': true
+  }
+}
+
+function badgeStyles (day, event) {
+  const s = {}
+  // s.left = day.weekday === 0 ? 0 : (day.weekday * this.parsedCellWidth) + '%'
+  // s.top = 0
+  // s.bottom = 0
+  // s.width = (event.days * this.parsedCellWidth) + '%'
+  return s
+}
+defineExpose({goPrev, goToday, goNext})
+
+function goNext () {
+  calendar.value.next()
+}
+
+function goToday () {
+  calendar.value.moveToToday()
+}
+
+function goPrev () {
+  calendar.value.prev()
+}
+
 </script>
 
 <style lang="sass" scoped>
