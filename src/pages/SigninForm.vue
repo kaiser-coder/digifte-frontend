@@ -1,52 +1,123 @@
-<template>
+<template lang="">
     <div>
-        <form class="form-signin" @submit.prevent="submitFormSignin">
-           <div class="form-inner"> 
-                <div class="form-group">
-                    <div class="q-pa-md">
-                        <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input 
-                                label="Email" 
-                                id="email" 
-                                v-model="form.email"
-                                lazy-rules
-                                :rules="[ val => validateEmail(val) || 'Invalid email address']"
-                            />
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-header"> <br><br>
+                    <h2 class="form-title">
+                        <img src="../assets/LogoFTE.jpg">
+                        <div class="header-title">ACADIA</div>
+                    </h2> <br>
+                    <p>faculté théologique évangélique</p> <br><br>
+                    <h1 class="title">BIENVENUE</h1>
                 </div>
-                <div class="form-group">
-                    <div class="q-pa-md">
-                        <div class="q-gutter-md" style="max-width: 300px">
-                            <q-input 
-                                label="Mot de passe" 
-                                type="password" 
-                                id="password" 
-                                v-model="form.password"
-                                lazy-rules
-                                :rules="[ 
-                                    val => val !== '' || 'Password can\'t be empty',
-                                    val => val.length > 8 || 'Password must have 8 characters at least',
-                                ]"
-                            />
-                        </div>
-                    </div>
-                </div> <br>
-                <div class="form-group">
-                    <div class="q-pa-md q-gutter-md">
-                        <q-btn color="primary" type="submit" style="width: 300px" label="Connexion" />
-                    </div>
-                </div> <br>
-                <a style="text-decoration:none" href="">Mot de passe oublié ?</a> 
-                <a style="text-decoration:none" href="/signup">Créer compte</a>
-           </div>
-       </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div> 
+                    <form class="form-signin" @submit.prevent="submitFormSignin">
+                        <div>
+                            <div class="form-input"> 
+                                <div class="q-pa-md">
+                                    <div class="q-gutter-md">
+                                        <q-input 
+                                            class="form-mail"
+                                            label="Email" 
+                                            id="email" 
+                                            rounded 
+                                            outlined
+                                            bg-color="white"
+                                            v-model="form.email"
+                                            lazy-rules
+                                            :rules="[ val => validateEmail(val) || 'Adresse mail invalide']"
+                                        />
+                                    </div>
+                                </div>
+                            </div> <br>
+                            <div class="form-input"> 
+                                <div class="q-pa-md">
+                                    <div class="q-gutter-md">
+                                        <q-input 
+                                            class="form-password"
+                                            label="Mot de passe" 
+                                            type="password" 
+                                            id="password" 
+                                            rounded 
+                                            outlined
+                                            bg-color="white"
+                                            v-model="form.password"
+                                            lazy-rules
+                                            :rules="[ 
+                                                val => val !== '' || 'Le mot de passe ne peut pas être vide',
+                                                val => val.length > 8 || 'Le mot de passe doit être 8 caractères',
+                                            ]"
+                                        />
+                                    </div>
+                                </div>
+                            </div> <br>
+
+                            <div class="form-input"> 
+                                <div class="q-pa-md text-white">
+                                    <div class="q-gutter-md">
+                                        <q-radio 
+                                            v-model="shape" 
+                                            color="white"
+                                            val="Rester connecter" 
+                                            dark
+                                            label="Rester connecter" 
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-input"> 
+                                <div class="q-pa-md">
+                                    <div class="q-gutter-md">
+                                        <q-btn
+                                            class="btnConnect"
+                                            type="submit"
+                                            no-caps
+                                            text-color="white"
+                                            rounded
+                                            unelevated
+                                            label="Me connecter"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="q-pa-md">
+                                <div class="q-gutter-md">
+                                    <q-btn 
+                                        class="btnMdp" 
+                                        outline 
+                                        rounded 
+                                        no-caps
+                                        color="white" 
+                                        label="Mot de passe oublié ?" 
+                                    /> &nbsp;
+                                    <q-btn 
+                                        class="btnMdp" 
+                                        outline 
+                                        rounded 
+                                        no-caps
+                                        color="white" 
+                                        href="/signup"
+                                        label="Nouveau compte" 
+                                    />
+                                </div>
+                            </div>   
+                        </div>    
+                    </form>
+                </div>
+                <!-- <h2 class="titleFooter">ACADIA</h2> -->
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
     import jwt_decode from 'jwt-decode';
-    
+    import { ref } from 'vue';
     import { reactive } from 'vue';
     import { useUserStore } from 'src/stores/user';
     import { useQuasar } from 'quasar';
@@ -65,6 +136,8 @@
     // Plugins
     const $q = useQuasar();
     const $router = useRouter();
+
+    const shape = ref();
 
     function validateEmail(email) {
         let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$")
@@ -103,11 +176,85 @@
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: montserrat, sans-serif ;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    /* .row > div {} */
+
+    .row + .row {
+        margin-top: 6.1rem; 
+    }
+
+    img {
+        height:100px;
+        width: 120px;
+    }
+
+    .form-header {
+        width: 95%;
+        height: 30vh;
+    }
+
+    .header-title {
+        font-size: 100px;
+    }
+    
+    .form-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Montserrat';
+        letter-spacing: 18px;
+        color: #00427A;
+        opacity: 1;
+    }
+
+    .title {
+        text-align: center;
+        font-family: 'Montserrat';
+        font-weight: 900;
+        font-size: 100px;
+        letter-spacing: 20px;
+        color: #00427A;
+        opacity: 1;
+    }
+    
+    .titleFooter{
+        font-family: 'Montserrat';
+        font-size: 100px;
+        top:-6em;
+        letter-spacing: 12px;
+        color: #FFFFFF;
+        opacity: 0.11;
+    }
+
+    p {
+        text-align: center;
+        letter-spacing: 3.6px;
+        margin-right: -1em;
+        color: #00427A;
+        font-size: 225%;
+        opacity: 1;
+    }
+
+    .btnConnect {
+        background-color: #C41526;
+        width: 150px;
+        left: 18em;
+        top: -4em;
+    }
+
+    .btnMdp {
+        background-color: #00427A;
+        left: 18em;
+        top: -4em;
+        width: 180px;
     }
 
     a {
@@ -115,63 +262,25 @@
         margin-right: 2em;
     }
 
-    .logo {
-        height:150px;
-        width: 150px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
-
     .form-signin {
-        height: 100vh;
+        height: 60vh; 
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #ABB2B9
+        background-color: #00427A
     }
 
-    form {
-        display: block;
+    .form-input {
         position: relative;
-    }
-
-    form .form-inner {
-        position: relative;
-        border-radius: 8px;
         display: block;
-        background-color: #FFF;
         padding: 30px;
-        z-index: 2;
+        top: -6em;
+        margin-left: 15em;
+        width: 400px;
+        height: 20px;
     }
 
-    form .form-inner .form-group {
-        display: block;
-        width: 300px;
-        margin-bottom: 15px;
-    }
-
-    .form-inner .form-group label {
-        display: block;
-        margin-left: 0.5rem;
-        color: #666;
-        font-size: 12px;
-        margin-bottom: 5px;
-        transition: 0.4s;
-    }
-
-    form .form-inner .form-group input {
-        display: block;
-        border: none;
-        width: 100%;
-        padding: 10px 15px;
-        background-color: #c9c6c687;
-        border-radius: 5px;
-        transition: 0.4s;
-    }
-
-    form .form-inner .form-group input:focus {
-        box-shadow: 0px 0px 3px rgba(112, 111, 111, 0.2);
+    .form-mail,.form-password{
+        width: 400px;
     }
 </style>
