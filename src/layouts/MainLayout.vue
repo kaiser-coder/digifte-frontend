@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <div class="q-pa-md">
     <q-layout view="lHh Lpr lFf">
       <!-- Toolbar -->
@@ -48,7 +48,7 @@
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
         {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
-        {icon: 'school', link: '', label: 'Mes élèves'},
+        {icon: 'school', link: '/app/students/lists', label: 'Mes élèves'},
         {icon: 'book', link: '', label: 'Mes ressources'},
       ]
     },

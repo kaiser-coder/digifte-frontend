@@ -91,7 +91,7 @@
                 </div> 
                 <div class="form-group">
                     <div class="q-pa-md q-gutter-sm">
-                        <a style="text-decoration:none" href="/signin"> <q-btn class="buttonCancel" style="width:300px" label="Annuler" /> </a>
+                        <a style="text-decoration:none" href="/"> <q-btn class="buttonCancel" style="width:300px" label="Annuler" /> </a>
                     </div>
                 </div> <br>
                 

@@ -2,22 +2,24 @@
     <div>
         <div class="row">
             <div class="col">
-                <div class="form-header"> <br><br>
-                    <h2 class="form-title">
+                <div class="header-form"> <br><br>
+                    <h2 class="title-form">
                         <img src="../assets/LogoFTE.jpg">
-                        <div class="header-title">ACADIA</div>
+                        <div class="header-title"> ACADIA </div>
                     </h2> <br>
-                    <p>faculté théologique évangélique</p> <br><br>
-                    <h1 class="title">BIENVENUE</h1>
+                    <p> faculté théologique évangélique </p> <br><br>
+                    <h1 class="title"> BIENVENUE </h1>
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col">
-                <div> 
-                    <form class="form-signin" @submit.prevent="submitFormSignin">
-                        <div>
-                            <div class="form-input"> 
+                <div class="container-form"> 
+                    <form class="form" @submit.prevent="submitFormSignin">
+                    <h4 class="form-title">Mon espace étudiant</h4>
+                        <div class="signin-form">
+                            <div class="input-form"> 
                                 <div class="q-pa-md">
                                     <div class="q-gutter-md">
                                         <q-input 
@@ -34,7 +36,7 @@
                                     </div>
                                 </div>
                             </div> <br>
-                            <div class="form-input"> 
+                            <div class="input-form"> 
                                 <div class="q-pa-md">
                                     <div class="q-gutter-md">
                                         <q-input 
@@ -54,9 +56,8 @@
                                         />
                                     </div>
                                 </div>
-                            </div> <br>
-
-                            <div class="form-input"> 
+                            </div>
+                            <div class="input-form" id="fields"> 
                                 <div class="q-pa-md text-white">
                                     <div class="q-gutter-md">
                                         <q-radio 
@@ -68,12 +69,10 @@
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-input"> 
-                                <div class="q-pa-md">
+                                 <div class="q-pa-md">
                                     <div class="q-gutter-md">
                                         <q-btn
-                                            class="btnConnect"
+                                            class="btn-connect"
                                             type="submit"
                                             no-caps
                                             text-color="white"
@@ -84,32 +83,33 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="q-pa-md">
-                                <div class="q-gutter-md">
-                                    <q-btn 
-                                        class="btnMdp" 
-                                        outline 
-                                        rounded 
-                                        no-caps
-                                        color="white" 
-                                        label="Mot de passe oublié ?" 
-                                    /> &nbsp;
-                                    <q-btn 
-                                        class="btnMdp" 
-                                        outline 
-                                        rounded 
-                                        no-caps
-                                        color="white" 
-                                        href="/signup"
-                                        label="Nouveau compte" 
-                                    />
-                                </div>
-                            </div>   
+                            <div class="btn-signin-position" >
+                                <div class="q-pa-md">
+                                    <div class="q-gutter-md">
+                                        <q-btn 
+                                            class="btn-form" 
+                                            outline 
+                                            rounded 
+                                            no-caps
+                                            color="white" 
+                                            label="Mot de passe oublié ?" 
+                                        /> &nbsp;
+                                        <q-btn 
+                                            class="btn-form" 
+                                            outline 
+                                            rounded 
+                                            no-caps
+                                            color="white" 
+                                            href="/signup"
+                                            label="Nouveau compte" 
+                                        />
+                                    </div>
+                                </div>   
+                            </div>
                         </div>    
                     </form>
+                <h2 class="title-footer"> ACADIA </h2>
                 </div>
-                <!-- <h2 class="titleFooter">ACADIA</h2> -->
             </div>
         </div>
     </div>
@@ -178,109 +178,131 @@
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Montserrat', sans-serif;
-    }
-
-    /* .row > div {} */
-
-    .row + .row {
-        margin-top: 6.1rem; 
-    }
-
-    img {
-        height:100px;
-        width: 120px;
-    }
-
-    .form-header {
-        width: 95%;
-        height: 30vh;
-    }
-
-    .header-title {
-        font-size: 100px;
-    }
     
-    .form-title {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Montserrat';
-        letter-spacing: 18px;
-        color: #00427A;
-        opacity: 1;
-    }
+    /* Title Head  */
 
-    .title {
-        text-align: center;
-        font-family: 'Montserrat';
-        font-weight: 900;
-        font-size: 100px;
-        letter-spacing: 20px;
-        color: #00427A;
-        opacity: 1;
-    }
-    
-    .titleFooter{
-        font-family: 'Montserrat';
-        font-size: 100px;
-        top:-6em;
-        letter-spacing: 12px;
-        color: #FFFFFF;
-        opacity: 0.11;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
 
-    p {
-        text-align: center;
-        letter-spacing: 3.6px;
-        margin-right: -1em;
-        color: #00427A;
-        font-size: 225%;
-        opacity: 1;
-    }
+        .row + .row {
+            margin-top: 6.1rem; 
+        }
 
-    .btnConnect {
-        background-color: #C41526;
-        width: 150px;
-        left: 18em;
-        top: -4em;
-    }
+        img {
+            height:100px;
+            width: 120px;
+        }
 
-    .btnMdp {
-        background-color: #00427A;
-        left: 18em;
-        top: -4em;
-        width: 180px;
-    }
+        .header-form {
+            width: 95%;
+            height: 30vh;
+        }
 
-    a {
-        text-align: center;
-        margin-right: 2em;
-    }
+        .header-title {
+            font-size: 100px;
+        }
 
-    .form-signin {
-        height: 60vh; 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #00427A
-    }
+        .title {
+            text-align: center;
+            font-family: 'Montserrat';
+            font-weight: 900;
+            font-size: 120px;
+            letter-spacing: 20px;
+            color: #00427A;
+            opacity: 1;
+        }
+        
+        .title-form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat';
+            letter-spacing: 18px;
+            color: #00427A;
+            opacity: 1;
+        }
 
-    .form-input {
-        position: relative;
-        display: block;
-        padding: 30px;
-        top: -6em;
-        margin-left: 15em;
-        width: 400px;
-        height: 20px;
-    }
+        p {
+            text-align: center;
+            letter-spacing: 3.6px;
+            margin-right: -1em;
+            color: #00427A;
+            font-size: 225%;
+            opacity: 1;
+        }
 
-    .form-mail,.form-password{
-        width: 400px;
-    }
+    /* Signin Form */
+
+        .container-form{
+            position: relative;
+            align-items: center;
+        }
+
+        .form {
+            align-items: flex-start;
+            padding-top: 100px;
+            height: 60vh;
+        }
+
+        .container-form .form {
+            display: flex;
+            justify-content: center;
+            background-color: #00427A;
+        }
+
+        .container-form .title-footer{
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            font-family: 'Montserrat';
+            font-size: 100px;
+            letter-spacing: 12px;
+            color: #FFFFFF;
+            opacity: 0.11;
+        }
+
+        .input-form {
+            padding: 2px 0;
+        }
+
+        .form-mail,.form-password{
+            width: 400px;
+        }
+
+        .btn-connect {
+            background-color: #C41526;
+            width: 150px;
+        }
+
+        .btn-form {
+            background-color: #00427A;
+            width: 180px;
+        }
+
+        .form-title {
+            text-align: right;
+            font: normal normal 600 60px/73px Montserrat;
+            letter-spacing: 3.6px;
+            color: #FFFFFF;
+        }
+        
+        .signin-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 680px;
+        }
+
+        .input-form#fields {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-signin-position {
+            margin-top: 100px;
+        }
 </style>
