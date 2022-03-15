@@ -1,13 +1,13 @@
 <template lang="">
-    <div>
+    <div class="content">
         <div class="row">
             <div class="col">
-                <div class="header-form"> <br><br>
+                <div class="header-form">
                     <h2 class="title-form">
                         <img src="../assets/LogoFTE.jpg">
                         <div class="header-title"> ACADIA </div>
-                    </h2> <br>
-                    <p> faculté théologique évangélique </p> <br><br>
+                    </h2>
+                    <p> faculté théologique évangélique </p>
                     <h1 class="title"> BIENVENUE </h1>
                 </div>
             </div>
@@ -18,6 +18,9 @@
                 <div class="container-form"> 
                     <form class="form" @submit.prevent="submitFormSignin">
                     <h4 class="form-title">Mon espace étudiant</h4>
+                    
+                    <div class="red-border"></div>
+
                         <div class="signin-form">
                             <div class="input-form"> 
                                 <div class="q-pa-md">
@@ -32,6 +35,7 @@
                                             v-model="form.email"
                                             lazy-rules
                                             :rules="[ val => validateEmail(val) || 'Adresse mail invalide']"
+                                            width="180px"
                                         />
                                     </div>
                                 </div>
@@ -85,7 +89,7 @@
                             </div>
                             <div class="btn-signin-position" >
                                 <div class="q-pa-md">
-                                    <div class="q-gutter-md">
+                                    <div class="q-gutter-md" id="btns">
                                         <q-btn 
                                             class="btn-form" 
                                             outline 
@@ -198,8 +202,10 @@
         }
 
         .header-form {
-            width: 95%;
-            height: 30vh;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .header-title {
@@ -210,10 +216,11 @@
             text-align: center;
             font-family: 'Montserrat';
             font-weight: 900;
-            font-size: 120px;
+            font-size: 165px;
             letter-spacing: 20px;
             color: #00427A;
             opacity: 1;
+            padding-top: 120px;
         }
         
         .title-form {
@@ -252,6 +259,7 @@
             display: flex;
             justify-content: center;
             background-color: #00427A;
+            gap: 70px;
         }
 
         .container-form .title-footer{
@@ -270,7 +278,7 @@
         }
 
         .form-mail,.form-password{
-            width: 400px;
+            width: 100%;
         }
 
         .btn-connect {
@@ -288,21 +296,42 @@
             font: normal normal 600 60px/73px Montserrat;
             letter-spacing: 3.6px;
             color: #FFFFFF;
+            width: 400px;
         }
         
         .signin-form {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 680px;
+            width: 540px;
         }
 
         .input-form#fields {
             display: flex;
             justify-content: space-between;
+            width: 100%;
+            margin-top: 40px;
         }
 
         .btn-signin-position {
             margin-top: 100px;
+            width: 100%;
+        }
+
+        .btn-signin-position #btns {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .red-border {
+            background: #C41526 0% 0% no-repeat padding-box;
+            border-radius: 11px;
+            width: 20px;
+            height: 269px;
+        }
+
+        .content {
+            overflow-x: hidden;
         }
 </style>
