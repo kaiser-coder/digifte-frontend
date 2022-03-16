@@ -192,10 +192,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        .row + .row {
-            margin-top: 6.1rem; 
-        }
-
         img {
             height:100px;
             width: 120px;
@@ -252,7 +248,6 @@
         .form {
             align-items: flex-start;
             padding-top: 100px;
-            height: 60vh;
         }
 
         .container-form .form {
@@ -260,6 +255,7 @@
             justify-content: center;
             background-color: #00427A;
             gap: 70px;
+            height: 50vh;
         }
 
         .container-form .title-footer{
@@ -333,5 +329,6 @@
 
         .content {
             overflow-x: hidden;
+            overflow-y: hidden;
         }
 </style>
