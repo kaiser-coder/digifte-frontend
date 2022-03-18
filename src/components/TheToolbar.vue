@@ -2,7 +2,7 @@
   <q-header> 
     <div :class="color" id="toolbar">
       <div class="toolbar-logo">
-        <img src="../assets/LogoFTE.jpg">
+        <router-link to="/app/home"><img src="../assets/LogoFTE.jpg"></router-link>
       </div>
       <div class="toolbar-menu">
           <ul>
