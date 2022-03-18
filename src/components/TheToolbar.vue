@@ -5,13 +5,13 @@
         <img src="../assets/LogoFTE.jpg">
       </div>
       <div class="toolbar-menu">
-        <ul>
-          <li><router-link to="">Contacter l'école</router-link></li>
-          <li><router-link to="">L'administration</router-link></li>
-          <li><router-link to="">La bibliothèque</router-link></li>
-          <li><router-link to="">Messagérie</router-link></li>
-          <li><router-link to="/app/students/agenda">Mes documents</router-link></li>
-        </ul>
+          <ul>
+            <li><router-link to="">Contacter l'école</router-link></li>
+            <li><router-link to="">L'administration</router-link></li>
+            <li><router-link to="">La bibliothèque</router-link></li>
+            <li><router-link to="">Messagerie</router-link></li>
+            <li><router-link to="/app/students/agenda" class="active">Mes documents</router-link></li>
+          </ul>
       </div>
       <div class="toolbar-user">
         <q-item clickable v-close-popup>
@@ -88,6 +88,7 @@
     height: auto;
   }
 
+
   .toolbar-menu li {
     display: inline-block;
     margin: 0px 25px;
@@ -96,15 +97,33 @@
     text-transform: uppercase;
   }
 
-  .toolbar-menu li a {
+  .toolbar-menu li a:hover{
+    border-color: #00427A;
+    border-radius: 50px;
+  }
+
+  .toolbar-menu li a.active {
+    background-color: #00427A;
+    color: white;
+  }
+
+  .toolbar-menu li a{
     text-decoration: none;
     color: #3B3738;
     font-weight: bold;
+    height: 100px;
+    padding: 10px;
+    border: solid 2px transparent;
+    border-radius: 50px;
   }
 
   .toolbar-menu ul {
     margin: 0;
     padding: 0;
+  }
+
+  .toolbar-menu ul li:last-child a{
+    text-transform: capitalize;
   }
 
   .user-account {
