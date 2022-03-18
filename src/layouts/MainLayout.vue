@@ -9,10 +9,10 @@
       />
 
       <!-- Sidebar -->
-      <TheSidebar 
+      <!-- <TheSidebar 
         :open="isOpen"
         :menu="itemsForSidebar"
-      />
+      /> -->
 
       <q-page-container>
         <router-view/>
@@ -57,7 +57,7 @@
       items: [
         {icon: 'home', link: '/app/home', label: 'Accueil'},
         {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
-        {icon: 'plan', link: '/app/students/agenda', label: 'PLanning'},
+        {icon: 'plan', link: '/app/students/agenda', label: 'Planning'},
       ]
     }
   });
@@ -71,7 +71,7 @@
         return 'bg-red-10';
 
       case 'student':
-        return '';
+        return 'bg-white';
 
       default:
         return '';

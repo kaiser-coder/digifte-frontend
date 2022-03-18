@@ -1,41 +1,36 @@
-<template>
-  <q-header elevated> 
-      <q-toolbar :class="color">
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="handleMenuClick"
-        />
-
-        <q-toolbar-title>
-          DigiFTE
-        </q-toolbar-title>
-
-        <mail-icon /> &nbsp; &nbsp;
-        <forum-icon /> &nbsp; &nbsp;
-        <account-icon/>
-        
-        <q-icon name="account" class="account">
-          <q-menu>
-            <q-list dense style="min-width: 160px">
-              <q-item clickable v-close-popup>
-                <account-icon/> &nbsp; <q-item-section> Mon profil</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
-                <logout-icon/> &nbsp; 
+<template lang= "">
+  <q-header> 
+    <div :class="color" id="toolbar">
+      <div class="toolbar-logo">
+        <img src="../assets/LogoFTE.jpg">
+      </div>
+      <div class="toolbar-menu">
+        <ul>
+          <li><router-link to="">Contacter l'école</router-link></li>
+          <li><router-link to="">L'administration</router-link></li>
+          <li><router-link to="">La bibliothèque</router-link></li>
+          <li><router-link to="">Messagérie</router-link></li>
+          <li><router-link to="/app/students/agenda">Mes documents</router-link></li>
+        </ul>
+      </div>
+      <div class="toolbar-user">
+        <q-item clickable v-close-popup>
+          <div class="user-notification">
+            <q-btn round icon="notifications">
+              <q-badge color="red" floating rounded>4</q-badge>
+            </q-btn>
+          </div> &nbsp;
+          <div class="user-account">
+              <div class="account-icon">
                 <q-item-section @click="dialog = true">
-                  Se déconnecter
+                  <AccountIcon fillColor="#FFFFFF"/>
                 </q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-icon> 
-      </q-toolbar>
-    </q-header>
+              </div>
+          </div>
+        </q-item>
+      </div>
+    </div>
+  </q-header>
 
    <q-dialog v-model="dialog">
     <q-card>
@@ -59,7 +54,7 @@
    import { ref } from 'vue';
 
    defineProps({
-      color: String
+    color: String
    })
 
    const emit = defineEmits(['onMenuClick', 'onLogout'])
@@ -75,11 +70,69 @@
 </script>
 
 <style scoped>
-  .account {
-    cursor: pointer;
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+  #toolbar {
+    /* height: 8vh; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .toolbar-logo{
+    width:143px;
+  }
+
+  .toolbar-logo img{
+    width: 100%;
+    height: auto;
+  }
+
+  .toolbar-menu li {
+    display: inline-block;
+    margin: 0px 25px;
+    font: 'Montserrat';
+    letter-spacing: 1.62px;
+    text-transform: uppercase;
+  }
+
+  .toolbar-menu li a {
+    text-decoration: none;
+    color: #3B3738;
+    font-weight: bold;
+  }
+
+  .toolbar-menu ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .user-account {
+    position: relative;
+    background-color: #00427A;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    opacity: 1;
+  }
+
+  .account-icon {
+    position: absolute;
+    top: 5px;
+    left: 5px; 
   }
 
   .buttonLogoutConfirm {
     margin-left: 5.5rem;
   }
+
+  .user-notification {
+    position: relative;
+    background-color: #00427A;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    opacity: 1;
+  }
+
 </style>
