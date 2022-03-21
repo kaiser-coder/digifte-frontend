@@ -120,6 +120,8 @@
 </template>
 
 <script setup>
+    /*eslint-disable*/
+
     import jwt_decode from 'jwt-decode';
     import { ref } from 'vue';
     import { reactive } from 'vue';
@@ -134,7 +136,6 @@
     });
 
     // Store
-    /*eslint-disable*/
     const userStore = useUserStore();
     
     // Plugins
@@ -154,14 +155,16 @@
 
         userStore.userSignin(form)
             .then((response) => {
-                /*eslint-disable*/
-                const { app_token, zoom_token } = response.data;
+                console.log(response);
+                
+                const { app_token, zoom_token, sf_token } = response.data;
                 const infos = jwt_decode(app_token);
                 const { user_id, zoom_userId } = infos
 
                 $q.sessionStorage.set('app_token', app_token)
                 $q.sessionStorage.set('current_user', infos)
                 $q.sessionStorage.set('zoom_token', zoom_token)
+                $q.sessionStorage.set('sf_token', sf_token)
                 $q.sessionStorage.set('zoom_userId', zoom_userId)
                 $q.sessionStorage.set('user_id', user_id)
                 

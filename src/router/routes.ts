@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
           { path: 'follow', component: () => import('pages/Admnistrator/FollowStudent.vue') },
           { path: 'register', component: () => import('pages/Admnistrator/RegistrationManagement.vue') },
           { path: 'agenda', component: () => import('pages/Student/StudentAgenda.vue') },
-          { path: 'lists', component: () => import('pages/Professor/StudentsLists.vue') }
+          { path: 'lists', component: () => import('src/pages/Shared/StudentsLists.vue') }
         ]
       },
     ]

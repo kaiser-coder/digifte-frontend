@@ -46,9 +46,6 @@
 </template>
 
 <script setup>
-   import ForumIcon from 'vue-material-design-icons/Forum.vue';
-   import MailIcon from 'vue-material-design-icons/Mail.vue';
-   import LogoutIcon from 'vue-material-design-icons/Logout.vue';
    import AccountIcon from 'vue-material-design-icons/Account.vue';
 
    import { ref } from 'vue';
@@ -57,12 +54,15 @@
     color: String
    })
 
-   const emit = defineEmits(['onMenuClick', 'onLogout'])
+   const emit = defineEmits([
+    //  'onMenuClick', 
+     'onLogout'
+    ])
    const dialog = ref(false)
 
-   function handleMenuClick() {
+   /* function handleMenuClick() {
       emit('onMenuClick')
-   }
+   } */
 
    function handleLogout() {
      emit('onLogout')

@@ -28,7 +28,7 @@
   import { useRouter } from 'vue-router';
   import { useQuasar } from 'quasar';
 
-  import TheSidebar from 'src/components/TheSidebar.vue';
+  // import TheSidebar from 'src/components/TheSidebar.vue';
   import TheToolbar from 'src/components/TheToolbar.vue';
 
   const $router = useRouter();
@@ -36,7 +36,7 @@
 
   const userRole = ref('');
   const isOpen = ref(false);
-  const menuItems = ref({
+  /* const menuItems = ref({
     admin: {
       title: 'ADMINISTRATEUR',
       items: [
@@ -60,7 +60,7 @@
         {icon: 'plan', link: '/app/students/agenda', label: 'Planning'},
       ]
     }
-  });
+  }); */
 
   const toolbarColor = computed(() => {
     switch (userRole.value) {
@@ -78,8 +78,7 @@
     }
   })
 
-  const itemsForSidebar = computed(() => {
-    /*eslint-disable*/
+  /* const itemsForSidebar = computed(() => {
     switch (userRole.value) {
       case 'admin':
         return menuItems.value.admin;
@@ -93,7 +92,7 @@
       default:
         return menuItems.value.visitor;
     }
-  })
+  }) */
 
   onBeforeMount(() => {
     /*eslint-disable*/
