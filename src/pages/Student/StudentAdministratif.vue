@@ -11,9 +11,9 @@
                     <div class="menu">
                         <ul>
                             <li><router-link to="/app/students/administratif/bulletin">MES BULLETINS</router-link></li>
-                            <li><router-link to="">MES FACTURES</router-link></li>
-                            <li><router-link to="">MES AVIS D'IMPOSITIONS</router-link></li>
-                            <li><router-link to="">MES ATTESTATIONS</router-link></li>
+                            <li><router-link to="" disabled>MES FACTURES</router-link></li>
+                            <li><router-link to="" disabled>MES AVIS D'IMPOSITIONS</router-link></li>
+                            <li><router-link to="" disabled>MES ATTESTATIONS</router-link></li>
                         </ul>
                     </div>
                 </div>
