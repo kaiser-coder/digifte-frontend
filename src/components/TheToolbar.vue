@@ -16,8 +16,8 @@
       <div class="toolbar-user">
         <q-item clickable v-close-popup>
           <div class="user-notification">
-            <q-btn round icon="notifications" id="notif_btn">
-              <q-badge color="red" floating rounded>4</q-badge>
+            <q-btn round icon="notifications" id="notif-btn">
+              <q-badge class="badge-notif" floating rounded>4</q-badge>
             </q-btn>
           </div> &nbsp;
           <div class="user-account">
@@ -88,7 +88,6 @@
     height: auto;
   }
 
-
   .toolbar-menu li {
     display: inline-block;
     margin: 0px 25px;
@@ -145,13 +144,17 @@
     margin-left: 5.5rem;
   }
 
-  #notif_btn {
+  #notif-btn {
     position: relative;
     background-color: #00427A;
     height: 45px;
     width: 45px;
     border-radius: 50%;
     opacity: 1;
+  }
+
+  .badge-notif {
+    background-color: #C41526 !important;
   }
 
 </style>
