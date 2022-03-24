@@ -10,12 +10,16 @@
             <q-card-section class="q-pa-lg">
                <slot></slot>
             </q-card-section>
+
+            <!-- <q-card-actions align="right" class="q-pa-lg">
+                <q-btn class="cta" :label="cta" v-close-popup />
+            </q-card-actions> -->
         </q-card>
     </q-dialog>
 </template>
 
 <script setup lang="ts">
-    import { ref, defineProps } from 'vue';
+    import { defineProps } from 'vue';
 
     interface Props {
         title?: string,
@@ -28,9 +32,9 @@
 
 <style lang="scss">
     .card-container {
-        outline: rgba(163, 189, 219, .8) solid 40px;
+        outline: rgba(163, 189, 219, .8) solid 30px;
         border-radius: 30px !important;
-        max-width: 80vw;
+        max-width: 85vw !important;
     }
 
     .card-title {
@@ -47,7 +51,7 @@
 
     .title {
         text-align: center;
-        font: normal normal bold 30px/40px Montserrat;
+        font-family: normal normal bold 30px/40px Montserrat;
         letter-spacing: 2.7px;
         color: #00427A;
     }
@@ -55,7 +59,7 @@
     .cta {
         background-color: #046CC4;
         border-radius: 25px;
-        font: normal normal bold 15px/15px Montserrat;
+        font-family: normal normal bold 15px/15px Montserrat;
         letter-spacing: 1.62px;
         color: #FFFFFF;
         text-transform: initial;
