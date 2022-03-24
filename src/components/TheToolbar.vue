@@ -6,7 +6,7 @@
       </div>
       <div class="toolbar-menu">
           <ul>
-            <li><router-link to="">Contacter l'école</router-link></li>
+            <li><router-link to="/app/students/school">Contacter l'école</router-link></li>
             <li><router-link to="/app/students/administratif">L'administration</router-link></li>
             <li><router-link to="">La bibliothèque</router-link></li>
             <li><router-link to="">Messagerie</router-link></li>

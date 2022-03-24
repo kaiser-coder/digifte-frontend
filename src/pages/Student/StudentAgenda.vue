@@ -1,14 +1,25 @@
 <template lang="">
     <div>
+        <div class="chip">
+            
+        </div> <br>
         <TheCalendar/>
     </div>
 </template>
 
-<script>
+<script setup>
 import TheCalendar from 'src/components/Agenda/TheCalendar.vue'
-export default {
-    components : {
-        TheCalendar
-    }
-}
+
 </script>
+
+<style scoped>
+    .chip {
+        display: inline-block;
+        padding: 22px 903px;
+        height: 30px;
+        /* font-size: 18px; */
+        line-height: 50px;
+        border-radius: 25px;
+        background-color: #f1f1f1;
+    }
+</style>

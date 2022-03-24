@@ -8,6 +8,19 @@
         @onLogout="logout"
       />
 
+      <!-- <CustomModal
+        :render="true"
+        title="Un titre"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam iure facilis aperiam incidunt obcaecati sapiente similique nesciunt dicta ratione, inventore dignissimos minima magnam, omnis officia blanditiis maxime nulla dolores officiis?
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur iste quasi, consectetur assumenda, ab illum explicabo totam nulla adipisci quia suscipit! Reprehenderit quos modi autem, recusandae nostrum eius doloribus accusantium.
+        </p>
+        <q-card-actions align="right" class="q-pa-lg">
+          <q-btn class="cta" label="Coucou" v-close-popup />
+        </q-card-actions>
+      </CustomModal> -->
+
       <!-- Sidebar -->
       <!-- <TheSidebar 
         :open="isOpen"
@@ -30,6 +43,8 @@
 
   // import TheSidebar from 'src/components/TheSidebar.vue';
   import TheToolbar from 'src/components/TheToolbar.vue';
+
+  import { createCourse } from 'src/api/courses';
 
   const $router = useRouter();
   const $q = useQuasar();

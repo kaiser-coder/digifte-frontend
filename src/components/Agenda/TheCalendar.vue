@@ -1,7 +1,7 @@
 <template lang="" >
     <div>
-      <h3 class="titleContent">Planning</h3>
-      <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br> <br> <br> <br>
+      <!-- <h3 class="titleContent">Planning</h3> -->
+      <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br>
       <div class="row items-center">
         <div class="col">
           <q-btn-group>
