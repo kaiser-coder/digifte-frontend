@@ -24,8 +24,123 @@
         </div>
 
         <div class="col">
-        Something month
+          <q-btn 
+            @click="fixed = true"
+            size="20px"
+            color="brown-5" 
+            label="Lancer le cours" 
+          />
         </div>
+
+        <CustomModal v-model="fixed" :render="true">
+          <div class="row q-gutter-md" id="container-course">
+            <div class="section_one">
+              <div class="postion-img">
+                <img src="../../assets/saint_esprit.jpg" />
+              </div>
+              <div class="head-title">Suivi de cours</div>
+              <p> J'assiste au cours en :</p> 
+              <div class="form-select">
+                <q-radio v-model="shape" val="line" label="Présentiel" />
+                <q-radio v-model="shape" val="rectangle" label="Distanciel" />
+                <q-radio v-model="shape" val="ellipse" label="En replay" />
+              </div>
+            </div>
+
+            <div class="red-border"></div>
+
+            <div class="section_two">
+              <div class="head-title">Mes ressources d'étude</div>
+              <div class="form-list">
+                <p>
+                  Youtube.Dereckprince.lafindestemps <br>
+                  Youtube.Dereckprince.lafindestemps <br>
+                  Youtube.Dereckprince.lafindestemps 
+                </p>
+                <p>
+                  Le retour de Christ - JM Thabois  <br>
+                  Le retour de Christ - JM Thabois  <br>
+                  Le retour de Christ - JM Thabois  
+                </p>
+                <p>
+                  Apocalypse Chapitre 1 à 7 <br>
+                  Apocalypse Chapitre 1 à 7 <br>
+                  Apocalypse Chapitre 1 à 7 
+                </p>
+                <div>
+                  <video width="320" height="240" controls>
+                    <source src="" type="video/mp4">
+                    <source src="" type="video/ogg">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="red-border-right"></div>
+
+            <div class="section_three">
+              <div class="head-title" id="">Devoir</div> 
+              <q-select 
+                rounded
+                size="10px" 
+                outlined 
+                v-model="model" 
+                :options="options" 
+                label="Séléctionner le devoir" 
+              />
+              <p class="form-date"> Date limite: 18 Février 2022 </p>
+              <div class="head-title">Messagerie</div>
+              
+              <div class="q-pa-md row justify-center" id="chat-msg">
+                <div style="width: 70%; max-width: 200px">
+                  <q-chat-message
+                    name="me"
+                    avatar="https://cdn.quasar.dev/img/avatar1.jpg"
+                    :text="['hey, how are you?']"
+                    stamp="7 minutes ago"
+                    sent
+                    bg-color="amber-7"
+                  />
+                  <q-chat-message
+                    name="Jane"
+                    avatar="https://cdn.quasar.dev/img/avatar5.jpg"
+                    :text="['doing fine, how r you?']"
+                    stamp="4 minutes ago"
+                    text-color="white"
+                    bg-color="primary"
+                  />
+                </div>
+              </div>
+
+              <q-input 
+                class="form-send-msg"
+                rounded 
+                outlined 
+                v-model="text" 
+                label="Votre message" 
+              />
+                
+              <div class="btns-send">
+                <q-btn 
+                  class="send-class"
+                  no-caps
+                  rounded 
+                  color="primary" 
+                  label="Envoyer à la classe" 
+                /> 
+                <q-btn 
+                  class="send-prof"
+                  no-caps
+                  rounded 
+                  color="primary" 
+                  label="Envoyer au prof" 
+                />
+              </div>
+              
+            </div>
+
+          </div>
+        </CustomModal>
 
         <div class="col">
           <Navigation
@@ -66,11 +181,13 @@
   import TheCalendarMonth from 'src/components/Agenda/TheCalendarMonth.vue';
   import TheCalendarWeek from 'src/components/Agenda/TheCalendarWeek.vue';
   import ListsCourses from 'src/components/Agenda/ListsCourses.vue';
+  import CustomModal from 'src/components/lib/CustomModal.vue';
   import { useCourseStore } from 'src/stores/course';
   import { useLessonStore } from 'src/stores/lesson';
   import { ref, onMounted, computed } from 'vue';
   import { useQuasar } from 'quasar';
   import Navigation from './Navigation.vue'
+
 
   const $q = useQuasar();
   const courseStore = useCourseStore();
@@ -79,6 +196,10 @@
   const courses = ref([]);
   const lessons = ref([]);
   const lessonsId = ref([]);
+  const fixed = ref(false);
+  const shape = ref('');
+  const model = ref(null);
+  const options = ['Les psaumes', 'Corinthiens', 'Histoire de David', 'Apocalypse'];
 
   const filteredLessons = computed(()=> {
     return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
@@ -179,10 +300,112 @@
   }
 </script>
 
-<style>
+<style scoped>
   .titleContent {
     text-align: center;
     margin-top: 2px;
     line-height: 0.5;
   }
+
+  #container-course {
+    width: 60vw;
+  }
+
+  img {
+    width: 269px;
+    height: 189px;
+    margin-top: -58px;
+    border-radius: 5px;
+  }
+  
+  .btn-course {
+    background-color:#00427A !important;
+    width: 300px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  p {
+    color:rgb(83, 81, 81);
+    font-size: 12px;
+    margin-left: 46px;
+    margin-top: 25px;
+    letter-spacing: 2px;
+  }
+
+  .form-select {
+    color:rgb(83, 81, 81);
+    font-size: 12px;
+  }
+
+  .red-border {
+    margin-top: -41px;
+    background: #c41526 0% 0% no-repeat padding-box;
+    border-radius: 11px;
+    width: 8px;
+    height: 331px;
+    margin-inline: 20px;
+  }
+
+  .red-border-right {
+    margin-top: 146px;
+    background: #c41526 0% 0% no-repeat padding-box;
+    border-radius: 11px;
+    width: 8px;
+    height: 331px;
+    margin-inline: 20px;
+  }
+
+  .section_one {
+   
+  }
+
+  .section_two {
+    margin-top: -42px;
+  }
+
+  .section_three {
+    margin-top: -42px;
+  }
+
+  .form-date {
+    font-family: normal normal 13px/25px Montserrat;
+    font-weight: bold;
+    letter-spacing: 1.17px;
+    color: #C41526;
+    opacity: 1;
+  }
+  
+  .form-send-msg {
+    background: #EDEDED 0% 0% no-repeat padding-box;
+    box-shadow: 7px 3px 6px #00000029;
+    border-radius: 26px;
+    margin-bottom: 25px;
+    opacity: 1;
+  }
+
+  .btns-send {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .head-title {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    padding: 10px 0px;
+    font: bold normal 15px/25px Montserrat;
+    margin-bottom: 25px;
+  }
+
+  .send-class {
+    
+  }
+
+  .send-prof {
+    
+  }
+
+
 </style>
