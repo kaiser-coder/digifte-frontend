@@ -137,14 +137,12 @@
                   class="send-class"
                   no-caps
                   rounded 
-                  color="primary" 
                   label="Envoyer à la classe" 
                 /> 
                 <q-btn 
                   class="send-prof"
                   no-caps
-                  rounded 
-                  color="primary" 
+                  rounded  
                   label="Envoyer au prof" 
                 />
               </div>
@@ -398,6 +396,7 @@
 
   .btns-send {
     display: flex;
+    color: white;
     justify-content: space-between;
   }
 
@@ -425,5 +424,16 @@
     margin-top: -20px;
     margin-left: 14px;
   }
+
+  .send-class {
+    background-color: #4b8ee6 !important;
+  }
+
+  .send-prof {
+    background-color: #19437a !important;
+  }
+  
+
+  
 
 </style>
