@@ -89,9 +89,21 @@
                 label="Séléctionner le devoir" 
               />
               <p class="form-date"> Date limite: 18 Février 2022 </p>
+              <div class="form-files">
+                <q-file 
+                  borderless 
+                  v-model="model" 
+                  label="Importer un fichier" 
+                />
+                <q-btn 
+                  class="btn-send-devoir"
+                  color="secondary" 
+                  label="Soumettre mon devoir" 
+                  no-caps
+                />
+              </div>
               <div class="head-title">Messagerie</div>
-              
-              <div class="q-pa-md row justify-center" id="chat-msg">
+              <div class="q-pa-md row justify-center" id="border-right">
                 <div style="width: 70%; max-width: 200px">
                   <q-chat-message
                     name="me"
@@ -308,14 +320,15 @@
   }
 
   #container-course {
-    width: 60vw;
+    width: 62vw;
+    
   }
 
   img {
     width: 269px;
     height: 189px;
     margin-top: -58px;
-    border-radius: 5px;
+    box-shadow: 7px 3px 6px #00000029;
   }
   
   .btn-course {
@@ -349,16 +362,12 @@
   }
 
   .red-border-right {
-    margin-top: 146px;
+    margin-top: 196px;
     background: #c41526 0% 0% no-repeat padding-box;
     border-radius: 11px;
     width: 8px;
-    height: 331px;
+    height: 347px;
     margin-inline: 20px;
-  }
-
-  .section_one {
-   
   }
 
   .section_two {
@@ -370,9 +379,11 @@
   }
 
   .form-date {
+    margin-top: 13px;
+    margin-left: 13px;
     font-family: normal normal 13px/25px Montserrat;
     font-weight: bold;
-    letter-spacing: 1.17px;
+    letter-spacing: 1px;
     color: #C41526;
     opacity: 1;
   }
@@ -395,17 +406,24 @@
     text-align: center;
     color: white;
     padding: 10px 0px;
-    font: bold normal 15px/25px Montserrat;
-    margin-bottom: 25px;
+    font-family: "Montserrat";
+    font-weight: bold;
+    letter-spacing: 1.17px;
+    margin-bottom: 33px;
   }
 
-  .send-class {
-    
+  .btn-send-devoir {
+    background-color: #C41526 !important;
+    color: white;
+    margin-top: -77px;
+    margin-left: 163px;
+    border-radius: 30px;
   }
 
-  .send-prof {
-    
+  .form-files {
+    width: 100%;
+    margin-top: -20px;
+    margin-left: 14px;
   }
-
 
 </style>
