@@ -19,12 +19,10 @@
           />
           <q-input rounded outlined label="Objet" />
           <q-input type="textarea" outlined v-model="text" label="Message" />
-          <q-file
-            class="files"
-            v-model="files"
-            label="Ajouter un pièce-jointe"
-            filled
-            multiple
+          <q-file 
+            borderless 
+            v-model="model" 
+            label="Ajouter un pièce jointe" 
           />
           <q-radio
             class="form-radio"
@@ -55,7 +53,6 @@ import CustomModal from 'src/components/lib/CustomModal.vue';
 
 const model = ref(null);
 const shape = ref(null);
-const files = ref(null);
 
 const options = [
   'Les psaumes',
