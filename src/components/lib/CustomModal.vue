@@ -32,9 +32,9 @@
 
 <style lang="scss">
     .card-container {
-        outline: rgba(163, 189, 219, .8) solid 30px;
+        outline: rgba(163, 189, 219, .8) solid 18px;
         border-radius: 30px !important;
-        max-width: 85vw !important;
+        max-width: 90vw !important;
     }
 
     .card-title {

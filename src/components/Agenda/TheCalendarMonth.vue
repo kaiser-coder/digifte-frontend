@@ -32,6 +32,14 @@
               >
                 <div class="title q-calendar__ellipsis">
                   {{ event.title + (event.time ? ' - ' + event.time : '') }}
+                  <q-btn 
+                    class="icon-launch" 
+                    @click="$emit('onRenderCourse',event.courseId)"
+                    round 
+                    color="primary" 
+                    icon="launch" 
+                    size="7px" 
+                  />
                 </div>
               </div>
             </template>
@@ -54,7 +62,7 @@ import {
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarMonth.sass'
-import { defineProps, ref, computed, defineExpose } from 'vue'
+import { defineProps, ref, computed, defineExpose,defineEmits } from 'vue'
 
 // The function below is used to set up our demo data
 const CURRENT_DAY = new Date()
@@ -65,6 +73,7 @@ function getCurrentDay (day) {
   return tm.date
 }
 
+const emit = defineEmits(['onRenderCourse']);
 const props = defineProps({
   lessons: Array
 })
@@ -82,7 +91,7 @@ const events = computed(() => {
     return {
       id: d._id,
       title: d.name,
-      details: d.meeting,
+      courseId: d.courseId,
       date: getCurrentDay(dateDiff + 1), // start_date
       time: handleTime(date),
       duration: d.meeting ? d.meeting.duration : 60,
@@ -180,6 +189,10 @@ function goPrev () {
 </script>
 
 <style lang="sass" scoped>
+
+.icon-launch
+  cursor: pointer
+  
 .my-event
   position: relative
   font-size: 12px
@@ -188,7 +201,7 @@ function goPrev () {
   justify-content: center
   text-overflow: ellipsis
   overflow: hidden
-  cursor: pointer
+  
 .title
   position: relative
   display: flex

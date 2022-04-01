@@ -38,31 +38,31 @@
 
   const userRole = ref('');
   const isOpen = ref(false);
-  /* const menuItems = ref({
-    admin: {
-      title: 'ADMINISTRATEUR',
-      items: [
-        {icon: '', link: '', label: ''}
-      ]
-    },
-    professor: {
-      title: 'ESPACE PROFESSEUR',
-      items: [
-        {icon: 'home', link: '/app/home', label: 'Accueil'},
-        {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
-        {icon: 'school', link: '/app/students/lists', label: 'Mes élèves'},
-        {icon: 'book', link: '', label: 'Mes ressources'},
-      ]
-    },
-    student: {
-      title: 'ESPACE ETUDIANT',
-      items: [
-        {icon: 'home', link: '/app/home', label: 'Accueil'},
-        {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
-        {icon: 'plan', link: '/app/students/agenda', label: 'Planning'},
-      ]
-    }
-  }); */
+  // const menuItems = ref({
+  //   admin: {
+  //     title: 'ADMINISTRATEUR',
+  //     items: [
+  //       {icon: '', link: '', label: ''}
+  //     ]
+  //   },
+  //   professor: {
+  //     title: 'ESPACE PROFESSEUR',
+  //     items: [
+  //       {icon: 'home', link: '/app/home', label: 'Accueil'},
+  //       {icon: 'book', link: '/app/courses/list', label: 'Mes cours'},
+  //       {icon: 'school', link: '/app/students/lists', label: 'Mes élèves'},
+  //       {icon: 'book', link: '', label: 'Mes ressources'},
+  //     ]
+  //   },
+  //   student: {
+  //     title: 'ESPACE ETUDIANT',
+  //     items: [
+  //       {icon: 'home', link: '/app/home', label: 'Accueil'},
+  //       {icon: 'book', link: '/app/courses/list', label: 'Tous les cours'},
+  //       {icon: 'plan', link: '/app/students/agenda', label: 'Planning'},
+  //     ]
+  //   }
+  // });
 
   const toolbarColor = computed(() => {
     switch (userRole.value) {
@@ -80,21 +80,21 @@
     }
   })
 
-  /* const itemsForSidebar = computed(() => {
-    switch (userRole.value) {
-      case 'admin':
-        return menuItems.value.admin;
+  // const itemsForSidebar = computed(() => {
+  //   switch (userRole.value) {
+  //     case 'admin':
+  //       return menuItems.value.admin;
 
-      case 'professor':
-        return menuItems.value.professor;
+  //     case 'professor':
+  //       return menuItems.value.professor;
 
-      case 'student': 
-        return menuItems.value.student;
+  //     case 'student': 
+  //       return menuItems.value.student;
 
-      default:
-        return menuItems.value.visitor;
-    }
-  }) */
+  //     default:
+  //       return menuItems.value.visitor;
+  //   }
+  // }) 
 
   onBeforeMount(() => {
     /*eslint-disable*/
