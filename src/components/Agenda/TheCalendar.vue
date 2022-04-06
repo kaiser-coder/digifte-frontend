@@ -1,210 +1,408 @@
 <template lang="" >
-    <div>
-      <!-- <h3 class="titleContent">Planning</h3> -->
-      <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br>
-      <div class="row items-center">
-        <div class="col">
-          <q-btn-group>
-            <q-btn
-              @click="handleClick('day')"
-              :color="isDay === false ? 'blue-grey' : 'blue-grey-4'"
-              text-color="white" label="Jour"
-            />
-            <q-btn
-              @click="handleClick('week')"
-              :color="isWeek === false ? 'blue-grey' : 'blue-grey-4'"
-              text-color="white" label="Semaine"
-            />
-            <q-btn
-              @click="handleClick('month')"
-              :color="isMonth === false ? 'blue-grey' : 'blue-grey-4'"
-              text-color="white" label="Mois"
-            />
-          </q-btn-group>
-        </div>
-
-        <!-- <div class="col">
-          <q-btn 
-            size="20px"
-            color="brown-5" 
-            label="Lancer le cours" 
+  <div>
+    <!-- <h3 class="titleContent">Planning</h3> -->
+    <ListsCourses :courses="courses" @onViewLessons="getLessons"/> <br>
+    <div class="row items-center">
+      <div class="col">
+        <q-btn-group>
+          <q-btn
+            @click="handleClick('day')"
+            :color="isDay === false ? 'blue-grey' : 'blue-grey-4'"
+            text-color="white" label="Jour"
           />
-        </div> -->
+          <q-btn
+            @click="handleClick('week')"
+            :color="isWeek === false ? 'blue-grey' : 'blue-grey-4'"
+            text-color="white" label="Semaine"
+          />
+          <q-btn
+            @click="handleClick('month')"
+            :color="isMonth === false ? 'blue-grey' : 'blue-grey-4'"
+            text-color="white" label="Mois"
+          />
+        </q-btn-group>
+      </div>
 
-        <CustomModal class="form-modal-cours" v-model="fixed" :render="true" @course-id="getCourse">
-          <form> 
-            <div class="row q-gutter-md" id="container-course">
-              <div class="row">
-                <div class="col">
-                  <div class="position-img">
-                    <img src="../../assets/saint_esprit.jpg" />
-                  </div>
-                  <div class="head-title-cours">Suivi de cours</div>
-                  <p class="head-text"> J'assiste au cours en :</p> 
-                  <div class="form-select">
-                    <q-radio v-model="shape" val="presentiel" label="Présentiel" />
-                    <q-radio v-model="shape" val="distanciel" label="Distanciel"/>
-                    <q-radio v-model="shape" val="replay" label="En replay"/>
-                  </div>
+      <q-btn label="Voir" color="primary" @click="fixedModalCourse = true" />
 
-
-                  <div class="row">
-                    <div class="col">
-                      <div class="row">Content distanciel</div>
-                      <div class="row">Content replay</div>
-                    </div>
-                  </div>
+      <CustomModal id="course_modal" v-model="fixedModalCourse">
+        <div class="row" style="width: 80vw; margin-top: -50px">
+          <div class="col-12 col-lg-8">
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <img class="img" src="../../assets/apocalypse.png" />
+                <div class="head-title-date-cours">Date du cours</div>
+              </div>
+              <div class="col-1 border-red">
+                <div class="red-border-up"></div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="form-content-syllabus">
+                  <p class="text-syllabus"> <br>Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. <br>
+                  Proin eget tortor risus. Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. <br> <br>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur arcu erat, accumsan id imperdiet et, porttitor at (…)</p>
                 </div>
-
-                <div class="red-border"></div>
-
-                <div class="col">
-                  <div class="section_two">
-                    <div class="head-title-etude">Mes ressources d'étude</div>
-                    <div class="form-list">
-                      <div class="icon-form row items-center q-mb-md">
-                        <div class="col-2">
-                          <i class="fa-regular fa-circle-play" id="icon-circle"></i>
-                        </div>
-                      
-                        <div class="col-10">
-                        <!-- {{ course }} -->
-                          Youtube.Dereckprince.lafindestemps <br>
-                          Youtube.Dereckprince.lafindestemps <br>
-                          Youtube.Dereckprince.lafindestemps 
-                        </div>
-                      </div>
-
-                      <div class="icon-form row items-center q-mb-md">
-                        <div class="col-2">
-                          <div id="form-icon">
-                            <i class="fa-solid fa-list" id="icon-list"></i>
-                          </div>
-                        </div>
-                        <div class="col-10">
-                          Le retour de Christ - JM Thabois  <br>
-                          Le retour de Christ - JM Thabois  <br>
-                          Le retour de Christ - JM Thabois  
-                        </div>
-                      </div>
-
-                      <div class="icon-form row items-center q-mb-md">
-                        <div class="col-2">
-                          <div id="form-icon">
-                            <i class="fa-solid fa-cross" id="icon-cross"></i>
-                          </div>
-                        </div>
-                        <div class="col-10">
-                          Apocalypse Chapitre 1 à 7 <br>
-                          Apocalypse Chapitre 1 à 7 <br>
-                          Apocalypse Chapitre 1 à 7 
-                        </div>
-                      </div>
-              
-                      <div class="video">
-                        <video width="320" height="240" controls>
-                          <source src="" type="video/mp4">
-                          <source src="" type="video/ogg">
-                        </video>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="red-border-right"></div>
-
-                <div class="col">
-                  <div class="section_three">
-                    <div class="head-title-devoir" id="">Devoir</div> 
-                    <q-select 
-                      class="form-select-cours" 
-                      rounded 
-                      outlined 
-                      bottom-slots 
-                      v-model="model" 
-                      :options="options" 
-                      :dense="dense" 
-                      label="Sélectionner le devoir" 
-                    />
-                    <p class="form-date"> Date limite: 18 Février 2022 </p>
-                    
-                    <q-file 
-                      borderless 
-                      class="form-file"
-                      v-model="model" 
-                      label="Importer un fichier" 
-                    />
-                    <q-btn 
-                      class="btn-send-devoir"
-                      color="secondary" 
-                      label="Soumettre mon devoir" 
+                <div class="btns-send-cours row">
+                  
+                  <div class="col">
+                    <q-btn
+                      class="btn-syllabus"
                       no-caps
+                      rounded
+                      label="Télécharger le syllabus"
                     />
-                    
-                    <div class="head-title-messagerie">Messagerie</div>
-                    <div class="form-chat">
-
-                    </div> <br>
-                    <q-input 
-                      class="form-send-msg"
-                      rounded 
-                      outlined 
-                      v-model="text" 
-                      label="Votre message" 
-                    /> <br>
-                    <div class="btns-send">
-                      <q-btn 
-                        class="btn-send-class"
-                        no-caps
-                        rounded 
-                        label="Envoyer à la classe" 
-                      /> 
-                      <q-btn 
-                        class="btn-send-prof"
-                        no-caps
-                        rounded  
-                        label="Envoyer au prof" 
-                      />
-                    </div>
+                  </div>
+                  
+                  <div class="col form-incription">
+                    <q-btn
+                      class="btn-inscription"
+                      no-caps
+                      rounded
+                      label="Inscription au cours"
+                    />
+                    <p class="p-date">avant le <strong>12 février</strong></p>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
-        </CustomModal> 
+            <div class="row q-mt-md q-mb-lg">
+              <div class="col-12">
+                <div class="head-title-ressource-etude">Mes ressources d'étude</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-5">
+                <div class="form-list">
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-play" id="icon-play"></i>
+                        </div>
+                      </div>
+                    
+                      <div class="col-12 col-md-10">
+                        Youtube.Dereckprince.lafindestemps <br>
+                        Youtube.Dereckprince.lafindestemps <br>
+                        Youtube.Dereckprince.lafindestemps 
+                      </div>
+                    </div>
 
-        <div class="col">
-          <Navigation
-            @onPrev="handlePrev"
-            @onNext="handleNext"
-            @onToday="handleToday"
-          />
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-list" id="icon-list"></i>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-10">
+                        Le retour de Christ - JM Thabois  <br>
+                        Le retour de Christ - JM Thabois  <br>
+                        Le retour de Christ - JM Thabois  
+                      </div>
+                    </div>
+
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-cross" id="icon-cross"></i>
+                        </div>
+                      </div>
+                      <div class="col-12 col-md-10">
+                        Apocalypse Chapitre 1 à 7 <br>
+                        Apocalypse Chapitre 1 à 7 <br>
+                        Apocalypse Chapitre 1 à 7 
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="col-1 border-red">
+                <div class="red-border-down"></div>
+              </div>
+              <div class="col-12 col-md-6">
+                <div class="video-cours">
+                  <video controls>
+                    <source src="" type="video/mp4">
+                    <source src="" type="video/ogg">
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+          
+            <div class="row items-center">
+              <p class="col-5 title-voir-cours">Voir plus de <br> cours</p>
+              <div class="col-1 border-red">
+                <div class="red-border-up-right"></div>
+              </div>
+              <div class="col-5">
+                <q-select
+                  class="form-select-cours"
+                  bg-color="negative"
+                  label-color="white"
+                  rounded
+                  outlined
+                  bottom-slots
+                  v-model="model"
+                  :options="options"
+                  :dense="dense"
+                  label="Mes cours"
+                />
+            </div>
+            </div>
+            
+            <div class="head-title-messagerie-cours">Messagerie</div> <br>
+            <div class="form-chat-cours">  
+            </div> <br>
+            <q-input 
+              class="form-send-msg-cours"
+              rounded 
+              outlined 
+              v-model="text" 
+              label="Votre message" 
+              type="textarea"
+            /> <br>
+            <div class="btns-send">
+              <q-btn 
+                class="btn-send-msg-prof"
+                no-caps
+                rounded  
+                label="Envoyer au prof" 
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row q-mt-xl">
-        <div class="col">
-          <TheCalendarDay
-            v-if="isDay === true"
-            :lessons="filteredLessons"
-            @onLaunchMeeting="launchMeeting"
-            ref="calendar"
-          />
-          <TheCalendarWeek
-            v-if="isWeek === true"
-            :lessons="filteredLessons"
-            @onLaunchMeeting="launchMeeting"
-            ref="calendar"
-          />
-          <TheCalendarMonth
-            v-if="isMonth === true"
-            :lessons="filteredLessons"
-            @onRenderCourse="getCourse"
-            @onLaunchMeeting="launchMeeting"
-            ref="calendar"
-          />
-        </div>
+      </CustomModal>
+      
+      <CustomModal id="lesson_modal" class="form-modal-cours" v-model="fixedModalLesson" :render="true" @course-id="getCourse">
+        <form style="width: 80vw; margin-top: -20px"> 
+          <div class="row">
+            <div class="col">
+              <div class="position-img">
+                <img class ="img" src="../../assets/saint_esprit.png" />
+                <!-- {{ course }} -->
+              </div>
+              <div class="head-title-suivi-cours">Suivi de cours</div>
+              <p class="head-text"> J'assiste au cours en :</p> 
+              <div class="form-select">
+                <q-radio v-model="shape" val="presentiel" label="Présentiel" />
+                <q-radio v-model="shape" val="distanciel" label="Distanciel"/>
+                <q-radio v-model="shape" val="replay" label="En replay"/>
+              </div>
+
+              <div class="row">
+                <div class="col" v-if="shape === 'distanciel'">
+                  <div class="head-title-cours-en-ligne">Cours en ligne</div>
+                  <p class="p-title-join-cours">Rejoindre le cours en ligne</p> <br>
+                  <q-btn 
+                    class="btn-join-cours"
+                    label="Rejoindre le cours" 
+                    no-caps
+                  />
+                </div>
+                
+                <div class="col" v-if="shape === 'replay'">
+                  <div class="head-title-replay">
+                    Résumé du cours
+                  </div>
+                  <form class="row">
+                    <div class="col-8">
+                      <div class="form-resume-cours">
+                        <p class="p-title-resume-lesson">Résumé de la leçon</p>
+                      </div>
+                    </div>
+                    
+                    <div class="col-4" style="padding-inline: 28px;">
+                      <div class="row  q-mb-sm items-center">
+                        <div class="col-9">
+                          <q-badge id="badge-date" color="teal">
+                            {{ model_date }}
+                          </q-badge>
+                        </div>
+                        <div class="col-3">
+                            <q-icon 
+                              class="icon-event" 
+                              name="event" 
+                            >
+                              <q-popup-proxy
+                                cover
+                                transition-show="scale"
+                                transition-hide="scale"
+                              >
+                                <div class="q-pa-md">
+                                  <q-date v-model="model_date" />
+                                </div>
+                              </q-popup-proxy>
+                            </q-icon>
+                        </div>
+                      </div>
+                    
+                      <q-btn 
+                        class="btn-save-lesson"
+                        label="Enregistrer" 
+                        no-caps
+                      />
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="row">
+                <div class="col-1 border-red">
+                  <div class="red-border-up"></div>
+                </div>
+                <div class="col-10">
+                  <div class="head-title-etude">Mes ressources d'étude</div>
+                  <div class="form-list">
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-play" id="icon-play"></i>
+                        </div>
+                      </div>
+                
+                      <div class="col-10">
+                        Youtube.Dereckprince.lafindestemps <br>
+                        Youtube.Dereckprince.lafindestemps <br>
+                        Youtube.Dereckprince.lafindestemps
+                      </div>
+                    </div>
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-list" id="icon-list"></i>
+                        </div>
+                      </div>
+                      <div class="col-10">
+                        Le retour de Christ - JM Thabois  <br>
+                        Le retour de Christ - JM Thabois  <br>
+                        Le retour de Christ - JM Thabois
+                      </div>
+                    </div>
+                    <div class="icon-form row items-center q-mb-md">
+                      <div class="col-2">
+                        <div id="form-icon">
+                          <i class="fa-solid fa-cross" id="icon-cross"></i>
+                        </div>
+                      </div>
+                      <div class="col-10">
+                        Apocalypse Chapitre 1 à 7 <br>
+                        Apocalypse Chapitre 1 à 7 <br>
+                        Apocalypse Chapitre 1 à 7
+                      </div>
+                    </div>
+                    <div class="video">
+                      <video width="410" controls>
+                        <source src="" type="video/mp4">
+                        <source src="" type="video/ogg">
+                      </video>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-1 border-red">
+                  <div class="red-border-right"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="section_three">
+                <div class="head-title-devoir" id="">Devoir</div> 
+                <q-select 
+                  class="form-select-lesson" 
+                  rounded 
+                  outlined 
+                  bottom-slots 
+                  v-model="model" 
+                  :options="options" 
+                  :dense="dense" 
+                  label="Sélectionner le devoir" 
+                />
+                <p class="form-date"> Date limite: 18 Février 2022 </p>
+  
+                <div class="row items-center">
+                  <div class="col">
+                    <q-file
+                      class="form-file"
+                      borderless
+                      v-model="model"
+                      label="Importer un fichier"
+                    />
+                  </div>
+                  <div class="col">
+                    <q-btn
+                      class="btn-send-devoir"
+                      color="secondary"
+                      label="Soumettre mon devoir"
+                      no-caps
+                    />
+                  </div>
+                </div>
+                
+                <div class="head-title-messagerie">Messagerie</div>
+                <div class="form-chat">
+
+                </div> <br>
+                <q-input 
+                  class="form-send-msg"
+                  rounded 
+                  outlined 
+                  v-model="text" 
+                  label="Votre message" 
+                /> <br>
+                <div class="btns-send">
+                  <q-btn 
+                    class="btn-send-class"
+                    no-caps
+                    rounded 
+                    label="Envoyer à la classe" 
+                  /> 
+                  <q-btn 
+                    class="btn-send-prof"
+                    no-caps
+                    rounded  
+                    label="Envoyer au prof" 
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </CustomModal> 
+
+      <div class="col">
+        <Navigation
+          @onPrev="handlePrev"
+          @onNext="handleNext"
+          @onToday="handleToday"
+        />
       </div>
     </div>
+    <div class="row q-mt-xl">
+      <div class="col">
+        <TheCalendarDay
+          v-if="isDay === true"
+          :lessons="filteredLessons"
+          @onLaunchMeeting="launchMeeting"
+          ref="calendar"
+        />
+        <TheCalendarWeek
+          v-if="isWeek === true"
+          :lessons="filteredLessons"
+          @onLaunchMeeting="launchMeeting"
+          ref="calendar"
+        />
+        <TheCalendarMonth
+          v-if="isMonth === true"
+          :lessons="filteredLessons"
+          @onRenderCourse="getCourse"
+          @onLaunchMeeting="launchMeeting"
+          ref="calendar"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -217,13 +415,9 @@
   import { useCourseStore } from 'src/stores/course';
   import { useLessonStore } from 'src/stores/lesson';
   import { ref, onMounted, computed } from 'vue';
-  import { useQuasar } from 'quasar';
   import Navigation from './Navigation.vue';
-  import { faCirclePlay } from '@fortawesome/free-regular-svg-icons';
-  // import { faListTimeline } from '@fortawesome/free-regular-svg-icons';
-  // import { faCross } from '@fortawesome/free-regular-svg-icons';
+  import { useQuasar } from 'quasar';
   
-
   const $q = useQuasar();
   const courseStore = useCourseStore();
   const lessonStore = useLessonStore();
@@ -232,9 +426,11 @@
   const course = ref({});
   const lessons = ref([]);
   const lessonsId = ref([]);
-  const fixed = ref(true);
-  const shape = ref('');
+  const fixedModalLesson = ref(true);
+  const fixedModalCourse = ref(false);
+  const shape = ref('presentiel');
   const model = ref(null);
+  const model_date = ref('2022/03/06');
   const dense = ref(true);
 
   const options = ['Les psaumes', 'Corinthiens', 'Histoire de David', 'Apocalypse'];
@@ -294,7 +490,7 @@
     course.value = courses.value.filter((d, i) => {
       return d._id === id
     })[0];
-    fixed.value = true
+    fixedModalLesson.value = true
     console.log(course.value);
   }
 
@@ -355,16 +551,21 @@
     margin-top: 2px;
     line-height: 0.5;
   }
-
-  #container-course {
-    width: 62vw;
-    
+  @media(max-width:1024px){
+    .border-red{
+      display: none;
+    }
   }
 
   img {
     width: 333px;
     height: 189px;
-    margin-top: -58px;
+    box-shadow: 7px 3px 6px #00000029;
+  }
+
+  .img {
+    width: 100%;
+    height: 219px;
     box-shadow: 7px 3px 6px #00000029;
   }
   
@@ -376,29 +577,41 @@
     margin-bottom: 25px;
   }
 
-  .form-list {
-    margin-top: -21px;
-  }
-
   .icon-form {
-    font-family: normal normal normal 12px/25px Montserrat;
+    font: normal normal normal 12px/25px Montserrat;
     letter-spacing: 1.08px;
     color: #3B3738;
     opacity: 1;
   }
 
+  .icon-event {
+    font-size: 27px;
+    color: #19437a;
+    cursor: pointer;
+  }
+
   p.head-text {
     color:rgb(83, 81, 81);
     font-size: 12px;
-    margin-left: 46px;
     margin-top: -23px;
     letter-spacing: 2px;
+    text-align: center;
   }
 
   p {
     color:rgb(83, 81, 81);
     font-size: 12px;
     letter-spacing: 2px;
+  }
+
+  .p-date {
+    color:#19437a;
+    margin-right: 9px;
+    margin-top: 8px;
+  }
+
+  .p-title-join-cours {
+    margin: -15px 70px 16px;
   }
   
   .form-modal-cours {
@@ -409,43 +622,72 @@
     color:rgb(83, 81, 81);
     margin-top: -18px;
     font-size: 12px;
+    text-align: center;
   }
 
   .form-select-cours {
-    margin-top: -16px;
-    width: 261px !important;
+    /* width: 261px !important; */
+    margin-top: 15px;
   }
 
+  .form-select-lesson {
+    width: 270px !important;
+  }
+
+  .form-incription {
+    text-align: right;
+    padding-right: 27px;
+  }
+  @media(max-width:1024px){
+    .form-incription {
+      padding-right: 0;
+    }
+  }
+  
   .red-border {
-    margin-top: -59px;
     background: #c41526 0% 0% no-repeat padding-box;
     border-radius: 11px;
     width: 8px;
-    height: 259px;
+    height: 316px;
     margin-inline: 20px;
+  }
+
+  .red-border-up {
+    background: #c41526 0% 0% no-repeat padding-box;
+    border-radius: 11px;
+    width: 8px;
+    height: 325px;
+    margin-inline: 20px;
+  }
+
+  .red-border-down {
+    background: #c41526 0% 0% no-repeat padding-box;
+    border-radius: 11px;
+    width: 8px;
+    height: 249px;
+    margin-inline: 20px;
+  }
+
+  .red-border-up-right {
+    background: #c41526 0% 0% no-repeat padding-box;
+    border-radius: 11px;
+    width: 8px;
+    height: 104px;
   }
 
   .red-border-right {
-    margin-top: 176px;
+    margin-top: 276px;
     background: #c41526 0% 0% no-repeat padding-box;
     border-radius: 11px;
     width: 8px;
-    height: 310px;
+    height: 326px;
     margin-inline: 20px;
-  }
-
-  .section_two {
-    margin-top: -58px;
-  }
-
-  .section_three {
-    margin-top: -58px;
   }
 
   .form-date {
     margin-top: -13px;
     margin-left: 13px;
-    font-family: normal normal 13px/25px Montserrat;
+    font: normal normal 13px/25px Montserrat;
     font-weight: bold;
     letter-spacing: 1px;
     color: #C41526;
@@ -455,7 +697,13 @@
   .form-send-msg {
     background: #EDEDED 0% 0% no-repeat padding-box;
     box-shadow: 7px 3px 6px #00000029;
-    width: 357px;
+    border-radius: 26px;
+    opacity: 1;
+  }
+
+  .form-send-msg-cours {
+    background: #EDEDED 0% 0% no-repeat padding-box;
+    box-shadow: 7px 3px 6px #00000029;
     border-radius: 26px;
     opacity: 1;
   }
@@ -463,8 +711,17 @@
   .btns-send {
     display: flex;
     color: white;
-    width: 358px;
     justify-content: flex-end;
+  }
+
+  .btns-send-cours {
+    margin-top: 12px;
+    margin-left: -28px;
+  }
+  @media(max-width:1024px){
+    .btns-send-cours {
+      margin-left: 0;
+    }
   }
 
   .btn-send-class {
@@ -472,19 +729,110 @@
     margin-right: 11px;
   }
 
-  .btn-send-prof {
+  .btn-syllabus {
     background-color: #19437a !important;
+    color: white;
+    margin-right: 11px;
+    box-shadow: 0px 3px 6px #00000029;
+    opacity: 1;
   }
 
-  .head-title-cours {
+  .space {
+    width: 125px;
+    height: auto;
+    display: inline-block;
+  }
+
+  .btn-inscription {
+    background-color: #c41526;
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0px 3px 6px #00000029;
+    opacity: 1;
+  }
+
+  .btn-send-prof {
+    background-color: #19437a !important;
+    color: white;
+    
+  }
+
+  .btn-send-msg-prof {
+    background-color: #19437a !important;
+    color: white;
+    width: 186px;
+  }
+
+  .btn-save-lesson {
+    background-color: #c41526;
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0px 3px 6px #00000029;
+    opacity: 1;
+  }
+
+  .head-title-suivi-cours {
     background-color: #19437a;
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font-family: "Montserrat";
-    font-weight: bold;
+    font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
+  }
+  
+  .head-title-date-cours {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    padding: 4px 0px;
+    font: normal normal bold 13px/25px Montserrat;
+    letter-spacing: 1.17px;
+    margin-bottom: 25px;
+  }
+
+  .head-title-ressource-etude {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    padding: 4px 0px;
+    width: 100%;
+    margin-top: -14px;
+    font: normal normal bold 13px/25px Montserrat;
+    letter-spacing: 1.17px;
+  }
+
+  .head-title-messagerie-cours {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    width: 100%;
+    padding: 4px 0px;
+    font: normal normal bold 13px/25px Montserrat;
+    letter-spacing: 1.17px;
+    margin-top: 20px;
+  }
+
+  .head-title-cours-en-ligne {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    padding: 3px 0px;
+    font: normal normal bold 13px/25px Montserrat;
+    letter-spacing: 1.17px;
+    margin-top: 27px;
+    margin-bottom: 33px;
+  }
+
+  .head-title-replay {
+    background-color: #19437a;
+    text-align: center;
+    color: white;
+    padding: 3px 0px;
+    font: normal normal bold 13px/25px Montserrat;
+    letter-spacing: 1.17px;
+    margin-top: 6px;
+    margin-bottom: 14px;
   }
 
   .head-title-etude {
@@ -492,8 +840,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font-family: "Montserrat";
-    font-weight: bold;
+    font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
   }
@@ -503,11 +850,10 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font-family: "Montserrat";
-    font-weight: bold;
-    width:301px;
+    font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
+    width: 431px;
   }
 
   .head-title-messagerie {
@@ -515,9 +861,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font-family: "Montserrat";
-    font-weight: bold;
-    width:355px;
+    font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
   }
@@ -526,49 +870,108 @@
     background: #C41526 0% 0% no-repeat padding-box !important;
     color: white;
     height: 0px;
-    width: 164px;
     font-size: 12px;
-    margin-top: -77px;
-    margin-left: 163px;
     border-radius: 30px;
     box-shadow: 0px 3px 6px #00000029;
     opacity: 1;
   }
 
+  .btn-join-cours {
+    background-color: #c41526 !important;
+    color: white;
+    border-radius: 67px;
+    height: 26px;
+    width: 188px;
+    font-size: 13px;
+    margin-left: 73px;
+    margin-top: -19px;
+    opacity: 1;
+  }
+
   .form-file {
     width: 100%;
-    margin-top: -20px;
-    margin-left: 14px;
-    font-family: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 8px/25px Montserrat;
     letter-spacing: 1.17px;
     color: #3B3738;
     opacity: 1;
   }
 
   .video {
-    margin-top:59px;
+    margin-top:76px;
+  }
+
+  .video-cours {
+    /* margin-left: -110px; */
+    margin-top: 4px;
+  }
+  .video-cours video{
+    width: 100%;
+    margin-inline: -28px;
+  }
+  @media(max-width:1024px){
+    .video-cours video{
+      margin-inline: initial;
+    }
   }
 
   .form-chat {
     background: #EDEDED 0% 0% no-repeat padding-box;
     box-shadow: 7px 3px 6px #00000029;
-    margin-top: -18px;
-    width: 357px;
     height: 185px;
     border-radius: 12px;
     opacity: 1;
   }
 
-  #icon-circle {
-    font-size: 25px;
+  .form-chat-cours {
+    background: #EDEDED 0% 0% no-repeat padding-box;
+    box-shadow: 7px 3px 6px #00000029;
+    height: 264px;
+    border-radius: 12px;
+    
+  }
+
+  .form-resume-cours {
+    background: #EDEDED 0% 0% no-repeat padding-box;
+    box-shadow: 7px 3px 6px #00000029;
+    height: 170px;
+    border-radius: 12px;
+    opacity: 1;
+  }
+
+  .form-content-syllabus {
+    background: #19437a 0% 0% no-repeat padding-box;
+    box-shadow: 7px 3px 6px #00000029;
+    height: 251px;
+    width: 100%;
+    opacity: 1;
+    margin-inline: -28px;
+  }
+  @media(max-width:1024px){
+    .form-content-syllabus{
+      margin-inline: initial;
+    }
+  }
+
+  .p-title-resume-lesson {
+    font: normal normal 9px/25px Montserrat;
+    margin-left: 25px;
+    letter-spacing: 1.08px;
+    color: #707070;
+    opacity: 1;
+  }
+
+  #icon-play {
+    font-size: 14px;
     color: #19437a;
+    margin-left: 8px;
+    margin-top: 4px;
   }
 
   #icon-cross {
     font-size: 14px;
     color: #19437a;
-    margin-left: 6px;
-    margin-top: 4px;
+    margin-left: 7px;
+    margin-top: 5px;
   }
 
   #icon-list {
@@ -581,11 +984,26 @@
   #form-icon {
     position: relative;
     margin-left: -2px;
-    height: 26px;
-    width: 27px;
+    margin-top: 1px;
+    height: 29px;
+    width: 29px;
     border: 2.5px solid #19437a;
     border-radius: 50%;
     opacity: 1;
+  }
+
+  .title-voir-cours {
+    font: normal normal bold 20px/25px Montserrat;
+    letter-spacing: 1.8px;
+    color: #00427A;
+    text-align: right;
+    padding: 17px 20px;
+  }
+
+  .text-syllabus {
+    color: white;
+    margin-left: 15px;
+    margin-right: 15px;
   }
 
 </style>

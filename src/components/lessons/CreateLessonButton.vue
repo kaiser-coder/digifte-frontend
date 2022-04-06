@@ -1,4 +1,4 @@
-<template>
+<template lang="">
     <q-btn color="secondary" @click="fixed = true" label="Créer leçon" /> <br> <br>
 
     <!-- CRÉATION LEÇON -->

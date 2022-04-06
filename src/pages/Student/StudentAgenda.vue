@@ -3,7 +3,7 @@
         <div class="chip"> 
         </div> <br>
         <TheCalendar/>
-        <CustomModal :render="true">
+        <CustomModal class="modal-listes-cours" :render="false">
             <div class="q-gutter-md" id="form-search">
                 <q-input rounded outlined v-model="text" label="Recherche">
                     <template v-slot:append>
@@ -120,5 +120,9 @@ import CustomModal from 'src/components/lib/CustomModal.vue';
         float: right;
         margin-top: -82px;
         margin-right: 100px
+    }
+
+    .modal-listes-cours {
+        width: 60vh !important;
     }
 </style>
