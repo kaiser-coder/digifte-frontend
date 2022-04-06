@@ -958,7 +958,7 @@
   .form-chat-cours {
     background: #EDEDED 0% 0% no-repeat padding-box;
     box-shadow: 7px 3px 6px #00000029;
-    height: 264px;
+    height: 222px;
     border-radius: 12px;
   }
 
