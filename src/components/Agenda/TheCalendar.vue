@@ -32,6 +32,27 @@
               <div class="col-12 col-md-5">
                 <img class="img" src="../../assets/apocalypse.png" />
                 <div class="head-title-date-cours">Date du cours</div>
+                <div class="form-btn-date row">
+                  <div class="col">
+                    <div class="date-begin">12/02/2020</div>
+                  </div>
+                  <div class="col form-date-end">
+                    <div class="date-end">24/02/2020</div>
+                  </div>
+                  <div class="col">
+                    <q-select
+                      class="form-select-date"
+                      bg-color="Simply Sparkling"
+                      rounded
+                      outlined
+                      bottom-slots
+                      v-model="model"
+                      :dense="dense"
+                      label="..."
+                    />
+                  </div>
+                </div>
+                <div></div>
               </div>
               <div class="col-1 border-red">
                 <div class="red-border-up"></div>
@@ -565,7 +586,7 @@
 
   .img {
     width: 100%;
-    height: 219px;
+    height: 238px;
     box-shadow: 7px 3px 6px #00000029;
   }
   
@@ -613,6 +634,11 @@
   .p-title-join-cours {
     margin: -15px 70px 16px;
   }
+
+  .form-btn-date {
+    margin-top: 12px;
+    margin-left: -28px
+  }
   
   .form-modal-cours {
     height: 60vh !important;
@@ -630,6 +656,10 @@
     margin-top: 15px;
   }
 
+  .form-select-date {
+
+  }
+
   .form-select-lesson {
     width: 270px !important;
   }
@@ -638,6 +668,7 @@
     text-align: right;
     padding-right: 27px;
   }
+
   @media(max-width:1024px){
     .form-incription {
       padding-right: 0;
@@ -656,7 +687,7 @@
     background: #c41526 0% 0% no-repeat padding-box;
     border-radius: 11px;
     width: 8px;
-    height: 325px;
+    height: 320px;
     margin-inline: 20px;
   }
 
@@ -718,6 +749,7 @@
     margin-top: 12px;
     margin-left: -28px;
   }
+
   @media(max-width:1024px){
     .btns-send-cours {
       margin-left: 0;
@@ -788,7 +820,7 @@
     padding: 4px 0px;
     font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
-    margin-bottom: 25px;
+    margin-bottom: 17px;
   }
 
   .head-title-ressource-etude {
@@ -796,7 +828,7 @@
     text-align: center;
     color: white;
     padding: 4px 0px;
-    width: 100%;
+    width: 97%;
     margin-top: -14px;
     font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
@@ -927,7 +959,39 @@
     box-shadow: 7px 3px 6px #00000029;
     height: 264px;
     border-radius: 12px;
-    
+  }
+
+  .date-begin {
+    background: #EDEDED 0% 0% no-repeat padding-box;
+    color: #3B3738;
+    height: 40px;
+    width: 129px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    margin-left: 33px;
+    border-radius: 29px;
+    opacity: 1;
+  }
+
+  .form-date-end{
+    text-align: right;
+    margin-left: 38px;
+  }
+
+  .date-end {
+    background: #B1C6DE 0% 0% no-repeat padding-box;
+    color:#3B3738;
+    height: 40px;
+    width: 129px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    padding: 8px;
+    /* margin-left: -56px; */
+    border-radius: 29px;
+    opacity: 1;
   }
 
   .form-resume-cours {
