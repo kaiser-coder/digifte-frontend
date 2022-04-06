@@ -94,45 +94,45 @@
             <div class="row">
               <div class="col-12 col-md-5">
                 <div class="form-list">
-                    <div class="icon-form row items-center q-mb-md">
-                      <div class="col-2">
-                        <div id="form-icon">
-                          <i class="fa-solid fa-play" id="icon-play"></i>
-                        </div>
-                      </div>
-                    
-                      <div class="col-12 col-md-10">
-                        Youtube.Dereckprince.lafindestemps <br>
-                        Youtube.Dereckprince.lafindestemps <br>
-                        Youtube.Dereckprince.lafindestemps 
+                  <div class="icon-form row items-center q-mb-md">
+                    <div class="col-2">
+                      <div id="form-icon">
+                        <i class="fa-solid fa-play" id="icon-play"></i>
                       </div>
                     </div>
+                  
+                    <div class="col-12 col-md-10">
+                      Youtube.Dereckprince.lafindestemps <br>
+                      Youtube.Dereckprince.lafindestemps <br>
+                      Youtube.Dereckprince.lafindestemps 
+                    </div>
+                  </div>
 
-                    <div class="icon-form row items-center q-mb-md">
-                      <div class="col-2">
-                        <div id="form-icon">
-                          <i class="fa-solid fa-list" id="icon-list"></i>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-10">
-                        Le retour de Christ - JM Thabois  <br>
-                        Le retour de Christ - JM Thabois  <br>
-                        Le retour de Christ - JM Thabois  
+                  <div class="icon-form row items-center q-mb-md">
+                    <div class="col-2">
+                      <div id="form-icon">
+                        <i class="fa-solid fa-list" id="icon-list"></i>
                       </div>
                     </div>
+                    <div class="col-12 col-md-10">
+                      Le retour de Christ - JM Thabois  <br>
+                      Le retour de Christ - JM Thabois  <br>
+                      Le retour de Christ - JM Thabois  
+                    </div>
+                  </div>
 
-                    <div class="icon-form row items-center q-mb-md">
-                      <div class="col-2">
-                        <div id="form-icon">
-                          <i class="fa-solid fa-cross" id="icon-cross"></i>
-                        </div>
-                      </div>
-                      <div class="col-12 col-md-10">
-                        Apocalypse Chapitre 1 à 7 <br>
-                        Apocalypse Chapitre 1 à 7 <br>
-                        Apocalypse Chapitre 1 à 7 
+                  <div class="icon-form row items-center q-mb-md">
+                    <div class="col-2">
+                      <div id="form-icon">
+                        <i class="fa-solid fa-cross" id="icon-cross"></i>
                       </div>
                     </div>
+                    <div class="col-12 col-md-10">
+                      Apocalypse Chapitre 1 à 7 <br>
+                      Apocalypse Chapitre 1 à 7 <br>
+                      Apocalypse Chapitre 1 à 7 
+                    </div>
+                  </div>
                   </div>
               </div>
               <div class="col-1 border-red">
@@ -195,8 +195,8 @@
       </CustomModal>
       
       <CustomModal id="lesson_modal" class="form-modal-cours" v-model="fixedModalLesson" :render="true" @course-id="getCourse">
-        <form style="width: 80vw; margin-top: -20px"> 
-          <div class="row">
+        <form> 
+          <div class="row" style="width: 80vw; margin-top: -54px">
             <div class="col">
               <div class="position-img">
                 <img class ="img" src="../../assets/saint_esprit.png" />
@@ -204,7 +204,7 @@
               </div>
               <div class="head-title-suivi-cours">Suivi de cours</div>
               <p class="head-text"> J'assiste au cours en :</p> 
-              <div class="form-select">
+              <div class="form-select q-gutter-md">
                 <q-radio v-model="shape" val="presentiel" label="Présentiel" />
                 <q-radio v-model="shape" val="distanciel" label="Distanciel"/>
                 <q-radio v-model="shape" val="replay" label="En replay"/>
@@ -342,7 +342,7 @@
                 />
                 <p class="form-date"> Date limite: 18 Février 2022 </p>
   
-                <div class="row items-center">
+                <div class="row items-center" id="form-file-devoir">
                   <div class="col">
                     <q-file
                       class="form-file"
@@ -572,6 +572,7 @@
     margin-top: 2px;
     line-height: 0.5;
   }
+
   @media(max-width:1024px){
     .border-red{
       display: none;
@@ -613,7 +614,7 @@
 
   p.head-text {
     color:rgb(83, 81, 81);
-    font-size: 12px;
+    font-size: 16px;
     margin-top: -23px;
     letter-spacing: 2px;
     text-align: center;
@@ -632,7 +633,7 @@
   }
 
   .p-title-join-cours {
-    margin: -15px 70px 16px;
+    margin: -15px 149px 16px;
   }
 
   .form-btn-date {
@@ -647,17 +648,13 @@
   .form-select {
     color:rgb(83, 81, 81);
     margin-top: -18px;
-    font-size: 12px;
+    font-size: 17px;
     text-align: center;
   }
 
   .form-select-cours {
     /* width: 261px !important; */
     margin-top: 15px;
-  }
-
-  .form-select-date {
-
   }
 
   .form-select-lesson {
@@ -711,8 +708,8 @@
     background: #c41526 0% 0% no-repeat padding-box;
     border-radius: 11px;
     width: 8px;
-    height: 326px;
-    margin-inline: 20px;
+    height: 313px;
+    margin-inline: 13px;
   }
 
   .form-date {
@@ -729,6 +726,7 @@
     background: #EDEDED 0% 0% no-repeat padding-box;
     box-shadow: 7px 3px 6px #00000029;
     border-radius: 26px;
+    /* height: 61px; */
     opacity: 1;
   }
 
@@ -766,13 +764,8 @@
     color: white;
     margin-right: 11px;
     box-shadow: 0px 3px 6px #00000029;
+    letter-spacing: 1.08px;
     opacity: 1;
-  }
-
-  .space {
-    width: 125px;
-    height: auto;
-    display: inline-block;
   }
 
   .btn-inscription {
@@ -780,6 +773,7 @@
     color: white;
     border-radius: 50px;
     box-shadow: 0px 3px 6px #00000029;
+    letter-spacing: 1.08px;
     opacity: 1;
   }
 
@@ -793,6 +787,7 @@
     background-color: #19437a !important;
     color: white;
     width: 186px;
+    letter-spacing: 1.35px;
   }
 
   .btn-save-lesson {
@@ -808,7 +803,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
   }
@@ -830,7 +825,7 @@
     padding: 4px 0px;
     width: 97%;
     margin-top: -14px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
   }
 
@@ -842,7 +837,7 @@
     padding: 4px 0px;
     font: normal normal bold 13px/25px Montserrat;
     letter-spacing: 1.17px;
-    margin-top: 20px;
+    margin-top: 65px;
   }
 
   .head-title-cours-en-ligne {
@@ -850,7 +845,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-top: 27px;
     margin-bottom: 33px;
@@ -861,7 +856,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-top: 6px;
     margin-bottom: 14px;
@@ -872,9 +867,9 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
-    margin-bottom: 33px;
+    margin-bottom: 16px;
   }
 
   .head-title-devoir {
@@ -882,7 +877,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
     width: 431px;
@@ -893,7 +888,7 @@
     text-align: center;
     color: white;
     padding: 3px 0px;
-    font: normal normal bold 13px/25px Montserrat;
+    font: normal normal bold 17px/25px Montserrat;
     letter-spacing: 1.17px;
     margin-bottom: 33px;
   }
@@ -902,6 +897,7 @@
     background: #C41526 0% 0% no-repeat padding-box !important;
     color: white;
     height: 0px;
+    width: 190px;
     font-size: 12px;
     border-radius: 30px;
     box-shadow: 0px 3px 6px #00000029;
@@ -915,9 +911,13 @@
     height: 26px;
     width: 188px;
     font-size: 13px;
-    margin-left: 73px;
+    margin-left: 150px;
     margin-top: -19px;
     opacity: 1;
+  }
+
+  .form-list {
+    margin-left: 20px;
   }
 
   .form-file {
@@ -930,6 +930,7 @@
 
   .video {
     margin-top:76px;
+    margin-left: -27px;
   }
 
   .video-cours {
@@ -980,6 +981,11 @@
     margin-left: 38px;
   }
 
+  #form-file-devoir {
+    margin-left: 15px;
+    margin-top: -16px;
+  }
+
   .date-end {
     background: #B1C6DE 0% 0% no-repeat padding-box;
     color:#3B3738;
@@ -997,7 +1003,7 @@
   .form-resume-cours {
     background: #EDEDED 0% 0% no-repeat padding-box;
     box-shadow: 7px 3px 6px #00000029;
-    height: 170px;
+    height: 192px;
     border-radius: 12px;
     opacity: 1;
   }
@@ -1069,5 +1075,4 @@
     margin-left: 15px;
     margin-right: 15px;
   }
-
 </style>
