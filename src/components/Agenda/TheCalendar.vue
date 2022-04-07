@@ -194,13 +194,13 @@
         </div>
       </CustomModal>
       
-      <CustomModal id="lesson_modal" class="form-modal-cours" v-model="fixedModalLesson" :render="true" @course-id="getCourse">
+      <CustomModal id="lesson_modal" class="form-modal-cours" v-model="fixedModalLesson" :render="true" @course-id="getLesson">
         <form> 
           <div class="row" style="width: 80vw; margin-top: -54px">
             <div class="col">
               <div class="position-img">
-                <img class ="img" src="../../assets/saint_esprit.png" />
-                <!-- {{ course }} -->
+                <!-- <img class ="img" src="../../assets/saint_esprit.png" /> -->
+                {{ lesson.name }} 
               </div>
               <div class="head-title-suivi-cours">Suivi de cours</div>
               <p class="head-text"> J'assiste au cours en :</p> 
@@ -417,7 +417,7 @@
         <TheCalendarMonth
           v-if="isMonth === true"
           :lessons="filteredLessons"
-          @onRenderCourse="getCourse"
+          @onRenderLesson="getLesson"
           @onLaunchMeeting="launchMeeting"
           ref="calendar"
         />
@@ -444,7 +444,7 @@
   const lessonStore = useLessonStore();
 
   const courses = ref([]);
-  const course = ref({});
+  const lesson = ref({});
   const lessons = ref([]);
   const lessonsId = ref([]);
   const fixedModalLesson = ref(true);
@@ -459,6 +459,7 @@
   const filteredLessons = computed(()=> {
     return lessons.value.filter((l) => lessonsId.value.includes(l.courseId))
   })
+  
   const isDay = ref(true);
   const isWeek = ref(false);
   const isMonth  = ref(false);
@@ -500,19 +501,20 @@
         // console.log(`Color of lesson: ${d.name} => `, color)
         // Inject color to filtered lessons
         lessons.value.push({...d, bgcolor: color});
+        // console.log('VOICI LES LESSONS => ', lessons.value[0]);
+
       })
       lessonsId.value = lessons.value.map((l) => l.courseId)
     })
     // console.log('Filtered lessons => ', filteredLessons.value)
   })
 
-  function getCourse(id) {
+  function getLesson(id) {
     console.log(id);
-    course.value = courses.value.filter((d, i) => {
+    lesson.value = lessons.value.filter((d) => {
       return d._id === id
     })[0];
     fixedModalLesson.value = true
-    console.log(course.value);
   }
 
   function getLessons(id) {
@@ -614,7 +616,7 @@
 
   p.head-text {
     color:rgb(83, 81, 81);
-    font-size: 16px;
+    font-size: 19px;
     margin-top: -23px;
     letter-spacing: 2px;
     text-align: center;

@@ -34,7 +34,7 @@
                   {{ event.title + (event.time ? ' - ' + event.time : '') }}
                   <q-btn 
                     class="icon-launch" 
-                    @click="$emit('onRenderCourse',event.courseId)"
+                    @click="$emit('onRenderLesson',event.id)"
                     round 
                     color="primary" 
                     icon="launch" 
