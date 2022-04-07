@@ -38,6 +38,7 @@ const routes: RouteRecordRaw[] = [
           { path: 'register', component: () => import('pages/Admnistrator/RegistrationManagement.vue') },
           { path: 'agenda', component: () => import('pages/Student/StudentAgenda.vue') },
           { path: 'school', component: () => import('pages/Student/StudentSchool.vue') },
+          { path: 'profil', component: () => import('pages/Student/StudentProfil.vue') },
           { path: 'administratif', component: () => import('src/pages/Student/StudentAdministratif.vue'),
             children : [ 
               { path: 'bulletin', component:() => import('src/components/Administration/Bulletin.vue') }

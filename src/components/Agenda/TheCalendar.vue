@@ -427,16 +427,16 @@
 
 <script setup>
 /*eslint-disable*/
-import TheCalendarDay from "src/components/Agenda/TheCalendarDay.vue";
-import TheCalendarMonth from "src/components/Agenda/TheCalendarMonth.vue";
-import TheCalendarWeek from "src/components/Agenda/TheCalendarWeek.vue";
-import ListsCourses from "src/components/Agenda/ListsCourses.vue";
-import CustomModal from "src/components/lib/CustomModal.vue";
-import { useCourseStore } from "src/stores/course";
-import { useLessonStore } from "src/stores/lesson";
-import { ref, onMounted, computed } from "vue";
-import Navigation from "./Navigation.vue";
-import { useQuasar } from "quasar";
+import TheCalendarDay from 'src/components/Agenda/TheCalendarDay.vue';
+import TheCalendarMonth from 'src/components/Agenda/TheCalendarMonth.vue';
+import TheCalendarWeek from 'src/components/Agenda/TheCalendarWeek.vue';
+import ListsCourses from 'src/components/Agenda/ListsCourses.vue';
+import CustomModal from 'src/components/lib/CustomModal.vue';
+import { useCourseStore } from 'src/stores/course';
+import { useLessonStore } from 'src/stores/lesson';
+import { ref, onMounted, computed } from 'vue';
+import Navigation from './Navigation.vue';
+import { useQuasar } from 'quasar';
 
 const $q = useQuasar();
 const courseStore = useCourseStore();
@@ -448,12 +448,12 @@ const lessons = ref([]);
 const lessonsId = ref([]);
 const fixedModalLesson = ref(true);
 const fixedModalCourse = ref(false);
-const shape = ref("presentiel");
+const shape = ref('presentiel');
 const model = ref(null);
-const model_date = ref("2022/03/06");
+const model_date = ref('2022/03/06');
 const dense = ref(true);
 
-const options = ["Les psaumes", "Corinthiens", "Histoire de David", "Apocalypse"];
+const options = ['Les psaumes', 'Corinthiens', 'Histoire de David', 'Apocalypse'];
 
 const filteredLessons = computed(() => {
   return lessons.value.filter((l) => lessonsId.value.includes(l.courseId));
@@ -466,30 +466,30 @@ const calendar = ref(null);
 
 // This function define random colors
 const COLORS = [
-  "pink",
-  "purple",
-  "deep-purple",
-  "indigo",
-  "blue",
-  "light-blue",
-  "cyan",
-  "green",
-  "light-green",
-  "lime",
-  "yellow",
-  "amber",
-  "orange",
-  "deep-orange",
-  "brown",
-  "grey",
-  "blue-grey",
-  "primary",
-  "secondary",
-  "accent",
-  "positive",
-  "negative",
-  "info",
-  "warning",
+  'pink',
+  'purple',
+  'deep-purple',
+  'indigo',
+  'blue',
+  'light-blue',
+  'cyan',
+  'green',
+  'light-green',
+  'lime',
+  'yellow',
+  'amber',
+  'orange',
+  'deep-orange',
+  'brown',
+  'grey',
+  'blue-grey',
+  'primary',
+  'secondary',
+  'accent',
+  'positive',
+  'negative',
+  'info',
+  'warning',
 ];
 const setColor = (i) => {
   /* let max = COLORS.length;
@@ -500,12 +500,12 @@ const setColor = (i) => {
 };
 
 onMounted(() => {
-  console.log("Shape", shape.value);
+  console.log('Shape', shape.value);
 
-  const appToken = $q.sessionStorage.getItem("app_token");
-  const userId = $q.sessionStorage.getItem("user_id");
+  const appToken = $q.sessionStorage.getItem('app_token');
+  const userId = $q.sessionStorage.getItem('user_id');
   courseStore.getAll(appToken).then((result) => {
-    console.log("Courses =>", result);
+    console.log('Courses =>', result);
     let filtered = result.data.filter((c) => c.students.indexOf(userId) > -1);
     courses.value = filtered.map((d, i) => {
       return { ...d, bgcolor: setColor(i) };
@@ -516,7 +516,7 @@ onMounted(() => {
   lessonStore.getAll(appToken).then((result) => {
     result.data.map((d) => {
       // Get bgcolor property from each course
-      let color = "";
+      let color = '';
       courses.value.map((c) => {
         if (c._id === d.courseId) {
           color = c.bgcolor;
@@ -560,17 +560,17 @@ function getLessons(id) {
 }
 
 function handleClick(mode) {
-  if (mode === "day") {
+  if (mode === 'day') {
     isDay.value = true;
     isWeek.value = false;
     isMonth.value = false;
   }
-  if (mode === "week") {
+  if (mode === 'week') {
     isWeek.value = true;
     isDay.value = false;
     isMonth.value = false;
   }
-  if (mode === "month") {
+  if (mode === 'month') {
     isMonth.value = true;
     isWeek.value = false;
     isDay.value = false;
@@ -578,7 +578,7 @@ function handleClick(mode) {
 }
 
 function launchMeeting(url) {
-  window.open(url, "_blank");
+  window.open(url, '_blank');
 }
 function handleToday() {
   calendar.value.goToday();
