@@ -3,8 +3,8 @@
 import axios from 'axios';
 
 const userLogin = ( data: any) => {
-    console.log(axios.post('/api/app/auth', data ))
-    return  axios.post('/api/app/auth', data );
+    console.log(axios.post('/api/auth', data ))
+    return  axios.post('/api/auth', data );
 };
 
 export { userLogin }
