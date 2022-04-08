@@ -13,8 +13,8 @@
         <td>A32</td>
         <td>2022</td>
         <td>Relevé officiel</td>
-        <td>
-          <q-btn round icon="download" id="download-bulletin"> </q-btn>
+        <td class="form-action row">
+          <q-btn round icon="download" id="download-bulletin"> </q-btn> &nbsp;
         </td>
       </tr>
       <tr>
@@ -22,8 +22,9 @@
         <td>A32</td>
         <td>2022</td>
         <td>Relevé officiel</td>
-        <td>
-          <q-btn round icon="download" id="download-bulletin"> </q-btn>
+        <td class="form-action row">
+          <q-btn round icon="download" id="download-bulletin"> </q-btn> &nbsp;
+          <q-btn round icon="euro" id="download-bulletin"> </q-btn>
         </td>
       </tr>
       <tr>
@@ -31,8 +32,9 @@
         <td>A32</td>
         <td>2022</td>
         <td>Relevé officiel</td>
-        <td>
-          <q-btn round icon="download" id="download-bulletin"> </q-btn>
+        <td class="form-action row">
+          <q-btn round icon="download" id="download-bulletin"> </q-btn> &nbsp;
+          <q-btn round icon="euro" id="download-bulletin"> </q-btn>
         </td>
       </tr>
       <tr>
@@ -40,8 +42,8 @@
         <td>A32</td>
         <td>2022</td>
         <td>Relevé officiel</td>
-        <td>
-          <q-btn round icon="download" id="download-bulletin"> </q-btn>
+        <td class="form-action row">
+          <q-btn round icon="download" id="download-bulletin"> </q-btn> &nbsp;
         </td>
       </tr>
     </table>
@@ -64,7 +66,6 @@ export default {};
 #table-bulletin td,
 #table-bulletin th {
   padding: 8px;
-  text-align: center;
 }
 
 #table-bulletin tr:nth-child(even) {
@@ -95,5 +96,8 @@ export default {};
 
 .badge {
   background-color: #c41526 !important;
+}
+
+.form-action {
 }
 </style>
