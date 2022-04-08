@@ -1,19 +1,19 @@
 <template>
   <div class="row items-center" id="welcome_message">
-    <div class="col-8">
+    <div class="col-lg-8">
       <h3 class="full-border q-mr-md" id="big_title">Bonjour Julien</h3>
     </div>
-    <div class="col-4">
+    <div class="col-lg-4">
       <h3 class="full-border" id="little_title">Ma demande d’admission</h3>
     </div>
   </div>
 
   <section class="container" id="programs">
     <div class="row items-center" id="title">
-      <div class="col-6" id="title_bordered">
+      <div class="col-lg-6" id="title_bordered">
         <h3>Les programmes Théologique</h3>
       </div>
-      <div class="col-6">
+      <div class="col-lg-6">
         <p>
           Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Donec
           sollicitudin molestie malesuada. Quisque velit nisi, pretium ut lacinia in,
@@ -23,7 +23,7 @@
     </div>
 
     <div class="row items-start" id="content">
-      <div class="col-6">
+      <div class="col-lg-6">
         <ul>
           <li>CERTIFICAT EN ETUDE BIBLIQUE (C.EB)</li>
           <li>CERTIFICAT EN RELATION D’AIDE (C.RA)</li>
@@ -34,10 +34,10 @@
           <li>MAITRISE EN THEOLOGIE PRATIQUE (M.THP)</li>
         </ul>
       </div>
-      <div class="col-6">
+      <div class="col-lg-6">
         <div id="blue">
           <div class="row">
-            <div class="col-12" id="cert">
+            <div class="col-lg-12" id="cert">
               Le certificat en études bibliques vous permet d’obtenir un diplôme
               totalisant 30 crédits universitaires échelonnés sur une année ou plus. Le
               CEB offre la possibilité de combiner une sélection de cours pour approfondir
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="row" id="cta_container">
-            <div class="col-6 text-center">
+            <div class="col-lg-6 text-center">
               <q-btn
                 class="cta cta_blue"
                 flat
@@ -55,7 +55,7 @@
                 label="Télécharger le programme"
               />
             </div>
-            <div class="col-6 text-center">
+            <div class="col-lg-6 text-center">
               <q-btn class="cta cta_red" flat rounded color="white" label="M'inscrire" />
             </div>
           </div>
@@ -66,13 +66,13 @@
 
   <section class="container" id="events">
     <div class="row" id="title">
-      <div class="col-6" id="title_bordered">
+      <div class="col-lg-6" id="title_bordered">
         <h3>Les dates Importantes</h3>
       </div>
     </div>
 
     <div class="row" id="content">
-      <div class="col-6">
+      <div class="col-lg-6">
         <ul>
           <li>
             <div>
@@ -101,7 +101,7 @@
         </ul>
       </div>
 
-      <div class="col-6"></div>
+      <div class="col-lg-6"></div>
     </div>
   </section>
 </template>
