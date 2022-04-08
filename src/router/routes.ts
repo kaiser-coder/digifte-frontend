@@ -41,7 +41,10 @@ const routes: RouteRecordRaw[] = [
           { path: 'profil', component: () => import('pages/Student/StudentProfil.vue') },
           { path: 'administratif', component: () => import('src/pages/Student/StudentAdministratif.vue'),
             children : [ 
-              { path: 'bulletin', component:() => import('src/components/Administration/Bulletin.vue') }
+              { path: 'bulletin', component:() => import('src/components/Administration/Bulletin.vue') },
+              { path: 'facture', component:() => import('src/components/Administration/Facture.vue') },
+              { path: 'avis', component:() => import('src/components/Administration/AvisImposition.vue') },
+              { path: 'attestation', component:() => import('src/components/Administration/Attestation.vue') }
             ]
           },
           { path: 'lists', component: () => import('src/pages/Shared/StudentsLists.vue') },
