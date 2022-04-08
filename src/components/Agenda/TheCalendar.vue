@@ -1,6 +1,5 @@
 <template lang="html">
   <div>
-    <!-- <h3 class="titleContent">Planning</h3> -->
     <ListsCourses :courses="courses" @onViewLessons="getLessons" />
     <br />
     <div class="row items-center">
@@ -30,6 +29,7 @@
       <!-- Custom Modal for Courses -->
 
       <q-btn label="Voir" color="primary" @click="fixedModalCourse = true" />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <CustomModal id="course_modal" v-model="fixedModalCourse">
         <div class="row" style="width: 80vw; margin-top: -50px">
           <div class="col-12 col-lg-8">
@@ -57,7 +57,6 @@
                     />
                   </div>
                 </div>
-                <div></div>
               </div>
               <div class="col-1 border-red">
                 <div class="red-border-up"></div>
@@ -210,8 +209,7 @@
       <CustomModal
         id="lesson_modal"
         class="form-modal-cours"
-        v-model="fixedModalLesson"
-        :render="true"
+        :render="fixedModalLesson"
         @course-id="getLesson"
       >
         <form>
@@ -253,7 +251,7 @@
                     <div class="col-4" style="padding-inline: 28px">
                       <div class="row q-mb-sm items-center">
                         <div class="col-9">
-                          <q-badge id="badge-date" color="teal">{{ model_date }}</q-badge>
+                          <q-badge id="badge-date">{{ model_date }}</q-badge>
                         </div>
                         <div class="col-3">
                           <q-icon class="icon-event" name="event">
@@ -446,7 +444,7 @@ const courses = ref([]);
 const lesson = ref({});
 const lessons = ref([]);
 const lessonsId = ref([]);
-const fixedModalLesson = ref(true);
+const fixedModalLesson = ref(false);
 const fixedModalCourse = ref(false);
 const shape = ref('presentiel');
 const model = ref(null);
@@ -774,7 +772,6 @@ p {
   background: #ededed 0% 0% no-repeat padding-box;
   box-shadow: 7px 3px 6px #00000029;
   border-radius: 26px;
-  /* height: 61px; */
   opacity: 1;
 }
 
@@ -841,8 +838,43 @@ p {
   background-color: #c41526;
   color: white;
   border-radius: 50px;
+  font-size: 12px;
+  box-shadow: 0px 3px 6px #00000029;
+  letter-spacing: 1.17px;
+  opacity: 1;
+}
+
+.btn-send-devoir {
+  background: #c41526 0% 0% no-repeat padding-box !important;
+  color: white;
+  height: 0px;
+  width: 190px;
+  font-size: 12px;
+  border-radius: 30px;
+  letter-spacing: 1.17px;
   box-shadow: 0px 3px 6px #00000029;
   opacity: 1;
+}
+
+.btn-join-cours {
+  background-color: #c41526 !important;
+  color: white;
+  border-radius: 67px;
+  height: 26px;
+  width: 188px;
+  font-size: 13px;
+  margin-left: 150px;
+  margin-top: -19px;
+  letter-spacing: 1.17px;
+  opacity: 1;
+}
+
+#badge-date {
+  background-color: rgba(187, 179, 179, 0.815);
+  border-radius: 18px;
+  font-weight: bold;
+  height: 25px;
+  width: 79px;
 }
 
 .head-title-suivi-cours {
@@ -860,7 +892,7 @@ p {
   text-align: center;
   color: white;
   padding: 4px 0px;
-  font: normal normal bold 13px/25px Montserrat;
+  font: normal normal bold 16px/25px Montserrat;
   letter-spacing: 1.17px;
   margin-bottom: 17px;
 }
@@ -872,7 +904,7 @@ p {
   padding: 4px 0px;
   width: 97%;
   margin-top: -14px;
-  font: normal normal bold 17px/25px Montserrat;
+  font: normal normal bold 16px/25px Montserrat;
   letter-spacing: 1.17px;
 }
 
@@ -882,7 +914,7 @@ p {
   color: white;
   width: 100%;
   padding: 4px 0px;
-  font: normal normal bold 13px/25px Montserrat;
+  font: normal normal bold 16px/25px Montserrat;
   letter-spacing: 1.17px;
   margin-top: 65px;
 }
@@ -938,29 +970,6 @@ p {
   font: normal normal bold 17px/25px Montserrat;
   letter-spacing: 1.17px;
   margin-bottom: 33px;
-}
-
-.btn-send-devoir {
-  background: #c41526 0% 0% no-repeat padding-box !important;
-  color: white;
-  height: 0px;
-  width: 190px;
-  font-size: 12px;
-  border-radius: 30px;
-  box-shadow: 0px 3px 6px #00000029;
-  opacity: 1;
-}
-
-.btn-join-cours {
-  background-color: #c41526 !important;
-  color: white;
-  border-radius: 67px;
-  height: 26px;
-  width: 188px;
-  font-size: 13px;
-  margin-left: 150px;
-  margin-top: -19px;
-  opacity: 1;
 }
 
 .form-list {
