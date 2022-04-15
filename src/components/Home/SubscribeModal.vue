@@ -195,70 +195,23 @@
                           v-model="text"
                           label="Téléphone domicile"
                         />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col" id="container-personnel">
-                  <div class="form-information-personnel">
-                    <div class="p-title-information-personnel">
-                      Vos informations professionnelles :
-                      <p class="form-asterisk">*</p>
-                    </div>
-                    <q-option-group
-                      :options="options_situations"
-                      type="radio"
-                      size="30px"
-                      v-model="group"
-                    />
-                  </div>
-                  <div class="form-information-adresse">
-                    <p class="p-title-information-adresse">Votre adresse postale :</p>
-                    <p class="form-asterisk-adresse">*</p>
-                    <div class="form-input-adresse">
-                      <q-input
-                        class="adresse-postale"
-                        rounded
-                        outlined
-                        v-model="text"
-                        label="Adresse postale"
-                      />
-                    </div>
-                    <div class="form-code-postale-etat">
-                      <div class="col" id="code-postale-etat">
                         <q-input
-                          class="code-postale"
+                          class="code-etudiant"
                           rounded
                           outlined
                           v-model="text"
-                          label="Code postal"
-                        />
-                        <q-input
-                          class="etat"
-                          rounded
-                          outlined
-                          v-model="text"
-                          label="Etat"
+                          label="Code étudiant permanent"
                         />
                       </div>
-                      <div class="col" id="ville-pays">
-                        <q-input
-                          class="ville"
-                          rounded
-                          outlined
-                          v-model="text"
-                          label="Ville"
-                        />
-                        <br />
-                        <q-select
-                          class="select-pays-residence"
-                          rounded
-                          outlined
-                          v-model="model_pays"
-                          :dense="dense"
-                          :options="options_pays_residence"
-                          label="Pays de résidence"
+                      <div class="form-second-information-professionnel">
+                        <p class="p-title-second-information-professionnel">
+                          Vos informations professionnelles :
+                        </p>
+                        <q-option-group
+                          :options="options_second_situations"
+                          type="radio"
+                          size="30px"
+                          v-model="group"
                         />
                       </div>
                     </div>
@@ -270,10 +223,100 @@
         </q-step>
 
         <q-step :name="3" title="Mes programmes" :done="step > 3">
-          Mes programmes
+          <div class="row">
+            <div class="col">
+              <div class="form-programmes">
+                <p class="p-title-programme">Vos informations professionnelles :</p>
+                <q-option-group
+                  :options="options_programmes_etudes"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+              <div class="form-programmes-souhaités">
+                <p class="p-title-programme-souhaité">Programmes souhaités :</p>
+                <q-option-group
+                  :options="options_programmes_souhaités"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <div clas="form-rythme-etude">
+                <p class="p-title-rythme-etude">Mon rythme d'étude :</p>
+                <q-option-group
+                  :options="options_rythme_etude"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+              <div class="form-options-etudes">
+                <p class="p-title-option-etude">
+                  Si vous désirez suivre vos études à distance, <br />
+                  merci de bien vouloir choisir l’option vous <br />
+                  correspondant :
+                </p>
+                <q-option-group
+                  :options="options_etudes"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-faculté">
+                <p class="p-title-faculté">Comment avez-vous connu la Faculté ?</p>
+                <q-option-group
+                  :options="options_facultés"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+            </div>
+          </div>
         </q-step>
 
-        <q-step :name="4" title="Paiement"> Paiement </q-step>
+        <q-step :name="4" title="Paiement">
+          <div class="row">
+            <div class="col">
+              <div class="form-total-price">
+                <p class="p-total-price">TOTAL</p>
+                <p class="p-price">$75,00CAN</p>
+              </div>
+              <div class="form-information-bancaire">
+                <p class="p-title-informations-bancaires">Informations bancaires</p>
+                <div class="form-input-bancaire">
+                  <q-input
+                    class="carte-bancaire"
+                    rounded
+                    outlined
+                    v-model="text"
+                    label="Nom du propriétaire de la carte"
+                  />
+                </div>
+                <div class="form" id="information-bancaire">
+                  <div class="col">
+                    <q-input
+                      class="date-expiration"
+                      rounded
+                      outlined
+                      v-model="text"
+                      label="Date d'expiration"
+                    />
+                    <q-input class="cvc" rounded outlined v-model="text" label="CVC" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">col2</div>
+          </div>
+        </q-step>
 
         <template v-slot:navigation>
           <q-stepper-navigation>
@@ -343,11 +386,80 @@ const options_situations = [
   },
 ];
 
+const options_second_situations = [
+  { label: 'Visa étudiant temporaire', value: 'visa' },
+  { label: 'Résident permanent', value: 'resident_permanent' },
+  { label: 'Citoyen(ne) Canadien(ne) ', value: 'citoyen_canadien' },
+  {
+    label: 'Étudiant à distance RESIDENT à l’étranger',
+    value: 'etudiant_à_l_etranger',
+  },
+];
+
+const options_programmes_etudes = [
+  { label: 'Niveau secondaire ou inférieur', value: 'secondaire_inferieur' },
+  { label: 'Niveau collégial ou universitaire ', value: 'collegial_universitaire' },
+  {
+    label: 'Niveau collégial/universitaire anglophone',
+    value: 'universitaire_collegial',
+  },
+];
+
+const options_programmes_souhaités = [
+  { label: 'Certificat d’étude biblique (CEB)', value: 'ceb' },
+  { label: 'Certificat en relation d’aide (CRA)', value: 'cra' },
+  { label: 'Baccalauréat en théologie (BTH)', value: 'bth' },
+  { label: 'Maitrise en divinité (MDIV)', value: 'mdiv' },
+  { label: 'Maitrise en théologie (MTH) ', value: 'mth' },
+  { label: 'Maitrise en théologie pratique (MTHP) ', value: 'mthp' },
+  { label: 'Maitrise en Arts (traduction de la bible)', value: 'traduction_bible' },
+  { label: 'Maitrise en Arts (ma théologie) ', value: 'collegial_universitaire' },
+  { label: ' Etudiant libre 1er cycle', value: 'premier_cycle' },
+  { label: 'Etudiant libre 2eme cycle', value: 'deuxieme_cycle' },
+];
+
+const options_rythme_etude = [
+  { label: 'Temps plein (4 cours et plus)', value: 'temps_plein' },
+  { label: 'Temps partiel (3 cours ou moins)', value: 'temps_partiel' },
+];
+
+const options_etudes = [
+  {
+    label: 'Etudiant canadien (ou RP) à distance vivant au Québec',
+    value: 'rp_quebec',
+  },
+  {
+    label: 'Etudiant canadien (ou RP) à distance vivant au Canada hors Québec',
+    value: 'rp_canada',
+  },
+  {
+    label: 'Etudiant étranger à distance vivant au Canada',
+    value: 'etudiant_distance_canada',
+  },
+  {
+    label: 'Etudiant étranger à distance vivant au Québec',
+    value: 'etudiant_distance_quebec',
+  },
+  {
+    label: ' Etudiant étranger à distance vivant hors Canada',
+    value: 'etudiant_distance_hors_canada',
+  },
+];
+
 const options_pays_residence = [
   { label: 'Canada', value: 'canada' },
   { label: 'France', value: 'france' },
   { label: 'USA', value: 'usa' },
   { label: 'Allemagne', value: 'allemagne' },
+];
+
+const options_facultés = [
+  { label: 'Par notre site internet', value: 'site_internet' },
+  { label: 'Par votre église', value: 'eglise' },
+  { label: 'Par une tierce personne ', value: 'tierce_personne' },
+  { label: 'Par notre plateforme Teachable', value: 'plateforme_teachable' },
+  { label: 'Par notre Facebook', value: 'facebook' },
+  { label: 'Par un courriel de publicité', value: 'courriel_publicité' },
 ];
 
 const options_pays_naissance = [
@@ -382,12 +494,22 @@ const options_pays_naissance = [
   font-size: 13px !important;
 }
 
+.carte-bancaire .q-field__label {
+  top: 10px !important;
+  font-size: 13px !important;
+}
+
 .adresse-postale .q-field__label {
   top: 10px !important;
   font-size: 13px !important;
 }
 
 .code-postale .q-field__label {
+  top: 10px !important;
+  font-size: 13px !important;
+}
+
+.code-etudiant .q-field__label {
   top: 10px !important;
   font-size: 13px !important;
 }
@@ -472,7 +594,57 @@ const options_pays_naissance = [
   margin-top: 50px;
   margin-inline: 104px;
   font: normal normal normal 12px/30px Montserrat;
-  letter-spacing: 1.35px;
+  letter-spacing: 0.35px;
+  color: #707070;
+  opacity: 1;
+}
+
+.form-second-information-professionnel {
+  margin-top: 21px;
+  margin-inline: 5px;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  color: #707070;
+  opacity: 1;
+}
+
+.form-programmes {
+  margin-inline: 5px;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  color: #707070;
+  opacity: 1;
+}
+
+.form-rythme-etude {
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  color: #707070;
+}
+
+.form-programmes-souhaités {
+  margin-top: 25px;
+  margin-inline: 5px;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  color: #707070;
+  opacity: 1;
+}
+
+.form-options-etudes {
+  margin-top: 54px;
+  margin-inline: 5px;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  color: #707070;
+  opacity: 1;
+}
+
+.form-faculté {
+  margin-top: 0px;
+  margin-inline: 67px;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
   color: #707070;
   opacity: 1;
 }
@@ -484,6 +656,62 @@ const options_pays_naissance = [
   margin-left: -2px;
   line-height: 27px;
   white-space: pre;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-second-information-professionnel {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  margin-left: -2px;
+  line-height: 27px;
+  white-space: pre;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-programme {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  line-height: 27px;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-programme-souhaité {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  line-height: 27px;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-option-etude {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  line-height: 27px;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-rythme-etude {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  line-height: 27px;
+  color: #707070;
+  opacity: 1;
+}
+
+.p-title-faculté {
+  font: normal normal bold 15px/70px Montserrat;
+  letter-spacing: 1.35px;
+  margin-bottom: 3px;
+  line-height: 27px;
   color: #707070;
   opacity: 1;
 }
@@ -659,6 +887,16 @@ const options_pays_naissance = [
   color: #ffffff;
 }
 
+.code-etudiant {
+  font-size: 10px;
+  width: 400px;
+  margin-top: 13px;
+  height: 34px;
+  margin-left: 0px;
+  letter-spacing: 1.35px;
+  color: #707070;
+}
+
 .code-postale {
   font-size: 10px;
   width: 132px;
@@ -750,7 +988,48 @@ const options_pays_naissance = [
 
 .form-btn-navigation {
   position: absolute;
-  top: 547px;
+  top: 607px;
   left: 586px;
+}
+
+/*STYLE FOR PAIEMENT */
+.form-total-price {
+  display: flex;
+  width: 232px;
+  height: 50px;
+  background-color: #7b93af;
+}
+
+.p-total-price {
+  color: white;
+  margin-left: 39px;
+  font: normal normal bold 17px/51px Montserrat;
+  letter-spacing: 1.8px;
+}
+
+.p-price {
+  font: normal normal bold 19px/26px Montserrat;
+  margin-left: 148px;
+  margin-top: 10px;
+  letter-spacing: 1.8px;
+  color: #7b93af;
+}
+
+.form-information-bancaire {
+  width: 440px;
+  height: 224px;
+  margin-top: 65px;
+  border-radius: 15px;
+  background-color: #ededed;
+}
+
+.p-title-informations-bancaires {
+  text-align: center;
+  font: normal normal bold 18px/70px Montserrat;
+  letter-spacing: 1.8px;
+  color: #707070;
+}
+
+.form-input-bancaire {
 }
 </style>
