@@ -57,6 +57,7 @@
             </div>
             <div class="col-lg-6 text-center">
               <q-btn class="cta cta_red" flat rounded color="white" label="M'inscrire" />
+              <SubscribeModal />
             </div>
           </div>
         </div>
@@ -106,7 +107,9 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import SubscribeModal from 'src/components/Home/SubscribeModal.vue';
+</script>
 
 <style scoped lang="scss">
 ul {
