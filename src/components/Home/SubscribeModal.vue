@@ -76,7 +76,7 @@
                       :options="options_situations"
                       type="radio"
                       size="30px"
-                      v-model="group"
+                      v-model="group_situations"
                     />
                   </div>
                   <div class="form-information-adresse">
@@ -231,7 +231,7 @@
                   :options="options_programmes_etudes"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_programme_etude"
                 />
               </div>
               <div class="form-options-programmes">
@@ -240,7 +240,7 @@
                   :options="options_programmes_souhaités"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_programme_souhaités"
                 />
               </div>
             </div>
@@ -251,7 +251,7 @@
                   :options="options_rythme_etude"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_rythme_etude"
                 />
               </div>
               <div class="form-options-etudes">
@@ -264,7 +264,7 @@
                   :options="options_etudes"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_etudes"
                 />
               </div>
             </div>
@@ -275,7 +275,7 @@
                   :options="options_facultés"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_facultés"
                 />
               </div>
             </div>
@@ -326,7 +326,7 @@
                   :options="options_conditions_bancaires"
                   type="radio"
                   size="30px"
-                  v-model="group"
+                  v-model="group_conditions_bancaires"
                 />
               </div>
             </div>
@@ -386,9 +386,16 @@ const stepperLabel = computed(() => {
 });
 
 const group = ref(null);
+const group_two = ref(null);
+const group_programme_etude = ref(null);
+const group_programme_souhaités = ref(null);
+const group_situations = ref(null);
+const group_rythme_etude = ref(null);
+const group_facultés = ref(null);
+const group_etudes = ref(null);
+const group_conditions_bancaires = ref(null);
 const model_pays = ref(null);
 const model_pays_naissance = ref(null);
-const group_two = ref(null);
 const options = [
   { label: 'Citoyen canadien ou résident au Quebec', value: 'citoyen' },
   {
