@@ -365,7 +365,7 @@
 <script setup>
 /*eslint-disable*/
 
-import { ref, computed } from 'vue';
+import { ref, computed, defineProps } from 'vue';
 import CustomModal from 'src/components/lib/CustomModal.vue';
 
 defineProps({
@@ -544,9 +544,15 @@ const options_pays_naissance = [
 }
 
 /*For radio */
-
 .conditions-bancaires .q-radio__label.q-anchor--skip {
   margin-top: 29px;
+}
+
+/*For asterisk  */
+.conditions-bancaires .q-radio__label.q-anchor--skip:after {
+  content: '*';
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
 }
 
 /*For input*/
@@ -555,9 +561,22 @@ const options_pays_naissance = [
   width: 384px;
 }
 
-/**/
+/*For line in navigation*/
 .q-stepper--horizontal .q-stepper__label:after {
   display: none;
+}
+
+/*For radio position */
+.form-conditions-bancaires
+  /* .q-radio.cursor-pointer.no-outline.row.inline.no-wrap.items-center */
+  .q-radio__inner.relative-position.q-radio__inner--falsy {
+  margin-top: -40px;
+}
+
+/*For radio position margin  */
+.form-conditions-bancaires
+  .q-radio.cursor-pointer.no-outline.row.inline.no-wrap.items-center {
+  margin-left: 16px;
 }
 
 .select-pays-residence.q-field--dense .q-field__label {
@@ -565,7 +584,7 @@ const options_pays_naissance = [
   font-size: 13px !important;
 }
 
-.carte-bancaire.q-field__label {
+.carte-bancaire .q-field__label {
   top: 10px !important;
   font-size: 13px !important;
 }
@@ -943,6 +962,22 @@ const options_pays_naissance = [
   margin-top: -37px;
 }
 
+.form-asterisk-first-condition {
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+  margin-left: 129px;
+  margin-top: -37px;
+}
+
+.form-asterisk-condition {
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+  margin-left: 129px;
+  margin-top: -37px;
+}
+
 .btn-confirm-situation {
   border-radius: 53px;
   font: normal normal bold 16px/21px Montserrat;
@@ -1123,7 +1158,7 @@ const options_pays_naissance = [
 }
 
 .form-conditions-bancaires {
-  width: 731px;
+  width: 100%px;
   height: 261px;
   margin-top: 109px;
   border-radius: 15px;
