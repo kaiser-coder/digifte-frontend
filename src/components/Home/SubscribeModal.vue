@@ -87,7 +87,7 @@
                         class="adresse-postale"
                         rounded
                         outlined
-                        v-model="text"
+                        v-model="adresse_postale"
                         label="Adresse postale"
                       />
                     </div>
@@ -97,14 +97,14 @@
                           class="code-postale"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="code_postale"
                           label="Code postal"
                         />
                         <q-input
                           class="etat"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="etat"
                           label="Etat"
                         />
                       </div>
@@ -113,7 +113,7 @@
                           class="ville"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="ville"
                           label="Ville"
                         />
                         <br />
@@ -159,7 +159,7 @@
                         class="adresse-mail"
                         rounded
                         outlined
-                        v-model="text"
+                        v-model="adresse_mail"
                         label="Adresse mail"
                       />
                     </div>
@@ -169,14 +169,14 @@
                           class="indicatif"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="indicatif"
                           label="Indicatif"
                         />
                         <q-input
                           class="telephone-mobile"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="telephone_mobile"
                           label="Téléphone mobile"
                         />
                       </div>
@@ -185,21 +185,21 @@
                           class="indicatif-domicile"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="indicatif_domicile"
                           label="Indicatif"
                         />
                         <q-input
                           class="telephone-domicile"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="telephone_domicile"
                           label="Téléphone domicile"
                         />
                         <q-input
                           class="code-etudiant"
                           rounded
                           outlined
-                          v-model="text"
+                          v-model="code_etudiant"
                           label="Code étudiant permanent"
                         />
                       </div>
@@ -296,14 +296,14 @@
                     class="carte-bancaire"
                     rounded
                     outlined
-                    v-model="text"
+                    v-model="carte_bancaire"
                     label="Nom du propriétaire de la carte"
                   />
                   <q-input
                     class="numero-carte"
                     rounded
                     outlined
-                    v-model="text"
+                    v-model="numero_carte"
                     label="Numéro de la carte"
                   />
                   <div class="form-input-date-paiement">
@@ -311,10 +311,10 @@
                       class="date-expiration"
                       rounded
                       outlined
-                      v-model="text"
+                      v-model="date_expiration"
                       label="Date d'éxpiration"
                     />
-                    <q-input class="cvc" rounded outlined v-model="text" label="CVC" />
+                    <q-input class="cvc" rounded outlined v-model="cvc" label="CVC" />
                   </div>
                 </div>
               </div>
@@ -384,6 +384,21 @@ const stepperLabel = computed(() => {
     return 'Envoyer';
   }
 });
+
+const adresse_postale = ref('');
+const code_postale = ref('');
+const ville = ref('');
+const etat = ref('');
+const adresse_mail = ref('');
+const indicatif = ref('');
+const telephone_mobile = ref('');
+const indicatif_domicile = ref('');
+const telephone_domicile = ref('');
+const code_etudiant = ref('');
+const carte_bancaire = ref('');
+const numero_carte = ref('');
+const date_expiration = ref('');
+const cvc = ref('');
 
 const group = ref(null);
 const group_two = ref(null);
