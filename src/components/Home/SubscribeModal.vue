@@ -234,8 +234,8 @@
                   v-model="group"
                 />
               </div>
-              <div class="form-programmes-souhaités">
-                <p class="p-title-programme-souhaité">Programmes souhaités :</p>
+              <div class="form-options-programmes">
+                <p class="p-title-programme">Programmes souhaités :</p>
                 <q-option-group
                   :options="options_programmes_souhaités"
                   type="radio"
@@ -245,7 +245,7 @@
               </div>
             </div>
             <div class="col">
-              <div clas="form-rythme-etude">
+              <div class="form-options-rythme-etude">
                 <p class="p-title-rythme-etude">Mon rythme d'étude :</p>
                 <q-option-group
                   :options="options_rythme_etude"
@@ -291,7 +291,7 @@
               </div>
               <div class="form-information-bancaire">
                 <p class="p-title-informations-bancaires">Informations bancaires</p>
-                <div class="form-input-bancaire">
+                <div class="form-input-carte-bancaire">
                   <q-input
                     class="carte-bancaire"
                     rounded
@@ -299,41 +299,59 @@
                     v-model="text"
                     label="Nom du propriétaire de la carte"
                   />
-                </div>
-                <div class="form" id="information-bancaire">
-                  <div class="col">
+                  <q-input
+                    class="numero-carte"
+                    rounded
+                    outlined
+                    v-model="text"
+                    label="Numéro de la carte"
+                  />
+                  <div class="form-input-date-paiement">
                     <q-input
                       class="date-expiration"
                       rounded
                       outlined
                       v-model="text"
-                      label="Date d'expiration"
+                      label="Date d'éxpiration"
                     />
                     <q-input class="cvc" rounded outlined v-model="text" label="CVC" />
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col">col2</div>
+            <div class="col">
+              <div class="form-conditions-bancaires">
+                <q-option-group
+                  class="conditions-bancaires"
+                  :options="options_conditions_bancaires"
+                  type="radio"
+                  size="30px"
+                  v-model="group"
+                />
+              </div>
+            </div>
           </div>
         </q-step>
 
         <template v-slot:navigation>
-          <q-stepper-navigation>
-            <div class="form-btn-navigation">
+          <q-stepper-navigation class="row">
+            <div class="col-lg-2 text-center q-ml-auto">
               <q-btn
                 @click="$refs.stepper.next()"
                 color="primary"
-                no-caps
-                :label="step === 4 ? 'Finish' : 'J\'ai bien compris'"
+                :label="stepperLabel"
+                class="btn-next"
+                unelevated
+                rounded
               />
               <q-btn
                 v-if="step > 1"
                 flat
+                no-caps
                 color="primary"
                 @click="$refs.stepper.previous()"
-                label="Précedent"
-                class="q-ml-sm"
+                label="Etape précedente"
+                class="btn-prev"
               />
             </div>
           </q-stepper-navigation>
@@ -347,7 +365,7 @@
 <script setup>
 /*eslint-disable*/
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import CustomModal from 'src/components/lib/CustomModal.vue';
 
 defineProps({
@@ -355,7 +373,18 @@ defineProps({
 });
 
 const dense = ref(true);
+
 const step = ref(1);
+const stepperLabel = computed(() => {
+  if (step.value === 1) {
+    return "J'ai bien compris";
+  } else if (step.value === 2 || step.value === 3) {
+    return 'Etape suivante';
+  } else {
+    return 'Envoyer';
+  }
+});
+
 const group = ref(null);
 const model_pays = ref(null);
 const model_pays_naissance = ref(null);
@@ -462,6 +491,19 @@ const options_facultés = [
   { label: 'Par un courriel de publicité', value: 'courriel_publicité' },
 ];
 
+const options_conditions_bancaires = [
+  {
+    label:
+      'J’accepte les conditions générales de la Faculté de Théologie Évangélique affiliée Acadia University mentionnées dans le guide des études et j’ai compris que les 75$ de frais d’admission sont non remboursables ',
+    value: 'conditions_generales',
+  },
+  {
+    label:
+      'J’accepte le délai de 90 jours qui m’est donné pour envoyer toutes les pièces administratives. Après ce délai, la demande alors « en suspens » sera annulée et iln’y aura pas de remboursement des frais d’admission.',
+    value: 'delai',
+  },
+];
+
 const options_pays_naissance = [
   { label: 'Canada', value: 'canada' },
   { label: 'France', value: 'france' },
@@ -471,22 +513,51 @@ const options_pays_naissance = [
 </script>
 
 <style lang="css">
-/*Attribut for navigation*/
+.btn-next,
+.btn-prev {
+  width: 256px;
+  letter-spacing: 1.62px;
+}
+
+.btn-prev,
+.btn-prev:hover {
+  background-color: transprent !important;
+}
+
+/*ATTRIBUT CUSTOM QUASAR */
+/* For navigation*/
 .q-stepper__header.row.items-stretch.justify-between.q-stepper__header--standard-labels {
   border: 1px solid white;
   background-color: #ededed;
+  height: 50px;
   border-radius: 76px;
 }
 
-/* Attribut for icon*/
+/*Menu navigation*/
+.q-stepper__label.q-stepper__line.relative-position {
+  margin-top: -23px;
+}
+
+/* For icon*/
 .q-stepper__dot.row.flex-center.q-stepper__line.relative-position {
   display: none;
 }
 
-/*Attribut for input*/
+/*For radio */
+
+.conditions-bancaires .q-radio__label.q-anchor--skip {
+  margin-top: 29px;
+}
+
+/*For input*/
 .q-field--outlined.q-field--rounded .q-field__control {
   height: 40px;
   width: 384px;
+}
+
+/**/
+.q-stepper--horizontal .q-stepper__label:after {
+  display: none;
 }
 
 .select-pays-residence.q-field--dense .q-field__label {
@@ -494,7 +565,22 @@ const options_pays_naissance = [
   font-size: 13px !important;
 }
 
-.carte-bancaire .q-field__label {
+.carte-bancaire.q-field__label {
+  top: 10px !important;
+  font-size: 13px !important;
+}
+
+.date-expiration .q-field__label {
+  top: 10px !important;
+  font-size: 13px !important;
+}
+
+.cvc .q-field__label {
+  top: 10px !important;
+  font-size: 13px !important;
+}
+
+.numero-carte .q-field__label {
   top: 10px !important;
   font-size: 13px !important;
 }
@@ -556,7 +642,6 @@ const options_pays_naissance = [
 
 .modal-content {
   width: 80vw;
-  height: 60vh;
   overflow: hidden;
 }
 
@@ -605,7 +690,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .form-programmes {
@@ -613,22 +697,20 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
-  opacity: 1;
 }
 
-.form-rythme-etude {
+.form-options-rythme-etude {
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
 }
 
-.form-programmes-souhaités {
+.form-options-programmes {
   margin-top: 25px;
   margin-inline: 5px;
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .form-options-etudes {
@@ -637,7 +719,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .form-faculté {
@@ -646,7 +727,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 0.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-information-personnel {
@@ -657,7 +737,6 @@ const options_pays_naissance = [
   line-height: 27px;
   white-space: pre;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-second-information-professionnel {
@@ -668,7 +747,6 @@ const options_pays_naissance = [
   line-height: 27px;
   white-space: pre;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-programme {
@@ -677,16 +755,14 @@ const options_pays_naissance = [
   margin-bottom: 3px;
   line-height: 27px;
   color: #707070;
-  opacity: 1;
 }
 
-.p-title-programme-souhaité {
+.p-title-programme {
   font: normal normal bold 15px/70px Montserrat;
   letter-spacing: 1.35px;
   margin-bottom: 3px;
   line-height: 27px;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-option-etude {
@@ -695,7 +771,6 @@ const options_pays_naissance = [
   margin-bottom: 3px;
   line-height: 27px;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-rythme-etude {
@@ -704,7 +779,6 @@ const options_pays_naissance = [
   margin-bottom: 3px;
   line-height: 27px;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-faculté {
@@ -713,7 +787,6 @@ const options_pays_naissance = [
   margin-bottom: 3px;
   line-height: 27px;
   color: #707070;
-  opacity: 1;
 }
 
 .form-input-adresse {
@@ -730,7 +803,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 1.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-information-adresse {
@@ -741,7 +813,6 @@ const options_pays_naissance = [
   line-height: 27px;
   white-space: pre;
   color: #707070;
-  opacity: 1;
 }
 
 .p-title-information-professionnel {
@@ -752,7 +823,6 @@ const options_pays_naissance = [
   line-height: 27px;
   white-space: pre;
   color: #707070;
-  opacity: 1;
 }
 
 .p-text-form-two {
@@ -763,7 +833,6 @@ const options_pays_naissance = [
   line-height: 30px;
   white-space: pre;
   color: #707070;
-  opacity: 1;
 }
 
 #container-condition {
@@ -803,7 +872,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 1.35px;
   color: #707070;
-  opacity: 1;
 }
 
 #container-personnel {
@@ -816,7 +884,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 1.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .information-adresse {
@@ -825,7 +892,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 1.35px;
   color: #707070;
-  opacity: 1;
 }
 
 #container-select {
@@ -837,7 +903,6 @@ const options_pays_naissance = [
   font: normal normal normal 12px/30px Montserrat;
   letter-spacing: 1.35px;
   color: #707070;
-  opacity: 1;
 }
 
 .btn-validation {
@@ -982,20 +1047,13 @@ const options_pays_naissance = [
 }
 
 .select-pays-naissance {
-  /* position: absolute; */
   top: 412px;
-}
-
-.form-btn-navigation {
-  position: absolute;
-  top: 607px;
-  left: 586px;
 }
 
 /*STYLE FOR PAIEMENT */
 .form-total-price {
   display: flex;
-  width: 232px;
+  width: 317px;
   height: 50px;
   background-color: #7b93af;
 }
@@ -1003,21 +1061,21 @@ const options_pays_naissance = [
 .p-total-price {
   color: white;
   margin-left: 39px;
-  font: normal normal bold 17px/51px Montserrat;
+  font: normal normal bold 24px/51px Montserrat;
   letter-spacing: 1.8px;
 }
 
 .p-price {
   font: normal normal bold 19px/26px Montserrat;
-  margin-left: 148px;
+  margin-left: 247px;
   margin-top: 10px;
   letter-spacing: 1.8px;
   color: #7b93af;
 }
 
 .form-information-bancaire {
-  width: 440px;
-  height: 224px;
+  width: 443px;
+  height: 250px;
   margin-top: 65px;
   border-radius: 15px;
   background-color: #ededed;
@@ -1030,6 +1088,53 @@ const options_pays_naissance = [
   color: #707070;
 }
 
-.form-input-bancaire {
+.form-input-carte-bancaire {
+  margin-inline: 78px;
+}
+
+.form-input-date-paiement {
+  display: flex;
+}
+
+.numero-carte {
+  margin-top: 5px;
+  background-color: white;
+  border-radius: 25px;
+}
+
+.date-expiration {
+  margin-top: 5px;
+  background-color: white;
+  width: 150px;
+  border-radius: 25px;
+}
+
+.cvc {
+  margin-top: 5px;
+  background-color: white;
+  width: 133px;
+  margin-left: 6px;
+  border-radius: 25px;
+}
+
+.carte-bancaire {
+  background-color: white;
+  border-radius: 25px;
+}
+
+.form-conditions-bancaires {
+  width: 731px;
+  height: 261px;
+  margin-top: 109px;
+  border-radius: 15px;
+  background-color: #e4ecf5;
+  font: normal normal normal 12px/30px Montserrat;
+  letter-spacing: 0.35px;
+  margin-inline: 5px;
+  color: #707070;
+}
+
+.conditions-bancaires {
+  margin-top: 28px;
 }
 </style>
