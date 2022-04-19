@@ -396,6 +396,7 @@ const group_etudes = ref(null);
 const group_conditions_bancaires = ref(null);
 const model_pays = ref(null);
 const model_pays_naissance = ref(null);
+
 const options = [
   { label: 'Citoyen canadien ou résident au Quebec', value: 'citoyen' },
   {
@@ -1165,7 +1166,7 @@ const options_pays_naissance = [
 }
 
 .form-conditions-bancaires {
-  width: 100%px;
+  width: 100%;
   height: 261px;
   margin-top: 109px;
   border-radius: 15px;
