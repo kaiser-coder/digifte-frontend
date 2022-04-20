@@ -446,9 +446,17 @@ const lessons = ref([]);
 const lessonsId = ref([]);
 const fixedModalLesson = ref(false);
 const fixedModalCourse = ref(false);
+
 const shape = ref('presentiel');
 const model = ref(null);
-const model_date = ref('2022/03/06');
+
+const today = new Date();
+const dd = String(today.getDate()).padStart(2, '0');
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const yyyy = today.getFullYear();
+const fullDay = `${dd}/${mm}/${yyyy}`;
+
+const model_date = ref(fullDay);
 const dense = ref(true);
 
 const options = ['Les psaumes', 'Corinthiens', 'Histoire de David', 'Apocalypse'];
