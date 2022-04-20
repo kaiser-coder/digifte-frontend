@@ -595,6 +595,12 @@ const options_pays_naissance = [
   margin-top: -23px;
 }
 
+.q-stepper__label.q-stepper__line.relative-position > .q-stepper__title {
+  font-size: 22px;
+  line-height: 18px;
+  letter-spacing: 0.1px;
+}
+
 /* For icon*/
 .q-stepper__dot.row.flex-center.q-stepper__line.relative-position {
   display: none;
