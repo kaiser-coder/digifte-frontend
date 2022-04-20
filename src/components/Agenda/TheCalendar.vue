@@ -168,7 +168,7 @@
               <div class="col-1 border-red">
                 <div class="red-border-up-right"></div>
               </div>
-              <div class="col-5">
+              <div class="col-5" id="cours-select">
                 <q-select
                   class="form-select-cours"
                   bg-color="negative"
@@ -598,6 +598,11 @@ function handleNext() {
 </script>
 
 <style scoped>
+/*CUSTOM ATTRIBUT QUASAR */
+#cours-select .q-icon .notranslate .material-icons .q-select__dropdown-icon {
+  color: white;
+}
+
 .titleContent {
   text-align: center;
   margin-top: 2px;

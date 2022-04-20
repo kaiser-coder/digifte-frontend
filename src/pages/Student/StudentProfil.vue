@@ -211,8 +211,12 @@
               <br />
               <div class="input-form" id="fields">
                 <div class="q-pa-md text-white">
-                  <div class="q-gutter-md">
-                    <p>Importer un photo de profil</p>
+                  <div class="q-gutter-md" id="file">
+                    <q-file
+                      borderless
+                      v-model="model"
+                      label="Importer un photo de profil"
+                    />
                   </div>
                 </div>
               </div>
@@ -240,10 +244,27 @@
   </div>
 </template>
 
-<script></script>
+<script setup>
+import { ref } from 'vue';
+const model = ref(null);
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+/*CUSTOM ATTRIBUT QUASAR*/
+
+/*For size label in input*/
+.input-form .q-field__label.no-pointer-events.absolute.ellipsis {
+  font-size: 16px;
+  top: 10px;
+}
+
+/*For propriety css*/
+#file .q-field__label.no-pointer-events.absolute.ellipsis {
+  color: white !important;
+  width: 225px !important;
+}
 
 * {
   margin: 0;
