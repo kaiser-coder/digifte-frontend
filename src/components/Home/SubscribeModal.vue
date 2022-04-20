@@ -324,9 +324,22 @@
                       class="date-expiration"
                       rounded
                       outlined
-                      v-model="date_expiration"
+                      v-model="model_date"
                       label="Date d'éxpiration"
-                    />
+                    >
+                      <q-icon class="icon-event" name="event">
+                        <q-popup-proxy
+                          cover
+                          transition-show="scale"
+                          transition-hide="scale"
+                        >
+                          <div class="q-pa-md">
+                            <q-date v-model="model_date" />
+                          </div>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </q-input>
+
                     <q-input class="cvc" rounded outlined v-model="cvc" label="CVC" />
                   </div>
                 </div>
@@ -623,16 +636,24 @@ const options_pays_naissance = [
   margin-left: 16px;
 }
 
-/*For menu on information */
+/*For size label in menu on information */
 #container-professionnel
   .container-professionnel
   .q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
   font-size: 13px;
 }
 
+/*For size icon on input date birthday*/
 #container-professionnel .q-icon.notranslate.material-icons.icon-event {
   top: 10px;
-  font-size: 20px;
+  font-size: 21px;
+  color: #707070;
+}
+
+/*For size icon on menu paiement*/
+.date-expiration .q-icon.notranslate.material-icons.icon-event {
+  top: 10px;
+  font-size: 21px;
   color: #707070;
 }
 
@@ -1007,7 +1028,7 @@ const options_pays_naissance = [
 .form-asterisk-professionnel {
   color: red;
   font-weight: bold;
-  margin-left: 348px;
+  margin-left: 316px;
   margin-top: -35px;
 }
 
