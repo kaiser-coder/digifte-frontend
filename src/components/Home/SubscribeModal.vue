@@ -1012,46 +1012,46 @@ const options_pays_naissance = [
 }
 
 .form-asterisk {
-  color: red;
-  font-weight: bold;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
   margin-left: 103px;
   margin-top: -35px;
 }
 
 .form-asterisk-pays-naissance {
-  color: red;
-  font-weight: bold;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
   margin-left: 315px;
   margin-top: -35px;
 }
 
 .form-asterisk-professionnel {
-  color: red;
-  font-weight: bold;
   margin-left: 316px;
   margin-top: -35px;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
 }
 
 .form-asterisk-adresse {
-  color: red;
   font-size: 15px;
-  font-weight: bold;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
   margin-left: 205px;
   margin-top: -37px;
 }
 
 .form-asterisk-first-condition {
-  color: red;
   font-size: 15px;
-  font-weight: bold;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
   margin-left: 129px;
   margin-top: -37px;
 }
 
 .form-asterisk-condition {
-  color: red;
   font-size: 15px;
-  font-weight: bold;
+  font: normal normal bold 18px/40px Montserrat;
+  color: #c41526;
   margin-left: 129px;
   margin-top: -37px;
 }
