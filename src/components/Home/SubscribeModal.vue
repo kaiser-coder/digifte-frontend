@@ -151,7 +151,20 @@
                         rounded
                         outlined
                         label="Date de naissance"
-                      />
+                        v-model="model_date"
+                      >
+                        <q-icon class="icon-event" name="event">
+                          <q-popup-proxy
+                            cover
+                            transition-show="scale"
+                            transition-hide="scale"
+                          >
+                            <div class="q-pa-md">
+                              <q-date v-model="model_date" />
+                            </div>
+                          </q-popup-proxy>
+                        </q-icon>
+                      </q-input>
                     </div>
 
                     <div class="form-input-adresse">
@@ -371,6 +384,14 @@ import CustomModal from 'src/components/lib/CustomModal.vue';
 defineProps({
   renderModal: Boolean,
 });
+
+const today = new Date();
+const dd = String(today.getDate()).padStart(2, '0');
+const mm = String(today.getMonth() + 1).padStart(2, '0');
+const yyyy = today.getFullYear();
+const fullDay = `${mm}/${dd}/${yyyy}`;
+
+const model_date = ref(fullDay);
 
 const dense = ref(true);
 
@@ -600,6 +621,19 @@ const options_pays_naissance = [
 .form-conditions-bancaires
   .q-radio.cursor-pointer.no-outline.row.inline.no-wrap.items-center {
   margin-left: 16px;
+}
+
+/*For menu on information */
+#container-professionnel
+  .container-professionnel
+  .q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
+  font-size: 13px;
+}
+
+#container-professionnel .q-icon.notranslate.material-icons.icon-event {
+  top: 10px;
+  font-size: 20px;
+  color: #707070;
 }
 
 .select-pays-residence.q-field--dense .q-field__label {
@@ -1092,7 +1126,7 @@ const options_pays_naissance = [
 }
 
 .date-de-naissance {
-  margin-top: 4px;
+  margin-top: 6px;
   width: 200px;
   height: 34px;
   margin-left: 0px;
