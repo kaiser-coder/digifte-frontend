@@ -2,7 +2,7 @@
   <CustomModal :render="true">
     <div class="modal-content">
       <q-stepper v-model="step" flat ref="stepper" color="primary" animated>
-        <q-step :name="1" title="Ma situation" :done="step > 1">
+        <q-step :name="1" title="MA SITUATION" :done="step > 1">
           <div class="form-container-information">
             <div class="head-title">
               <p class="p-situation">
@@ -62,7 +62,7 @@
           </div>
         </q-step>
 
-        <q-step :name="2" title="Mes informations" :done="step > 2">
+        <q-step :name="2" title="MES INFORMATIONS" :done="step > 2">
           <div class="col-lg-12 form-container-situation">
             <div class="col-12 col-md-5">
               <div class="form-validate row">
@@ -235,7 +235,7 @@
           </div>
         </q-step>
 
-        <q-step :name="3" title="Mes programmes" :done="step > 3">
+        <q-step :name="3" title="MES PROGRAMMES" :done="step > 3">
           <div class="row">
             <div class="col">
               <div class="form-programmes">
@@ -295,7 +295,7 @@
           </div>
         </q-step>
 
-        <q-step :name="4" title="Paiement">
+        <q-step :name="4" title="PAIEMENT">
           <div class="row">
             <div class="col">
               <div class="form-total-price">
