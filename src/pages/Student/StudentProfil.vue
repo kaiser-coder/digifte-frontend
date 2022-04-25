@@ -1,252 +1,272 @@
-<template lang="html">
-  <div class="content">
-    <div class="row">
-      <div class="col">
-        <div class="container-form">
-          <form class="form">
-            <h4 class="form-title">Mon espace profil</h4>
-            <div class="red-border"></div>
-
-            <div class="profil-form">
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-name"
-                      bg-color="white"
-                      label="Nom"
-                      id="firstname"
-                      rounded
-                      outlined
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre nom']"
-                    />
+<template>
+  <q-form>
+    <div class="content">
+      <div class="row">
+        <div class="col">
+          <div class="container-form">
+            <form class="form">
+              <h4 class="form-title">Mon espace profil</h4>
+              <div class="red-border"></div>
+              <div class="profil-form">
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-name"
+                        bg-color="white"
+                        label="Nom"
+                        id="firstname"
+                        rounded
+                        outlined
+                        lazy-rules
+                        :rules="rules.firstname"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-prenom"
+                        label="Prénom"
+                        bg-color="white"
+                        id="lastname"
+                        lazy-rules
+                        :rules="rules.lastname"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-mail"
+                        label="E-mail"
+                        id="mail"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.email"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-mail"
+                        label="Numéro de téléphone"
+                        id="phone"
+                        bg-color="white"
+                        lazy-rules
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <p class="p-adresse-residence">Adresse de résidence</p>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-adresse"
+                        label="Adresse"
+                        id="adresse"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.address"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="form-residence row">
+                    <div class="col">
+                      <q-input
+                        class="form-code-postale"
+                        label="Code postale"
+                        id="code-postale"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.postalCode"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                    <div class="col">
+                      <q-input
+                        class="form-ville"
+                        label="Ville"
+                        id="ville"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.city"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-pays"
+                        label="Pays"
+                        id="pays"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.country"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <p class="p-adresse-postale">Adresse postale</p>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-adresse"
+                        label="Adresse"
+                        id="adresse"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.address"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="form-residence row">
+                    <div class="col">
+                      <q-input
+                        class="form-code-postale"
+                        label="Code postale"
+                        id="code-postale"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.postalCode"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                    <div class="col">
+                      <q-input
+                        class="form-ville"
+                        label="Ville"
+                        id="ville"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.city"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-input
+                        class="form-pays"
+                        label="Pays"
+                        id="pays"
+                        bg-color="white"
+                        lazy-rules
+                        :rules="rules.country"
+                        rounded
+                        outlined
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="input-form" id="fields">
+                  <div class="q-pa-md text-white">
+                    <div class="q-gutter-md" id="file">
+                      <q-file
+                        borderless
+                        v-model="model"
+                        label="Importer un photo de profil"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="form-save-profil">
+                  <div class="q-pa-md">
+                    <div class="q-gutter-md">
+                      <q-btn
+                        class="btn-save-profil"
+                        flat
+                        color="white"
+                        label="Enregistrer mon profil"
+                        outline
+                        rounded
+                        no-caps
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-prenom"
-                      label="Prénom"
-                      bg-color="white"
-                      id="lastname"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre prénom']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-mail"
-                      label="E-mail"
-                      id="mail"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[
-                        (val) => validateEmail(val) || 'Entrez votre adresse mail',
-                      ]"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-mail"
-                      label="Numéro de téléphone"
-                      id="phone"
-                      bg-color="white"
-                      lazy-rules
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-
-              <p class="p-adresse-residence">Adresse de résidence</p>
-              <br />
-
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-adresse"
-                      label="Adresse"
-                      id="adresse"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre adresse']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="form-residence row">
-                  <div class="col">
-                    <q-input
-                      class="form-code-postale"
-                      label="Code postale"
-                      id="code-postale"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre code postale']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                  <div class="col">
-                    <q-input
-                      class="form-ville"
-                      label="Ville"
-                      id="ville"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre ville']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-pays"
-                      label="Pays"
-                      id="pays"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre pays']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <p class="p-adresse-postale">Adresse postale</p>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-adresse"
-                      label="Adresse"
-                      id="adresse"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre adresse']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="form-residence row">
-                  <div class="col">
-                    <q-input
-                      class="form-code-postale"
-                      label="Code postale"
-                      id="code-postale"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre code postale']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                  <div class="col">
-                    <q-input
-                      class="form-ville"
-                      label="Ville"
-                      id="ville"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre ville']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-input
-                      class="form-pays"
-                      label="Pays"
-                      id="pays"
-                      bg-color="white"
-                      lazy-rules
-                      :rules="[(val) => val !== '' || 'Entrez votre pays']"
-                      rounded
-                      outlined
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="input-form" id="fields">
-                <div class="q-pa-md text-white">
-                  <div class="q-gutter-md" id="file">
-                    <q-file
-                      borderless
-                      v-model="model"
-                      label="Importer un photo de profil"
-                    />
-                  </div>
-                </div>
-              </div>
-              <br />
-              <div class="form-save-profil">
-                <div class="q-pa-md">
-                  <div class="q-gutter-md">
-                    <q-btn
-                      class="btn-save-profil"
-                      flat
-                      color="white"
-                      label="Enregistrer mon profil"
-                      outline
-                      rounded
-                      no-caps
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </q-form>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+/*eslint-disable*/
+
+import { ref, reactive } from 'vue';
 const model = ref(null);
+
+const rules = reactive({
+  firstname: [(val) => (val && val !== '') || 'Entrez votre nom'],
+  lastname: [(val) => (val && val !== '') || 'Entrez votre prénom'],
+  // email: [(val) => validateEmail(val) || 'Entrez votre adresse mail'],
+  address: [(val) => (val && val !== '') || 'Entrez votre adresse'],
+  postalCode: [(val) => (val && val !== '') || 'Entrez votre code postale'],
+  city: [(val) => (val && val !== '') || 'Entrez votre ville'],
+  country: [(val) => (val && val !== '') || 'Entrez votre pays'],
+});
+
+/* const formFields = reactive({
+  FirstName,
+  LastName,
+  Email,
+  Phone,
+  Address,
+  City,
+  PostalCode,
+  Country,
+}); */
 </script>
 
 <style scoped>
@@ -292,7 +312,6 @@ const model = ref(null);
   justify-content: center;
   background-color: #00427a;
   gap: 70px;
-  height: 100vh;
 }
 
 .input-form {
