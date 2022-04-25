@@ -208,11 +208,7 @@
                 <div class="input-form" id="fields">
                   <div class="q-pa-md text-white">
                     <div class="q-gutter-md" id="file">
-                      <q-file
-                        borderless
-                        v-model="model"
-                        label="Importer un photo de profil"
-                      />
+                      <q-file borderless v-model="model" :label="inputFieldLabel" />
                     </div>
                   </div>
                 </div>
@@ -244,7 +240,7 @@
 <script setup>
 /*eslint-disable*/
 
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 const model = ref(null);
 
 const rules = reactive({
@@ -267,6 +263,11 @@ const rules = reactive({
   PostalCode,
   Country,
 }); */
+
+const hasImage = ref(false);
+const inputFieldLabel = computed(() => {
+  return hasImage ? 'Importer un photo de profil' : 'Modifer votre photo de profil';
+});
 </script>
 
 <style scoped>
