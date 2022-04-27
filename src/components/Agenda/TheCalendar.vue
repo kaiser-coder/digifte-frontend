@@ -194,7 +194,7 @@
               outlined
               v-model="text"
               label="Votre message"
-              type="textarea"
+              
             />
             <br />
             <div class="btns-send">
@@ -601,6 +601,10 @@ function handleNext() {
 /*CUSTOM ATTRIBUT QUASAR */
 #cours-select .q-icon .notranslate .material-icons .q-select__dropdown-icon {
   color: white;
+}
+
+.form-send-msg .q-field--outlined.q-field--rounded .q-field__control {
+  width: auto !important;
 }
 
 .titleContent {
