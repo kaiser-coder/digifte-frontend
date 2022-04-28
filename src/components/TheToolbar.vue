@@ -18,10 +18,117 @@
       <div class="toolbar-user">
         <q-item clickable v-close-popup>
           <div class="user-notification">
-            <q-btn round icon="notifications" id="notif-btn">
+            <q-btn 
+              round 
+              icon="notifications"  
+              id="notif-btn"
+              @click="fixedModalNotification = true"
+            >
               <q-badge class="badge-notif" floating rounded>4</q-badge>
             </q-btn>
           </div>
+          <CustomModal id="notif_modal" v-model="fixedModalNotification">
+            <div class="form-notification">
+              <p class="title-notification">
+                Mes notifications
+              </p>
+              <div class="icon-form">
+                <div class="date-notification">
+                 <p class="date-msg-notif">12/01/2022</p>
+                </div>
+                <div class="col-2">
+                  <i class="fa-regular fa-envelope" id="icon-enveloppe"></i>
+                </div>
+                <div class="col-12 col-md-10">
+                  <p class="notification-msg">
+                    Mike, votre professeur Mr Dumat vous (...)
+                  </p>
+                  <div class="separator-notification">
+                  </div>
+                  <q-chip 
+                    class="form-chip"
+                    dense 
+                    color="primary" 
+                    text-color="white"
+                  >
+                    <p class="admin-notif">Admin</p>
+                  </q-chip>
+                </div>
+              </div>
+
+              <div class="icon-form-two">
+                <div class="date-notification">
+                 <p class="date-msg-notif">12/01/2022</p>
+                </div>
+                <div class="col-2">
+                  <i class="fa-regular fa-envelope-open" id="icon-enveloppe"></i>
+                </div>
+                <div class="col-12 col-md-10">
+                  <p class="notification-msg">
+                    Mike, votre professeur Mr Dumat vous (...)
+                  </p>
+                  <div class="separator-notification">
+                  </div>
+                  <q-chip 
+                    class="form-chip"
+                    dense 
+                    color="primary" 
+                    text-color="white"
+                  >
+                    <p class="admin-notif">Admin</p>
+                  </q-chip>
+                </div>
+              </div>
+
+              <div class="icon-form-three">
+                <div class="date-notification">
+                 <p class="date-msg-notif">12/01/2022</p>
+                </div>
+                <div class="col-2">
+                  <i class="fa-regular fa-envelope-open" id="icon-enveloppe"></i>
+                </div>
+                <div class="col-12 col-md-10">
+                  <p class="notification-msg">
+                    Mike, votre professeur Mr Dumat vous (...)
+                  </p>
+                  <div class="separator-notification">
+                  </div>
+                  <q-chip 
+                    class="form-chip"
+                    dense 
+                    color="primary" 
+                    text-color="white"
+                  >
+                    <p class="admin-notif">Admin</p>
+                  </q-chip>
+                </div>
+              </div>
+
+              <div class="icon-form-for">
+                <div class="date-notification">
+                 <p class="date-msg-notif">12/01/2022</p>
+                </div>
+                <div class="col-2">
+                  <i class="fa-regular fa-envelope" id="icon-enveloppe"></i>
+                </div>
+                <div class="col-12 col-md-10">
+                  <p class="notification-msg">
+                    Mike, votre professeur Mr Dumat vous (...)
+                  </p>
+                  <div class="separator-notification">
+                  </div>
+                  <q-chip 
+                    class="form-chip"
+                    dense 
+                    color="primary" 
+                    text-color="white"
+                  >
+                    <p class="admin-notif">Admin</p>
+                  </q-chip>
+                </div>
+              </div>
+            </div>
+          </CustomModal>
           &nbsp;
           <div class="user-account">
             <div class="account-icon">
@@ -66,12 +173,15 @@
 
 <script setup>
 import AccountIcon from 'vue-material-design-icons/Account.vue';
+import CustomModal from 'src/components/lib/CustomModal.vue'
 import { ref } from 'vue';
 
 defineProps({
   color: String,
 });
 
+
+const fixedModalNotification = ref(false);
 const emit = defineEmits([
   //  'onMenuClick',
   'onLogout',
@@ -174,4 +284,112 @@ function handleLogout() {
 .badge-notif {
   background-color: #c41526 !important;
 }
+
+/*CUSTOM QUASAR */
+.q-card.card-container {
+  top:88px !important;
+  left: 615px !important;
+}
+/*STYLE FOR NOTIFICATION */
+
+#notif_modal {
+  width: 409px !important;
+  height: 50vh !important;
+}
+
+.title-notification {
+  font: normal normal bold 24px/25px Montserrat;
+  text-align: center;
+  letter-spacing: 1.8px;
+  color: #00427a;
+}
+
+#form-icon {
+  position: relative;
+  margin-left: -2px;
+  margin-top: 1px;
+  height: 29px;
+  width: 29px;
+  border: 2.5px solid #19437a;
+  border-radius: 50%;
+  opacity: 1;
+}
+
+.icon-form {
+  font: normal normal normal 12px/25px Montserrat;
+  letter-spacing: 1.08px;
+  color: #3b3738;
+  opacity: 1;
+}
+
+.icon-form-two {
+  font: normal normal normal 12px/25px Montserrat;
+  letter-spacing: 1.08px;
+  color: #3b3738;
+  opacity: 1;
+}
+
+.icon-form-three {
+  font: normal normal normal 12px/25px Montserrat;
+  letter-spacing: 1.08px;
+  color: #3b3738;
+  opacity: 1;
+}
+
+.icon-form-for {
+  font: normal normal normal 12px/25px Montserrat;
+  letter-spacing: 1.08px;
+  color: #3b3738;
+  opacity: 1;
+}
+
+.separator-notification {
+  border: 0.5px solid;
+  color: #4680dd;
+  width: 399px;
+  margin-left: 9px;
+}
+
+#icon-enveloppe {
+  font-size: 34px;
+  color: #19437a;
+  margin-left: 8px;
+  margin-top: 37px;
+}
+
+.notification-msg {
+  margin-top: -28px;
+  margin-left: 54px;
+  font-size:16px;
+  white-space: nowrap;
+  letter-spacing: 1.8px;
+}
+
+.form-chip {
+  width: 116px;
+  height: 29px;
+  border-radius: 50px;
+  margin-left: 408px;
+  margin-top: -25px;
+}
+
+.admin-notif {
+  font-weight: bold;
+  margin-left: 28px;
+  margin-top: 13px;
+  font-style: italic;
+}
+
+.date-notification {
+  position: relative;
+}
+
+.date-msg-notif {
+  position: fixed;
+  font-style: italic;
+  margin-left: 441px;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
 </style>
