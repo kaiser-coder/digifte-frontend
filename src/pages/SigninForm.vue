@@ -29,7 +29,7 @@
                       rounded
                       outlined
                       bg-color="white"
-                      v-model="form.email"
+                      v-model="form.Email"
                       lazy-rules
                       :rules="[(val) => validateEmail(val) || 'Adresse mail invalide']"
                       width="180px"
@@ -49,7 +49,7 @@
                       rounded
                       outlined
                       bg-color="white"
-                      v-model="form.password"
+                      v-model="form.Password"
                       lazy-rules
                       :rules="[
                         (val) => val !== '' || 'Le mot de passe ne peut pas être vide',
@@ -128,11 +128,12 @@ import { reactive } from 'vue';
 import { useUserStore } from 'src/stores/user';
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 // Local states
 const form = reactive({
-  email: '',
-  password: '',
+  Email: '',
+  Password: '',
 });
 
 // Store
@@ -151,27 +152,32 @@ function validateEmail(email) {
 }
 
 function submitFormSignin() {
-  console.log('Form content =>', form);
+  // console.log('Form content =>', form);
 
   userStore
     .userSignin(form)
     .then((response) => {
       console.log(response);
 
-      const { app_token, zoom_token, sf_token } = response.data;
-      const infos = jwt_decode(app_token);
-      const { user_id, zoom_userId, salesforce_id } = infos;
+      //? Define all sessions varuable for tokens
+      Object.entries(response.data).map(([key, value]) =>
+        $q.sessionStorage.set(key, value)
+      );
 
-      $q.sessionStorage.set('app_token', app_token);
-      $q.sessionStorage.set('current_user', infos);
-      $q.sessionStorage.set('zoom_token', zoom_token);
-      $q.sessionStorage.set('sf_token', sf_token);
-      $q.sessionStorage.set('zoom_userId', zoom_userId);
-      $q.sessionStorage.set('user_id', user_id);
-      $q.sessionStorage.set('salesforce_id', salesforce_id);
+      //? Define all sessions variable
+      const infos = jwt_decode(response.data.app_token);
+      Object.entries(infos).map(([key, value]) => $q.sessionStorage.set(key, value));
 
       console.log('Route object =>', $router);
-      $router.push('/app/home');
+
+      const status = $q.sessionStorage.getItem('status');
+      console.log(status);
+      if (status === 'visitor') {
+        $router.push('/app/home');
+      } else {
+        //NOTE: temporaly redirection because there is no dashboard view
+        $router.push('/app/courses/list');
+      }
     })
     .catch((error) => {
       //console.log(error);

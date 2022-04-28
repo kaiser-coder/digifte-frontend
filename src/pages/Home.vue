@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center" id="welcome_message">
     <div class="col-lg-8">
-      <h3 class="full-border q-mr-md" id="big_title">Bonjour Julien</h3>
+      <h3 class="full-border q-mr-md" id="big_title">Bonjour {{ lastname }}</h3>
     </div>
     <div class="col-lg-4">
       <h3 class="full-border" id="little_title">Ma demande d’admission</h3>
@@ -108,7 +108,15 @@
 </template>
 
 <script setup>
+/*eslint-disable*/
 import SubscribeModal from 'src/components/Home/SubscribeModal.vue';
+import { ref, computed } from 'vue';
+import { useQuasar } from 'quasar';
+
+const $q = useQuasar();
+const fullname = $q.sessionStorage.getItem('fullname');
+
+const lastname = computed(() => fullname.split(' ')[1]);
 </script>
 
 <style scoped lang="scss">

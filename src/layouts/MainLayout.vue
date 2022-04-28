@@ -87,14 +87,15 @@ const toolbarColor = computed(() => {
 
 onBeforeMount(() => {
   /*eslint-disable*/
-  const currentUser = $q.sessionStorage.getItem('current_user');
+  const userId = $q.sessionStorage.getItem('user_id');
+  const roles = $q.sessionStorage.getItem('roles');
 
-  if (!currentUser) {
+  if (!userId) {
     $router.push('/');
   }
 
   // Get User Role
-  userRole.value = currentUser.roles[0];
+  userRole.value = roles[0];
 });
 
 function toggleSidebar() {
