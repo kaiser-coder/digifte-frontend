@@ -9,7 +9,7 @@
                 Votre demande sera transmise à la faculté théologique évangélique de
                 Montréal affiliée à ACADIA University
               </p>
-              <p class="p-address">
+              <p class="p-addresse">
                 10710 avenue Hamelin Montréal, QC H2B 2G1, +1(514) 526-2003
               </p>
             </div>
@@ -18,7 +18,7 @@
                 <div class="col" id="container-select">
                   <div class="form-radio-group">
                     <p class="p-text-form">Je suis :</p>
-                    <q-option-group :options="options" type="radio" v-model="group" />
+                    <q-option-group :options="options_personnel" type="radio" v-model="group" />
                   </div>
                   <br />
                   <div class="form-radio-group-two">
@@ -27,9 +27,9 @@
                       pour le certificat en relation d’aide (RCA) ?
                     </p>
                     <q-option-group
-                      :options="options_two"
+                      :options="options_admission"
                       type="radio"
-                      v-model="group_two"
+                      v-model="group_admission"
                     />
                   </div>
                 </div>
@@ -224,7 +224,7 @@
                           :options="options_second_situations"
                           type="radio"
                           size="30px"
-                          v-model="group"
+                          v-model="group_second_situations"
                         />
                       </div>
                     </div>
@@ -435,7 +435,7 @@ const date_expiration = ref('');
 const cvc = ref('');
 
 const group = ref(null);
-const group_two = ref(null);
+const group_admission = ref(null);
 const group_programme_etude = ref(null);
 const group_programme_souhaités = ref(null);
 const group_situations = ref(null);
@@ -443,17 +443,18 @@ const group_rythme_etude = ref(null);
 const group_facultés = ref(null);
 const group_etudes = ref(null);
 const group_conditions_bancaires = ref(null);
+const group_second_situations = ref(null);
 const model_pays = ref(null);
 const model_pays_naissance = ref(null);
 
-const options = [
+const options_personnel = [
   { label: 'Citoyen canadien ou résident au Quebec', value: 'citoyen' },
   {
     label: 'Etudiant(e) international(e) résident hors Canada',
     value: 'etudiant',
   },
 ];
-const options_two = [
+const options_admission = [
   { label: 'Oui', value: 'oui' },
   { label: 'Non', value: 'non' },
 ];
@@ -636,13 +637,13 @@ const options_pays_naissance = [
   margin-top: -40px;
 }
 
-/*For radio position margin  */
+/*For radio position margin*/
 .form-conditions-bancaires
   .q-radio.cursor-pointer.no-outline.row.inline.no-wrap.items-center {
   margin-left: 16px;
 }
 
-/*For size label in menu on information */
+/*For size label in menu on information*/
 #container-professionnel
   .container-professionnel
   .q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
@@ -656,7 +657,7 @@ const options_pays_naissance = [
   color: #707070;
 }
 
-/*For size icon on menu paiement*/
+/*For size icon calendar on menu paiement*/
 .date-expiration .q-icon.notranslate.material-icons.icon-event {
   top: 10px;
   font-size: 21px;
@@ -759,7 +760,7 @@ const options_pays_naissance = [
   color: #707070;
 }
 
-.p-address {
+.p-addresse {
   text-align: center;
   margin-top: -13px;
   font: normal normal normal 12px/25px Montserrat;

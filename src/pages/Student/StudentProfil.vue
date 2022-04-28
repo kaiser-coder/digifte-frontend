@@ -1,4 +1,4 @@
-<template>
+<template lang="">
   <q-form>
     <div class="content">
       <div class="row">
