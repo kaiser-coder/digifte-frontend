@@ -1,10 +1,10 @@
-<template lang="">
-  <q-form>
+<template>
+  <q-form @submit="handleSubmit" ref="form">
     <div class="content">
       <div class="row">
         <div class="col">
           <div class="container-form">
-            <form class="form">
+            <div class="form">
               <h4 class="form-title">Mon espace profil</h4>
               <div class="red-border"></div>
               <div class="profil-form">
@@ -20,6 +20,7 @@
                         outlined
                         lazy-rules
                         :rules="rules.firstname"
+                        v-model="formFields.FirstName"
                       />
                     </div>
                   </div>
@@ -37,6 +38,7 @@
                         :rules="rules.lastname"
                         rounded
                         outlined
+                        v-model="formFields.LastName"
                       />
                     </div>
                   </div>
@@ -54,6 +56,7 @@
                         :rules="rules.email"
                         rounded
                         outlined
+                        v-model="formFields.Email"
                       />
                     </div>
                   </div>
@@ -70,6 +73,7 @@
                         lazy-rules
                         rounded
                         outlined
+                        v-model="formFields.Phone"
                       />
                     </div>
                   </div>
@@ -89,6 +93,7 @@
                         :rules="rules.address"
                         rounded
                         outlined
+                        v-model="formFields.address"
                       />
                     </div>
                   </div>
@@ -224,12 +229,13 @@
                         outline
                         rounded
                         no-caps
+                        type="submit"
                       />
                     </div>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
@@ -239,9 +245,12 @@
 
 <script setup>
 /*eslint-disable*/
+import { ref, reactive, computed, onBeforeMount } from 'vue';
+import { getOne } from 'src/api/students.ts';
+import { useQuasar } from 'quasar';
 
-import { ref, reactive, computed } from 'vue';
 const model = ref(null);
+const $q = useQuasar();
 
 const rules = reactive({
   firstname: [(val) => (val && val !== '') || 'Entrez votre nom'],
@@ -253,21 +262,43 @@ const rules = reactive({
   country: [(val) => (val && val !== '') || 'Entrez votre pays'],
 });
 
-/* const formFields = reactive({
-  FirstName,
-  LastName,
-  Email,
-  Phone,
-  Address,
-  City,
-  PostalCode,
-  Country,
-}); */
+const formFields = reactive({
+  FirstName: '',
+  LastName: '',
+  Email: '',
+  Phone: '',
+  Address: '',
+  City: '',
+  PostalCode: '',
+  Country: '',
+});
+
+const form = ref();
 
 const hasImage = ref(false);
 const inputFieldLabel = computed(() => {
   return hasImage ? 'Importer un photo de profil' : 'Modifer votre photo de profil';
 });
+
+onBeforeMount(() => {
+  //? Get salesforce data
+  const appToken = $q.sessionStorage.getItem('app_token');
+  const sfToken = $q.sessionStorage.getItem('sf_token');
+  const sfId = $q.sessionStorage.getItem('salesforce_id');
+
+  getOne(appToken, sfToken, sfId).then((result) => {
+    console.log('Salesforce current user => ', result);
+    const user = result;
+
+    Object.keys(formFields).map((key) => {
+      formFields[key] = user[key];
+    });
+  });
+});
+
+const handleSubmit = () => {
+  console.info('Here you go');
+};
 </script>
 
 <style scoped>
