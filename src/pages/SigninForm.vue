@@ -157,7 +157,7 @@ function submitFormSignin() {
   userStore
     .userSignin(form)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
 
       //? Define all sessions varuable for tokens
       Object.entries(response.data).map(([key, value]) =>
@@ -168,16 +168,18 @@ function submitFormSignin() {
       const infos = jwt_decode(response.data.app_token);
       Object.entries(infos).map(([key, value]) => $q.sessionStorage.set(key, value));
 
-      console.log('Route object =>', $router);
+      // console.log('Route object =>', $router);
 
-      const status = $q.sessionStorage.getItem('status');
-      console.log(status);
+      //? Data synchornization between Salesforce and MongoDB
+      synchronize();
+
+      /* const status = $q.sessionStorage.getItem('status');
       if (status === 'visitor') {
         $router.push('/app/home');
       } else {
         //NOTE: temporaly redirection because there is no dashboard view
         $router.push('/app/courses/list');
-      }
+      } */
     })
     .catch((error) => {
       //console.log(error);
@@ -188,6 +190,20 @@ function submitFormSignin() {
       });
     });
 }
+
+const synchronize = () => {
+  const salesforceId = $q.sessionStorage.getItem('salesforce_id');
+  const sfToken = $q.sessionStorage.getItem('sf_token');
+  const url = `/api/salesforce/program-plans/0036g00000OWSnaAAH`;
+  axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${sfToken}`,
+      },
+    })
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+};
 </script>
 
 <style scoped>
