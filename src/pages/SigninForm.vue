@@ -151,12 +151,14 @@ function validateEmail(email) {
   return regex.test(email);
 }
 
-function submitFormSignin() {
-  // console.log('Form content =>', form);
+function test() {
+  console.log('called');
+}
 
+function submitFormSignin() {
   userStore
     .userSignin(form)
-    .then((response) => {
+    .then(async (response) => {
       // console.log(response);
 
       //? Define all sessions varuable for tokens
@@ -171,15 +173,22 @@ function submitFormSignin() {
       // console.log('Route object =>', $router);
 
       //? Data synchornization between Salesforce and MongoDB
-      synchronize();
+      const salesforce_id = infos.salesforce_id,
+        salesforce_token = response.data.sf_token,
+        userId = infos.user_id,
+        appToken = response.data.app_token;
 
-      /* const status = $q.sessionStorage.getItem('status');
-      if (status === 'visitor') {
-        $router.push('/app/home');
-      } else {
-        //NOTE: temporaly redirection because there is no dashboard view
-        $router.push('/app/courses/list');
-      } */
+      await synchronize(salesforce_id, salesforce_token, userId, appToken);
+
+      /*
+        const status = $q.sessionStorage.getItem('status');
+        if (status === 'visitor') {
+          $router.push('/app/home');
+        } else {
+          //NOTE: temporaly redirection because there is no dashboard view
+          $router.push('/app/courses/list');
+        }
+      */
     })
     .catch((error) => {
       //console.log(error);
@@ -191,18 +200,85 @@ function submitFormSignin() {
     });
 }
 
-const synchronize = () => {
-  const salesforceId = $q.sessionStorage.getItem('salesforce_id');
-  const sfToken = $q.sessionStorage.getItem('sf_token');
-  const url = `/api/salesforce/program-plans/0036g00000OWSnaAAH`;
-  axios
-    .get(url, {
-      headers: {
-        Authorization: `Bearer ${sfToken}`,
-      },
+const synchronize = (salesforceId, salesforceToken, userId, appToken) => {
+  const programUrl = `/api/salesforce/program-plans/0036g00000OWSnaAAH`;
+  const promise1 = axios.get(programUrl, {
+    headers: {
+      sf_token: salesforceToken,
+    },
+  });
+
+  const courseUrl = `/api/salesforce/courses/0036g00000OWSnaAAH`;
+  const promise2 = axios.get(courseUrl, {
+    headers: {
+      sf_token: salesforceToken,
+    },
+  });
+
+  const options = {
+    headers: {
+      'x-access-token': appToken,
+    },
+  };
+
+  Promise.all([promise1, promise2])
+    .then((result) => {
+      const programsUrl = `/api/app/programs/${userId}`;
+      axios.get(programsUrl, options).then((programs) => {
+        const data = {
+          user_id: userId,
+          programs_plan: result[1].data,
+        };
+
+        if (!programs.data) {
+          return axios
+            .post(`/api/app/programs`, data, options)
+            .then((result) => console.log(result));
+        } else {
+          return axios
+            .patch(programsUrl, data, options)
+            .then((result) => console.log(result));
+        }
+      });
     })
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+    .then((result) => {
+      /* 
+    const coursesUrl = `courses/${userId}`;
+    axios
+      .get(coursesUrl)
+      .then((result) => {
+        const { data } = result;
+        if (!data) {
+          axios
+            .post(
+              `courses`,
+              { data },
+              {
+                headers: {
+                  sf_token: salesforceToken,
+                },
+              }
+            )
+            .then((result) => console.log(result));
+        } else {
+          axios
+            .patch(
+              `courses/${data._id}`,
+              { data },
+              {
+                headers: {
+                  sf_token: salesforceToken,
+                },
+              }
+            )
+            .then((result) => console.log(result));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      }); */
+    })
+    .catch((error) => console.log(error));
 };
 </script>
 
